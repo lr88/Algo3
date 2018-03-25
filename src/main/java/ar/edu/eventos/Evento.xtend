@@ -17,10 +17,7 @@ class Evento {
 		nombre=unNombre
 	}
 
-   def inicio(){
-   	
-   }
-   
+  
    def long duracion(){
    	
    	Duration.between(inicioDelEvento,finDelEvento).getSeconds()
