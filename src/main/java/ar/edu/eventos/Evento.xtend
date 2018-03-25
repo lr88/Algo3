@@ -11,12 +11,20 @@ class Evento {
 	LocalDateTime inicioDelEvento 
 	LocalDateTime finDelEvento
 	String nombre
+	Float locacionX
+	Float locacionY
+	
 	
 	new(String unNombre){
 		
 		nombre=unNombre
 	}
 
+  	def ubicacion (float X,float Y){
+  		locacionX = X
+  		locacionY = Y
+  	}
+  
   
    def long duracion(){
    	
