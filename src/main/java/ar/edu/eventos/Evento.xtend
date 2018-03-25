@@ -4,6 +4,7 @@ import java.time.LocalDateTime
 import java.time.Duration
 import org.eclipse.xtend.lib.annotations.Accessors
 
+
 @Accessors
 class Evento {
 
@@ -28,9 +29,10 @@ class Evento {
 	}
 
 	def long duracion() {
-
 		Duration.between(inicioDelEvento, finDelEvento).getSeconds()
-
 	}
 
+	def double distancia(float puntoX,float puntoY){
+	Math.sqrt((Math.pow(puntoX-locacionX,2))+(Math.pow(puntoY-locacionY,2)))
+	}
 }

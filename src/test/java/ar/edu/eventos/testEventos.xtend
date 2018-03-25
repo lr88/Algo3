@@ -13,7 +13,7 @@ class testEventos {
 		casamiento = new Evento("Flor y leo")
 		casamiento.inicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 15)
 		casamiento.finDelEvento = LocalDateTime.of(2007, 10, 10, 5, 25)
-		casamiento.ubicacion(50,500)
+		casamiento.ubicacion(50,1)
 		casamiento.elNombreDeLaLocacion("Club 1")
 			
 	}
@@ -27,10 +27,18 @@ class testEventos {
 	}
 	@Test
 	def void ubicacionDelCasamientoY() {
-		Assert.assertEquals(500, casamiento.locacionY, 0)
+		Assert.assertEquals(1, casamiento.locacionY, 0)
 	}
 	@Test
 	def void nombreDeLaUbicacionDelCasamiento() {
 		Assert.assertTrue("Club 1" == casamiento.nombreDeLaLocacion)
 	}
+
+	@Test
+	def void distancia() {
+		Assert.assertEquals(47,casamiento.distancia(3,3),1)
+		
+	}
+
+
 }
