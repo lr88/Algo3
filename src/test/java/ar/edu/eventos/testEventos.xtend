@@ -16,7 +16,6 @@ class testEventos {
 		casamiento = new Evento("Casaminto de Flor y leo", miCasa)
 		casamiento.inicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 15)
 		casamiento.finDelEvento = LocalDateTime.of(2007, 10, 10, 5, 25)
-
 	}
 
 	@Test
