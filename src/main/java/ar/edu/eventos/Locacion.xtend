@@ -12,9 +12,9 @@ class Locacion {
 		nombreDeLaLocacion = unNombre
 		ubicacion = lugar
 	}
-   
+
 	def distancia(Point punto) {
-		this.ubicacion.distance(punto)
+		return this.ubicacion.distance(punto)
 	}
 
 }
