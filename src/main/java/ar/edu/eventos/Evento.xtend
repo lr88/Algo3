@@ -3,7 +3,6 @@ package ar.edu.eventos
 import java.time.LocalDateTime
 import java.time.Duration
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.uqbar.geodds.Point
 
 @Accessors
 class Evento {
@@ -11,23 +10,15 @@ class Evento {
 	LocalDateTime inicioDelEvento
 	LocalDateTime finDelEvento
 	String nombre
-	String nombreDeLaLocacion
-	Point ubicacion
+	Locacion locación
 
-	new(String unNombre) {
+	new(String unNombre, Locacion unaLocación) {
 		nombre = unNombre
-	}
-
-	def locacion(Point lugar,String unNombre) {
-		nombreDeLaLocacion=unNombre
-		ubicacion=lugar
+		locación = unaLocación
 	}
 
 	def long duracion() {
 		Duration.between(inicioDelEvento, finDelEvento).getSeconds()
 	}
 
-	def distancia(Point punto){
-	   this.ubicacion.distance(punto)
-	}
 }

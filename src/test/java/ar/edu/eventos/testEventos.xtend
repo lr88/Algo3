@@ -7,17 +7,18 @@ import org.junit.Before
 import org.uqbar.geodds.Point
 
 class testEventos {
-
+	Locacion miCasa
 	Evento casamiento
-	
+
 	@Before
 	def void init() {
-		casamiento = new Evento("Casaminto de Flor y leo")
+		miCasa = new Locacion(new Point(1.0, 2.0), "Mi Casa")
+		casamiento = new Evento("Casaminto de Flor y leo", miCasa)
 		casamiento.inicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 15)
-		casamiento.finDelEvento = LocalDateTime.of(2007, 10, 10, 5, 25)	
-		casamiento.ubicacion= new Point(1.0,2.0)	
+		casamiento.finDelEvento = LocalDateTime.of(2007, 10, 10, 5, 25)
+
 	}
-	
+
 	@Test
 	def void duracionDelCasamiento() {
 		Assert.assertEquals(600, casamiento.duracion(), 0)
@@ -25,10 +26,7 @@ class testEventos {
 
 	@Test
 	def void distancia() {
-		
-		Assert.assertEquals(11.11,casamiento.distancia(new Point(1.1,2.0)),1)
-		
+		Assert.assertEquals(11.11, miCasa.distancia(new Point(1.1, 2.0)), 1)
 	}
-
 
 }
