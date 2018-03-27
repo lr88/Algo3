@@ -11,7 +11,7 @@ class Evento {
 	LocalDateTime finDelEvento
 	String nombre
 	Locacion locación
-
+   
 	new(String unNombre, Locacion unaLocación) {
 		nombre = unNombre
 		locación = unaLocación
