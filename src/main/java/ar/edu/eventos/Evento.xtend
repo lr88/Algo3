@@ -17,8 +17,8 @@ class Evento {
 		locación = unaLocación
 	}
 
-	def long duracion() {
-		Duration.between(inicioDelEvento, finDelEvento).getSeconds()
+	def duracion() {
+		Duration.between(inicioDelEvento, finDelEvento).toHours()
 	}
 
 }

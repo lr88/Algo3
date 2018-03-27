@@ -14,13 +14,13 @@ class testEventos {
 	def void init() {
 		miCasa = new Locacion(new Point(1.0, 2.0), "Mi Casa")
 		casamiento = new Evento("Casaminto de Flor y leo", miCasa)
-		casamiento.inicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 15)
-		casamiento.finDelEvento = LocalDateTime.of(2007, 10, 10, 5, 25)
+		casamiento.inicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
+		casamiento.finDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
 	}
 
 	@Test
 	def void duracionDelCasamiento() {
-		Assert.assertEquals(600, casamiento.duracion(), 0)
+		Assert.assertEquals(4.0, casamiento.duracion(), 0.0)
 	}
 
 	@Test
