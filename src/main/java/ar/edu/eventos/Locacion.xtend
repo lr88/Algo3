@@ -5,6 +5,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 class Locacion {
+	
 	Point ubicacion
 	String nombreDeLaLocacion
 
@@ -15,6 +16,10 @@ class Locacion {
 
 	def distancia(Point punto) {
 		return this.ubicacion.distance(punto)
+	}
+	
+	def superficie(EventoAbierto unEvento){
+		unEvento.cantidadDeInvitados()*0.8
 	}
 
 }

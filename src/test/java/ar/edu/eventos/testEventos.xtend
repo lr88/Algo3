@@ -18,6 +18,7 @@ class testEventos {
 		casamiento.finDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
 	}
    
+   
 	@Test
 	def void duracionDelCasamiento() {
 		Assert.assertEquals(4.0, casamiento.duracion(), 0.0)
