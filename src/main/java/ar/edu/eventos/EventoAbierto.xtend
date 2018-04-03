@@ -1,10 +1,12 @@
 package ar.edu.eventos
 
+/* mosjim@gmail.com */
 import java.time.LocalDateTime
 import java.time.Duration
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 
+//import java.util.stream.DoubleStream.Builder
 /*Los eventos abiertos son aquellos a los cuales puede asistir cualquier persona. 
  * Para asistir se debe sacar una entrada, a través de esta misma aplicación. 
  * Si bien existen eventos abiertos gratuitos, 
@@ -13,19 +15,27 @@ import java.util.List
 class EventoAbierto extends Evento {
 
 	LocalDateTime fechaMaximaParaSacarEntradas
-	
-	
-	new(String unNombre, LocacionEventos unaLocacion) {
-		super(unNombre, unaLocacion)
+	List<Entrada> entradas = newArrayList
+	var int valorDeLAEntrada
+
+	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, int unValor) {
+		super(unNombre, unaLocacion, unOrganizador)
+		valorDeLAEntrada = unValor
 	}
 
-	def asistir(Usuario unaPersona) {
-		unaPersona.comprarEntrada()
-		usuario.add(unaPersona)
+	def double capacidadMaxima() {
+		locacion.capacidadMaxima()
 	}
 
-	def capacidadMaxima() {
-		locacion.capacidadMaxima(this)
+	def double cantidadDeEntradasVendidas() {
+		entradas.size()
+	}
+
+	def adquirirEntrada(Usuario unUsuario) {
+		if (this.capacidadMaxima() - this.cantidadDeEntradasVendidas > 0) {
+			entradas.add(new Entrada(unUsuario))
+
+		}
 	}
 
 	/*Fecha máxima confirmación: En el caso de eventos abiertos, es hasta cuando se puede sacar entradas.  */

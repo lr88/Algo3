@@ -1,31 +1,34 @@
 package ar.edu.eventos
 
-import java.time.LocalDateTime
+
 import org.uqbar.geodds.Point
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
-import java.util.ArrayList
+import java.time.LocalDate
 
 @Accessors
 class Usuario {
-
+	
+	String nombreDeUsuario
 	String nombre
 	String apellido
 	String email
-	Locacion direccion
-	LocalDateTime fechaDeNacimiento
+	Point direccion
+	LocalDate fechaDeNacimiento
 	boolean estadoSocial
-	List <Usuario> amigos  = newArrayList
-	
+	List<Usuario> amigos = newArrayList
+	var int plataQueTengo = 100
 
-	new(String unNombre, String unApellido, String unEmail, Locacion unaDireccion, boolean unEstadoSocial,LocalDateTime unaFecha) {
+	new(String unNombreDeUsuario, String unNombre, String unApellido, String unEmail, Point unLugar, boolean unEstadoSocial,
+		LocalDate unaFecha) {
+		nombreDeUsuario = unNombreDeUsuario
 		nombre = unNombre
 		apellido = unApellido
 		email = unEmail
-		direccion = unaDireccion
+		direccion = unLugar
 		estadoSocial = unEstadoSocial
 		fechaDeNacimiento = unaFecha
-		}
+	}
 
 	def esAntisocial() {
 		estadoSocial
@@ -34,20 +37,20 @@ class Usuario {
 	/*Amigos: Listado de otros usuarios que podrán ser agregados y eliminados. 
 	 * La amistad no es necesariamente mutua.
 	 */
-	 
 	def void agregarAmigo(Usuario unAmigo) {
-	amigos.add(unAmigo)
+		amigos.add(unAmigo)
 	}
-	
+
 	def amigos() {
 		amigos
 	}
-	
+
 	def int cantidadDeAmigos() {
 		amigos.size
 	}
-	
-	def eliminarAmigos() {
+
+	def eliminarAmigos(Usuario unUsuario) {
+		amigos.remove(unUsuario)
 	}
 
 	/* Radio de cercanía: Cada usuario define cuál es la 
@@ -63,7 +66,8 @@ class Usuario {
 	def esInvitado() {
 	}
 
-	def comprarEntrada() {
+	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento) {
+		unEvento.adquirirEntrada(this)
 	}
 
 }

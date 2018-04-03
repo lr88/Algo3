@@ -8,33 +8,25 @@ class Locacion {
 
 	Point ubicacion
 	String nombreDeLaLocacion
-
-	new(Point lugar, String unNombre) {
+    val double distribucionM2PorPersona = 0.8
+    val double superficieM2
+    
+	new(Point lugar, String unNombre,double unaSuperficieM2) {
+		nombreDeLaLocacion = unNombre
+		ubicacion = lugar
+		superficieM2 = unaSuperficieM2
+			
 	}
 
 	def distancia(Point punto) {
 		return this.ubicacion.distance(punto)
 	}
-
-}
-
-class LocacionEventos extends Locacion {
-	val double superficieM2
-	val double distribucionM2PorPersona = 0.8
-
-	new(Point lugar, String unNombre, double unaSuperficieM2) {
-		super(lugar, unNombre)
-		nombreDeLaLocacion = unNombre
-		ubicacion = lugar
-		superficieM2 = unaSuperficieM2
-
-	}
-
-	def superficie(EventoAbierto unEvento) {
-		superficieM2
-	}
-
-	def capacidadMaxima(EventoAbierto abierto) {
+	
+	
+	def capacidadMaxima() {
 		superficieM2 / distribucionM2PorPersona
 	}
+
 }
+
+

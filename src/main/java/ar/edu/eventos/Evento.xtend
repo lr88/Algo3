@@ -11,26 +11,20 @@ class Evento {
 	LocalDateTime inicioDelEvento
 	LocalDateTime finDelEvento
 	String nombre
-	LocacionEventos locacion
-	List<Usuario> usuario = newArrayList
-	Organizador organizador
+	Locacion locacion
+	Usuario organizador
 
-	new(String unNombre, LocacionEventos unaLocacion) {
+	new(String unNombre, Locacion unaLocacion,Usuario unOrganizador) {
 		nombre = unNombre
 		locacion = unaLocacion
+		organizador = unOrganizador
 	}
 
 	def duracion() {
 		Duration.between(inicioDelEvento, finDelEvento).toHours()
 	}
 
-	def cantidadDeInvitados() {
-		usuario.size()
-	}
 
-	/*Organizador: Es el usuario que crea y organiza el evento.   */
-	def organizador(Organizador _persona) {
-		this.organizador = _persona
-	}
+
 
 }

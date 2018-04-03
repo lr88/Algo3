@@ -1,8 +1,6 @@
 package ar.edu.eventos
 
-import java.time.LocalDateTime
 
-import java.time.Duration
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 
@@ -13,15 +11,10 @@ import java.util.List
 class EventoCerrado extends Evento {
 
 	int cantidadMaxima
-
-
-	new(String unNombre, LocacionEventos unaLocacion,int cantidadMaxima) {
-		super(unNombre, unaLocacion)
-	}
-
-	def asistir(Usuario _persona) {
-		_persona.esInvitado()
-		usuario.add(_persona)
+	List <Invitacion> invitaciones
+	
+	new(String unNombre, Locacion unaLocacion,int cantidadMaxima, Usuario unOrganizador) {
+		super(unNombre, unaLocacion, unOrganizador)
 	}
 
 	/*Capacidad máxima: La cantidad máxima de personas que pueden asistir. 
