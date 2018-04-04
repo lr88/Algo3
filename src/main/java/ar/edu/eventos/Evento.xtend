@@ -1,9 +1,8 @@
 package ar.edu.eventos
 
-import java.time.LocalDateTime
 import java.time.Duration
+import java.time.LocalDateTime
 import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.List
 
 @Accessors
 class Evento {
@@ -13,8 +12,11 @@ class Evento {
 	String nombre
 	Locacion locacion
 	Usuario organizador
+	var Boolean fueCancelado = false
+	var Boolean fuePostergado = false
+	
 
-	new(String unNombre, Locacion unaLocacion,Usuario unOrganizador) {
+	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador) {
 		nombre = unNombre
 		locacion = unaLocacion
 		organizador = unOrganizador
@@ -23,8 +25,8 @@ class Evento {
 	def duracion() {
 		Duration.between(inicioDelEvento, finDelEvento).toHours()
 	}
+	
 
-
-
-
+	
 }
+

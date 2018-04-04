@@ -1,25 +1,23 @@
 package ar.edu.eventos
 
-import java.time.LocalDateTime
 import org.junit.Assert
 import org.junit.Test
 import org.junit.Before
 import org.uqbar.geodds.Point
 import java.time.LocalDate
 
+
 class testUsuario {
+	LocalDate fechaActual = LocalDate.now()
 	Usuario carlos
 	Usuario pedro
 	Usuario lucas 
 
 	@Before
 	def void init() {
-		carlos = new Usuario("CP","Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDate.of(1990, 10, 10))
-		pedro = new Usuario("CPA","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), true,
-			LocalDate.of(2005, 10, 10))
-		lucas = new Usuario("CD","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), true,
-			LocalDate.of(2005, 10, 10))
+		carlos = new Usuario("CP","Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,LocalDate.of(1990, 10, 10),3)
+		pedro = new Usuario("CPA","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,LocalDate.of(2005, 01, 10),3)
+		lucas = new Usuario("CD","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,LocalDate.of(2005, 10, 10),3)
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
 		pedro.agregarAmigo(lucas)
@@ -28,12 +26,12 @@ class testUsuario {
 
 	@Test
 	def void noEsSocial() {
-		Assert.assertEquals(false, carlos.estadoSocial)
+		Assert.assertEquals(false, carlos.esAntisocial())
 	}
 
 	@Test
 	def void EsSocial() {
-		Assert.assertEquals(true, pedro.estadoSocial)
+		Assert.assertEquals(true, pedro.esAntisocial())
 	}
 	
 	@Test
@@ -44,6 +42,11 @@ class testUsuario {
 	@Test
 	def void contenesALucas() {
 		Assert.assertEquals(true, pedro.amigos().contains(lucas))
+	}
+
+	@Test
+	def void edad() {
+		Assert.assertEquals(13, pedro.edad(fechaActual),0)
 	}
 
 }

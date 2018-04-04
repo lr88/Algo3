@@ -1,10 +1,10 @@
 package ar.edu.eventos
 
-
-import org.uqbar.geodds.Point
-import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.List
 import java.time.LocalDate
+import java.time.Period
+import java.util.List
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.uqbar.geodds.Point
 
 @Accessors
 class Usuario {
@@ -15,23 +15,26 @@ class Usuario {
 	String email
 	Point direccion
 	LocalDate fechaDeNacimiento
-	boolean estadoSocial
+	boolean esAntisocial
 	List<Usuario> amigos = newArrayList
-	var int plataQueTengo = 100
+	var double plataQueTengo = 100
+	var double radioDeCercanía
+	
 
-	new(String unNombreDeUsuario, String unNombre, String unApellido, String unEmail, Point unLugar, boolean unEstadoSocial,
-		LocalDate unaFecha) {
+	new(String unNombreDeUsuario, String unNombre, String unApellido, String unEmail, Point unLugar, boolean es_Antisocial,
+		LocalDate unaFecha,double unRadioDeCercanía) {
 		nombreDeUsuario = unNombreDeUsuario
 		nombre = unNombre
 		apellido = unApellido
 		email = unEmail
 		direccion = unLugar
-		estadoSocial = unEstadoSocial
+		esAntisocial = es_Antisocial
 		fechaDeNacimiento = unaFecha
+		radioDeCercanía = unRadioDeCercanía
 	}
 
 	def esAntisocial() {
-		estadoSocial
+		esAntisocial
 	}
 
 	/*Amigos: Listado de otros usuarios que podrán ser agregados y eliminados. 
@@ -70,4 +73,7 @@ class Usuario {
 		unEvento.adquirirEntrada(this)
 	}
 
+	def edad(LocalDate fechaActual){
+		Period.between(fechaDeNacimiento,fechaActual ).years
+	}
 }

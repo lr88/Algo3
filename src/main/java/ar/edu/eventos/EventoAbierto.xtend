@@ -2,25 +2,24 @@ package ar.edu.eventos
 
 /* mosjim@gmail.com */
 import java.time.LocalDateTime
-import java.time.Duration
-import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
+import org.eclipse.xtend.lib.annotations.Accessors
+import java.time.LocalDate
 
-//import java.util.stream.DoubleStream.Builder
-/*Los eventos abiertos son aquellos a los cuales puede asistir cualquier persona. 
- * Para asistir se debe sacar una entrada, a través de esta misma aplicación. 
- * Si bien existen eventos abiertos gratuitos, 
- a fines prácticos consideraremos que son eventos cuya entrada vale $0.*/
 @Accessors
 class EventoAbierto extends Evento {
 
-	LocalDateTime fechaMaximaParaSacarEntradas
+	LocalDate fechaActual = LocalDate.now()
+	LocalDateTime fechaMaximaDeConfirmacion
+	
 	List<Entrada> entradas = newArrayList
+	
 	var int valorDeLAEntrada
+	
 
-	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, int unValor) {
+	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, int unValorDeLaEntrada) {
 		super(unNombre, unaLocacion, unOrganizador)
-		valorDeLAEntrada = unValor
+		valorDeLAEntrada = unValorDeLaEntrada
 	}
 
 	def double capacidadMaxima() {
@@ -31,26 +30,25 @@ class EventoAbierto extends Evento {
 		entradas.size()
 	}
 
-	def adquirirEntrada(Usuario unUsuario) {
-		if (this.capacidadMaxima() - this.cantidadDeEntradasVendidas > 0) {
+	def void adquirirEntrada(Usuario unUsuario) {
+		if (this.capacidadMaxima() - this.cantidadDeEntradasVendidas > 0 && unUsuario.edad(fechaActual) < 18) {
 			entradas.add(new Entrada(unUsuario))
-
 		}
 	}
 
-	/*Fecha máxima confirmación: En el caso de eventos abiertos, es hasta cuando se puede sacar entradas.  */
 	def fechaMaximaDeConfirmacion() {
-		this.fechaMaximaParaSacarEntradas
+		this.fechaMaximaDeConfirmacion
 	}
 
-	/*Los eventos abiertos son un éxito si se venden al menos el 90% de las entradas disponibles 
-	 y no fueron cancelados o postergados.  */
-	def esExitoso() {
+	def boolean esExitoso() {
+		lasCapacidadesSonExitosas && !fueCancelado && !fuePostergado
 	}
 
-	/*Edad Mínima: (Aplicable solo a eventos abiertos). No podrán asistir 
-	 al evento usuarios menores a esa edad.  */
-	/* En el caso de eventos abiertos, si se venden menos del 50% de las entradas.  */
-	def esUnFracaso() {
+	def boolean lasCapacidadesSonExitosas(){
+		(capacidadMaxima() * 0.9 < cantidadDeEntradasVendidas)
+	}
+
+	def boolean esUnFracaso() {
+		capacidadMaxima() * 0.5 > cantidadDeEntradasVendidas
 	}
 }
