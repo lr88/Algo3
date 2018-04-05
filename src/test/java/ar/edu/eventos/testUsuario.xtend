@@ -26,12 +26,12 @@ class testUsuario {
 
 	@Test
 	def void noEsSocial() {
-		Assert.assertEquals(false, carlos.esAntisocial())
+		Assert.assertEquals(false, carlos.esAntisocial)
 	}
 
 	@Test
 	def void EsSocial() {
-		Assert.assertEquals(true, pedro.esAntisocial())
+		Assert.assertEquals(false, pedro.esAntisocial)
 	}
 	
 	@Test
@@ -41,12 +41,12 @@ class testUsuario {
 
 	@Test
 	def void contenesALucas() {
-		Assert.assertEquals(true, pedro.amigos().contains(lucas))
+		Assert.assertEquals(true, pedro.amigos.contains(lucas))
 	}
 
 	@Test
-	def void edad() {
-		Assert.assertEquals(13, pedro.edad(fechaActual),0)
+	def void soyMenor() {
+		Assert.assertEquals(true, pedro.soyMenorDeEdad(fechaActual))
 	}
 
 }
