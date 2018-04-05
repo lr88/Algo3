@@ -1,6 +1,6 @@
 package ar.edu.eventos
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -16,13 +16,13 @@ class testEventosAbierto {
 	def void init() {
 		/*------------CREAR Organizadores-------------- */
 		juan = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", lugarGenerico, true,
-			LocalDate.of(2005, 10, 10),3)
+			LocalDateTime.of(2005, 10, 10,0,0),3)
 
 		/*------------CREAR LOCACIONES-------------- */
 		complejo1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 3)
 
 		/*------------CREAR EVENTOS-------------- */
-		show1 = new EventoAbierto("show1", complejo1, juan, 5,LocalDate.of(2020, 10, 10))
+		show1 = new EventoAbierto("show1", complejo1, juan, 5,LocalDateTime.of(2020, 10, 10,0,0))
 
 		juan.comprarEntradaDeEventoAbierto(show1)
 		juan.comprarEntradaDeEventoAbierto(show1)
@@ -45,12 +45,17 @@ class testEventosAbierto {
 
 	@Test
 	def void eventoExitoso() {
-		Assert.assertEquals(true, show1.esExitoso)
+		Assert.assertEquals(false, show1.esExitoso)
 	}
 
 	@Test
 	def void eventoesUnFracaso() {
 		Assert.assertEquals(false, show1.esUnFracaso)
+	}
+	
+	@Test
+	def void hayTiempoParaConfirmar() {
+		Assert.assertEquals(true, show1.hayTiempoParaConfirmar())
 	}
 
 }

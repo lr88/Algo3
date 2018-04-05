@@ -8,25 +8,22 @@ class Locacion {
 
 	Point ubicacion
 	String nombreDeLaLocacion
-    val double distribucionM2PorPersona = 0.8
-    val double superficieM2
-    
-	new(Point lugar, String unNombre,double unaSuperficieM2) {
+	val double distribucionM2PorPersona = 0.8
+	val double superficieM2
+
+	new(Point lugar, String unNombre, double unaSuperficieM2) {
 		nombreDeLaLocacion = unNombre
 		ubicacion = lugar
 		superficieM2 = unaSuperficieM2
-			
+
 	}
 
 	def distancia(Point punto) {
 		return this.ubicacion.distance(punto)
 	}
-	
-	
+
 	def capacidadMaxima() {
 		superficieM2 / distribucionM2PorPersona
 	}
 
 }
-
-

@@ -4,16 +4,20 @@ import java.time.Duration
 import java.time.LocalDateTime
 import org.eclipse.xtend.lib.annotations.Accessors
 
+
 @Accessors
 class Evento {
 
+	LocalDateTime fechaMaximaDeConfirmacion
+	
+	LocalDateTime fechaActual = LocalDateTime.now()
 	LocalDateTime inicioDelEvento
 	LocalDateTime finDelEvento
 	String nombre
 	Locacion locacion
 	Usuario organizador
-	var Boolean fueCancelado = false
 	var Boolean fuePostergado = false
+	boolean estadoDelEvento = true
 	
 
 	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador) {

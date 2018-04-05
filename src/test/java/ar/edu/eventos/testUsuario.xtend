@@ -4,20 +4,20 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.Before
 import org.uqbar.geodds.Point
-import java.time.LocalDate
 
+import java.time.LocalDateTime
 
 class testUsuario {
-	LocalDate fechaActual = LocalDate.now()
+	LocalDateTime fechaActual = LocalDateTime.now()
 	Usuario carlos
 	Usuario pedro
 	Usuario lucas 
 
 	@Before
 	def void init() {
-		carlos = new Usuario("CP","Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,LocalDate.of(1990, 10, 10),3)
-		pedro = new Usuario("CPA","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,LocalDate.of(2005, 01, 10),3)
-		lucas = new Usuario("CD","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,LocalDate.of(2005, 10, 10),3)
+		carlos = new Usuario("CP","Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,LocalDateTime.of(1990, 10, 10,0,0),3)
+		pedro = new Usuario("CPA","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,LocalDateTime.of(2005, 01, 10,0,0),3)
+		lucas = new Usuario("CD","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,LocalDateTime.of(2005, 10, 10,0,0),3)
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
 		pedro.agregarAmigo(lucas)

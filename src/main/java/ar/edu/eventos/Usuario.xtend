@@ -1,29 +1,28 @@
 package ar.edu.eventos
 
-import java.time.LocalDate
-import java.time.Period
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.geodds.Point
 import java.time.Duration
+import java.time.LocalDateTime
 
 @Accessors
 class Usuario {
-	LocalDate fechaActual = LocalDate.now
+	LocalDateTime fechaActual = LocalDateTime.now
 	String nombreDeUsuario
 	String nombre
 	String apellido
 	String email
 	Point direccion
-	LocalDate fechaDeNacimiento
+	LocalDateTime fechaDeNacimiento
 	boolean esAntisocial
 	List<Usuario> amigos = newArrayList
 	var double plataQueTengo = 100
 	var double radioDeCercanía
+	TipoDeUsuario tipoDeUsuario
 
-	// tipo de Usuario 
 	new(String unNombreDeUsuario, String unNombre, String unApellido, String unEmail, Point unLugar,
-		boolean es_Antisocial, LocalDate unaFecha, double unRadioDeCercanía) {
+		boolean es_Antisocial, LocalDateTime unaFecha, double unRadioDeCercanía) {
 		nombreDeUsuario = unNombreDeUsuario
 		nombre = unNombre
 		apellido = unApellido
@@ -50,8 +49,8 @@ class Usuario {
 		unEvento.adquirirEntrada(this)
 	}
 
-	def boolean soyMenorDeEdad(LocalDate fechaActual) {
-		Period.between(fechaDeNacimiento, fechaActual).years < 18
+	def boolean soyMenorDeEdad(LocalDateTime fechaActual) {
+		Duration.between(fechaDeNacimiento, fechaActual).toDays() / 360 < 18
 	}
 
 	def boolean queresVenir(EventoCerrado unEventoCerrado) {
@@ -67,4 +66,19 @@ class Usuario {
 	/*&& tipoDeUsuario.voyONO() */
 	}
 
+	def organizarEventoCerrado(String unNombre, Locacion unaLocacion, int cantidadMaxima, Usuario unOrganizador,
+		LocalDateTime unaFechaMaximaDeConfirmacion) {
+		tipoDeUsuario.organizarEventoCerrado(unNombre, unaLocacion, cantidadMaxima, unOrganizador,
+			unaFechaMaximaDeConfirmacion)
+	}
+
+	def organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unOrganizador, int unValorDeLaEntrada,
+		LocalDateTime unaFechaMaximaDeConfirmacion) {
+
+		tipoDeUsuario.organizarEventoAbierto(unNombre, unaLocacion, unOrganizador, unValorDeLaEntrada,
+			unaFechaMaximaDeConfirmacion)
+	}
+
+// faltan el cancelar evento lo deriva al tipo de persona
+// falta el postergar evento lo deriva al tipo de persona
 }
