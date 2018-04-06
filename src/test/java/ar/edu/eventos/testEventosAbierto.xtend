@@ -22,7 +22,7 @@ class testEventosAbierto {
 		complejo1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 3)
 
 		/*------------CREAR EVENTOS-------------- */
-		show1 = new EventoAbierto("show1", complejo1, juan, 5,LocalDateTime.of(2020, 10, 10,0,0))
+		show1 = new EventoAbierto("show1", complejo1, juan, 5,LocalDateTime.of(2020, 10, 10,0,0),LocalDateTime.of(2020, 10, 10,0,0),LocalDateTime.of(2020, 10, 10,0,0))
 
 		juan.comprarEntradaDeEventoAbierto(show1)
 		juan.comprarEntradaDeEventoAbierto(show1)

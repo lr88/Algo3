@@ -15,8 +15,8 @@ class EventoAbierto extends Evento {
 	
 
 	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, int unValorDeLaEntrada,
-		LocalDateTime unaFechaMaximaDeConfirmacion) {
-		super(unNombre, unaLocacion, unOrganizador)
+		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
+		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
 		ValorDeLaEntrada = unValorDeLaEntrada
 		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
 		
