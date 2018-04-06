@@ -11,7 +11,7 @@ class testUsuario {
 	LocalDateTime fechaActual = LocalDateTime.now()
 	Usuario carlos
 	Usuario pedro
-	Usuario lucas 
+	Usuario lucas
 	Point lugarGenerico = new Point(20, 2.0)
 	Locacion miCasa
 	Locacion complejo1
@@ -23,14 +23,17 @@ class testUsuario {
 
 	@Before
 	def void init() {
-		carlos = new Usuario("CP","Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,LocalDateTime.of(1990, 10, 10,0,0),3)
-		pedro = new Usuario("CPA","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,LocalDateTime.of(2005, 01, 10,0,0),3)
-		lucas = new Usuario("CD","Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,LocalDateTime.of(2005, 10, 10,0,0),3)
+		carlos = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+			LocalDateTime.of(1990, 10, 10, 0, 0), 3)
+		pedro = new Usuario("CPA", "Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,
+			LocalDateTime.of(2005, 01, 10, 0, 0), 3)
+		lucas = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,
+			LocalDateTime.of(2005, 10, 10, 0, 0), 3)
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
 		pedro.agregarAmigo(lucas)
 		pedro.eliminarAmigos(lucas)
-		
+
 		/*------------CREAR Organizadores-------------- */
 		juan = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", lugarGenerico, true,
 			LocalDateTime.of(2005, 10, 10, 0, 0), 3)
@@ -40,19 +43,21 @@ class testUsuario {
 		complejo1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 2000)
 
 		/*------------CREAR EVENTOS-------------- */
-		casamiento = new Evento("Casaminto de Flor y leo", miCasa, juan,LocalDateTime.of(2007, 10, 10, 5, 00),LocalDateTime.of(2007, 10, 10, 9, 00))
-		casamiento1 = new Evento("Casaminto de Flor y leo", miCasa, juan,LocalDateTime.of(2007, 8, 10, 5, 00),LocalDateTime.of(2007, 10, 10, 9, 00))
-		casamiento2 = new Evento("Casaminto de Flor y leo", miCasa, juan,LocalDateTime.of(2007, 8, 10, 5, 00),LocalDateTime.of(2007, 10, 10, 9, 00))
-		casamiento3 = new Evento("Casaminto de Flor y leo", miCasa, juan,LocalDateTime.of(2007, 7, 10, 5, 00),LocalDateTime.of(2007, 10, 10, 9, 00))
+		casamiento = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 10, 10, 5, 00),
+			LocalDateTime.of(2007, 10, 10, 9, 00))
+		casamiento1 = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 8, 10, 5, 00),
+			LocalDateTime.of(2007, 10, 10, 9, 00))
+		casamiento2 = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 8, 10, 5, 00),
+			LocalDateTime.of(2007, 10, 10, 9, 00))
+		casamiento3 = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 6, 10, 5, 00),
+			LocalDateTime.of(2007, 10, 10, 9, 00))
 
 		/*------------INSTANCIAR OBJETOS-------------- */
-		
-
 		juan.agregarEvento(casamiento)
 		juan.agregarEvento(casamiento1)
 		juan.agregarEvento(casamiento2)
 		juan.agregarEvento(casamiento3)
-		
+
 	}
 
 	@Test
@@ -64,10 +69,10 @@ class testUsuario {
 	def void EsSocial() {
 		Assert.assertEquals(false, pedro.esAntisocial)
 	}
-	
+
 	@Test
 	def void cantidadDeAmigos() {
-		Assert.assertEquals(2,pedro.cantidadDeAmigos,0)
+		Assert.assertEquals(2, pedro.cantidadDeAmigos, 0)
 	}
 
 	@Test
@@ -79,17 +84,17 @@ class testUsuario {
 	def void soyMenor() {
 		Assert.assertEquals(true, pedro.soyMenorDeEdad(fechaActual))
 	}
-	
+
 	@Test
 	def void juanNoOrganizaMasDeTresEventosElMismoMes() {
-		Assert.assertEquals(true, juan.puedoOrganizarUnEventoEsteMes(LocalDateTime.of(2007, 8, 10, 5, 00)))
-		
+		Assert.assertEquals(true, juan.puedoOrganizarUnEventoEsteMes(LocalDateTime.of(2007, 8, 10, 5, 00), 3))
+
 	}
+
 	@Test
-	def void juanNoOrganizaDosEventosALaVez() {
-		Assert.assertEquals(true, juan.EstoyOrganizandoDosEventosALaVez(LocalDateTime.of(2007, 8, 10, 6, 00)))
+	def void EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez() {
+		Assert.assertEquals(true,
+			juan.EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime.of(2007, 8, 10, 6, 00), 1))
 	}
-
-
 
 }

@@ -10,7 +10,6 @@ import org.uqbar.geodds.Point
 class Usuario {
 	List<Evento> eventos = newArrayList
 	LocalDateTime fechaActual = LocalDateTime.now
-	List <LocalDateTime> fechaAux = newArrayList
 	String nombreDeUsuario
 	String nombre
 	String apellido
@@ -22,9 +21,7 @@ class Usuario {
 	var double plataQueTengo = 100
 	var double radioDeCercanía
 	TipoDeUsuario tipoDeUsuario
-	boolean a = true
 	
-	Object NULL
 
 	new(String unNombreDeUsuario, String unNombre, String unApellido, String unEmail, Point unLugar,
 		boolean es_Antisocial, LocalDateTime unaFecha, double unRadioDeCercanía) {
@@ -73,12 +70,12 @@ class Usuario {
 		amigos.filter[amigo|amigo.queresVenir(unEventoCerrado) == true].size
 	}
 
-	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento){
-		eventos.filter[evento|evento.inicioDelEvento.getMonth == unInicioDelEvento.getMonth].size <= 3
+	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,int unMaximoDeEventosMensuales){
+		eventos.filter[evento|evento.inicioDelEvento.getMonth == unInicioDelEvento.getMonth && evento.inicioDelEvento.getYear == unInicioDelEvento.getYear].size < unMaximoDeEventosMensuales
 	}
 
-	def EstoyOrganizandoDosEventosALaVez(LocalDateTime unInicioDelEvento) {
-		eventos.filter[evento|evento.inicioDelEvento.getHour == unInicioDelEvento.getHour && evento.inicioDelEvento.getDayOfMonth == unInicioDelEvento.getDayOfMonth].size < 1
+	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,int unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
+		eventos.filter[evento|evento.inicioDelEvento.getHour == unInicioDelEvento.getHour && evento.inicioDelEvento.getDayOfMonth == unInicioDelEvento.getDayOfMonth].size <= unaCantidadMaximaPermitidaDeSimultaneidadDeEventos 
 	}
 
 	
