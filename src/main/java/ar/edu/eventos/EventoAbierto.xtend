@@ -50,6 +50,7 @@ class EventoAbierto extends Evento {
 		if (this.capacidadMaxima() - this.cantidadDeEntradasVendidas > 0 && !unUsuario.soyMenorDeEdad(fechaActual) &&
 			hayTiempoParaConfirmar) {
 			entradas.add(new Entrada(unUsuario, ValorDeLaEntrada))
+			
 
 		}
 	}

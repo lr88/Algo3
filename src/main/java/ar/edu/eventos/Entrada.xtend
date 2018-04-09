@@ -15,6 +15,7 @@ class Entrada {
 	new(Usuario unUsuario, double unValorDeLaEntrada) {
 		un_Usuario = unUsuario
 		valorDeLAEntrada = unValorDeLaEntrada
+		un_Usuario.recibirMensaje("Felicitaciones tu entrada fue comprada Con Exito")
 	}
 
 	def void devolverDinero(LocalDateTime unaFecha, EventoAbierto unEvento) {

@@ -55,7 +55,6 @@ class testEventosAbierto {
 		Organizador2.comprarEntradaDeEventoAbierto(show1)
 		Organizador3.comprarEntradaDeEventoAbierto(show1)
 		Organizador4.comprarEntradaDeEventoAbierto(show1)
-		//print(show1.entradas)
 
 	/*------------INSTANCIAR OBJETOS-------------- */
 	}
@@ -86,10 +85,17 @@ class testEventosAbierto {
 	}
 
 	@Test
-	def void Organizador1crearUnEventoAbierto() {
+	def void Organizador1IntrntacrearUnEventoAbierto() {
 		Organizador1.CrearEventoAbierto("Fiesta", miCasa, Organizador1, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
 			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
 		Assert.assertEquals(0, Organizador1.eventos.size)
+	}
+
+	@Test
+	def void mensajeParaOrganizador1IntrntacrearUnEventoAbierto() {
+		Organizador1.CrearEventoAbierto("Fiesta", miCasa, Organizador1, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
+			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
+		Assert.assertEquals(true, Organizador1.mensajes.contains("NO PODES ORGANIZAR EVENTOS ABIERTOS"))
 	}
 
 	@Test

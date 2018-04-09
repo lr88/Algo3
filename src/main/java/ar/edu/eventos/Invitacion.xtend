@@ -17,7 +17,7 @@ class Invitacion {
 	}
 
 	def queresVenir() {
-		if (usuario.queresVenir(eventoCerrado) == true) {
+		if (usuario.queresVenir(this) == true) {
 			estado = true
 
 		}

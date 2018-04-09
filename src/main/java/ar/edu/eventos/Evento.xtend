@@ -30,4 +30,10 @@ class Evento {
 		Duration.between(inicioDelEvento, finDelEvento).toHours()
 	}
 
+	def terminarEvento(){
+		estadoDelEvento = false
+	}
+	
+	
+	
 }

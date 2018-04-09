@@ -4,6 +4,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.time.LocalDateTime
 import java.util.Set
 import java.util.HashSet
+import ar.edu.eventos.exceptions.BusinessException
 
 @Accessors
 class EventoCerrado extends Evento {
@@ -32,7 +33,10 @@ class EventoCerrado extends Evento {
 	}
 
 	def invitarAUnUsuario(Usuario unUsuario, int unaCantidadDeAcompañantes) {
-		new Invitacion(unUsuario, unaCantidadDeAcompañantes, this)
+		if (cantidadMaxima < unaCantidadDeAcompañantes + 1)
+			new Invitacion(unUsuario, unaCantidadDeAcompañantes, this)
+		else
+			throw new BusinessException("No se puede crear invitacion ya que supera su capacidad")
 	}
 
 	def pedirConfirmacionDeLasEntradas() {

@@ -13,9 +13,9 @@ interface TipoDeUsuario {
 	def void organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento)
 
-	def abstract void cancelarEvento()
+	def abstract void cancelarEvento(Usuario unUsuario)
 
-	def abstract void postergarEvento()
+	def abstract void postergarEvento(Usuario unUsuario)
 
 	def abstract boolean cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
 		int cantidadMaximaPermitidaDeSimultaneidadDeEventos)
@@ -45,16 +45,18 @@ class Free implements TipoDeUsuario {
 
 	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
-		print("NO PODES ORGANIZAR EVENTOS ABIERTOS")
+		unUsuario.recibirMensaje("NO PODES ORGANIZAR EVENTOS ABIERTOS")
+		
+		}
+
+	override cancelarEvento(Usuario unUsuario) {
+		unUsuario.recibirMensaje("NO PODES CANCELAR UN EVENTOS ")
+		
 	}
 
-	override cancelarEvento() {
-		print("NO PODES CANCELAR UN EVENTOS ")
-	}
-
-	override postergarEvento() {
-		print("NO PODES POSTERGAR UN EVENTOS")
-	}
+	override postergarEvento(Usuario unUsuario) {
+		unUsuario.recibirMensaje("NO PODES POSTERGAR UN EVENTOS")
+		}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
 		int cantidadMaximaPermitidaDeSimultaneidadDeEventos) {
@@ -97,10 +99,10 @@ class Amateur implements TipoDeUsuario {
 			
 	}
 
-	override cancelarEvento() {
+	override cancelarEvento(Usuario unUsuario) {
 	}
 
-	override postergarEvento() {
+	override postergarEvento(Usuario unUsuario) {
 	}
 
 	override puedoOrganizarUnEventoEsteMes(Usuario unUsuario, LocalDateTime unInicioDelEvento,
@@ -131,10 +133,10 @@ class Profesional implements TipoDeUsuario {
 			
 	}
 
-	override cancelarEvento() {
+	override cancelarEvento(Usuario unUsuario) {
 	}
 
-	override postergarEvento() {
+	override postergarEvento(Usuario unUsuario) {
 	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
