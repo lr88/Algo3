@@ -94,7 +94,7 @@ class testUsuario {
 
 	@Test
 	def void EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez() {
-		pedro.eventos.get(0).terminarEvento
+		pedro.eventosAbiertos.get(0).terminarEvento
 		Assert.assertEquals(true,
 			pedro.EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime.of(2007, 8, 10, 6, 00), 1))
 	}

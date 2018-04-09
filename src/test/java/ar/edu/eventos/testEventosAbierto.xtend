@@ -102,21 +102,22 @@ class testEventosAbierto {
 	def void Organizador2crearUnEventoAbierto() {
 		Organizador2.CrearEventoAbierto("Fiesta", miCasa, Organizador2, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
 			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		Assert.assertEquals(1, Organizador2.eventos.size)
+		Assert.assertEquals(1, Organizador2.eventosAbiertos.size)
 	}
 
 	@Test
 	def void JuancrearUnEventoAbierto() {
 		juan.CrearEventoAbierto("Fiesta", miCasa, juan, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
 			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		Assert.assertEquals(1, juan.eventos.size)
+		Assert.assertEquals(1, juan.eventosAbiertos.size
+		)
 	}
 
 	@Test
 	def void Organizador3crearUnEventoAbierto() {
 		Organizador3.CrearEventoAbierto("Fiesta", miCasa, Organizador3, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
 			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		Assert.assertEquals(1, Organizador3.eventos.size)
+		Assert.assertEquals(1, Organizador3.eventosAbiertos.size)
 	}
 
 }
