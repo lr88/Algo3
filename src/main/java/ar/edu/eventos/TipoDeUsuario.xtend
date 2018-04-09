@@ -11,11 +11,11 @@ interface TipoDeUsuario {
 		LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento)
 
 	def void organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
-		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento)
+		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento)
 
-	def abstract void cancelarEvento(Usuario unUsuario)
+	def abstract void cancelarEvento(Usuario unUsuario, Evento unEvento)
 
-	def abstract void postergarEvento(Usuario unUsuario)
+	def abstract void postergarEvento(Usuario unUsuario, Evento unEvento)
 
 	def abstract boolean cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
 		int cantidadMaximaPermitidaDeSimultaneidadDeEventos)
@@ -38,25 +38,26 @@ class Free implements TipoDeUsuario {
 			puedoOrganizarUnEventoEsteMes(unUsuario, unInicioDelEvento, maximoDeEventosMensuales) &&
 			cantidadPermitidaDeEventosALaVez(unUsuario, unInicioDelEvento,
 				cantidadMaximaPermitidaDeSimultaneidadDeEventos)) {
-			unUsuario.agregarEvento(new EventoCerrado(unNombre, unaLocacion, cantidadMaxima, unOrganizador, unaFechaMaximaDeConfirmacion,
-				unInicioDelEvento, unFinDelEvento))
+			unUsuario.eventosCerrados.add(
+				new EventoCerrado(unNombre, unaLocacion, cantidadMaxima, unOrganizador, unaFechaMaximaDeConfirmacion,
+					unInicioDelEvento, unFinDelEvento))
 		}
 	}
 
 	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
-		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
+		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		unUsuario.recibirMensaje("NO PODES ORGANIZAR EVENTOS ABIERTOS")
-		
-		}
 
-	override cancelarEvento(Usuario unUsuario) {
-		unUsuario.recibirMensaje("NO PODES CANCELAR UN EVENTOS ")
-		
 	}
 
-	override postergarEvento(Usuario unUsuario) {
+	override cancelarEvento(Usuario unUsuario, Evento unEvento) {
+		unUsuario.recibirMensaje("NO PODES CANCELAR UN EVENTOS ")
+
+	}
+
+	override postergarEvento(Usuario unUsuario, Evento unEvento) {
 		unUsuario.recibirMensaje("NO PODES POSTERGAR UN EVENTOS")
-		}
+	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
 		int cantidadMaximaPermitidaDeSimultaneidadDeEventos) {
@@ -69,10 +70,22 @@ class Free implements TipoDeUsuario {
 		unUsuario.puedoOrganizarUnEventoEsteMes(unInicioDelEvento, maximoDeEventosMensuales)
 	}
 
+	def cantidadMaximaPermitidaDeSimultaneidadDeEventos() {
+		cantidadMaximaPermitidaDeSimultaneidadDeEventos
+	}
+
+	def maximoDePersonasPorEvento() {
+		maximoDePersonasPorEvento
+	}
+
+	def maximoDeEventosMensuales() {
+		maximoDeEventosMensuales
+	}
+
 }
 
 class Amateur implements TipoDeUsuario {
-	int maximoDeInvitacionesPorEvento = 50 // Pueden entregar un máximo de 50 invitaciones por evento, pero las invitaciones no tienen máximo de acompañantes, por lo que la cantidad total de invitados no tiene límite.
+	int maximoDeInvitacionesPorEvento = 50
 	int cantidadMaximaPermitidaDeSimultaneidadDeEventos = 5
 
 	override organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion, int cantidadMaxima,
@@ -81,8 +94,9 @@ class Amateur implements TipoDeUsuario {
 		if (cantidadPermitidaDeEventosALaVez(unUsuario, unInicioDelEvento,
 			cantidadMaximaPermitidaDeSimultaneidadDeEventos)) {
 			if (cantidadMaxima <= maximoDeInvitacionesPorEvento) {
-				unUsuario.agregarEvento(new EventoCerrado(unNombre, unaLocacion, cantidadMaxima, unOrganizador, unaFechaMaximaDeConfirmacion,
-					unInicioDelEvento, unFinDelEvento))
+				unUsuario.eventosCerrados.add(
+					new EventoCerrado(unNombre, unaLocacion, cantidadMaxima, unOrganizador,
+						unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento))
 			}
 		}
 	}
@@ -94,20 +108,30 @@ class Amateur implements TipoDeUsuario {
 	}
 
 	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
-		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
-		unUsuario.agregarEvento(new EventoAbierto(unNombre, unaLocacion, unUsuario, unValorDeLaEntrada,unaFechaMaximaDeConfirmacion,unInicioDelEvento,unFinDelEvento))
-			
+		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
+		unUsuario.eventosAbiertos.add(
+			new EventoAbierto(unNombre, unaLocacion, unUsuario, unValorDeLaEntrada, unaFechaMaximaDeConfirmacion,
+				unInicioDelEvento, unFinDelEvento))
+
 	}
 
-	override cancelarEvento(Usuario unUsuario) {
+	override cancelarEvento(Usuario unUsuario, Evento unEvento) {
 	}
 
-	override postergarEvento(Usuario unUsuario) {
+	override postergarEvento(Usuario unUsuario, Evento unEvento) {
 	}
 
 	override puedoOrganizarUnEventoEsteMes(Usuario unUsuario, LocalDateTime unInicioDelEvento,
 		int maximoDeEventosMensuales) {
 		true
+	}
+
+	def cantidadMaximaPermitidaDeSimultaneidadDeEventos() {
+		cantidadMaximaPermitidaDeSimultaneidadDeEventos
+	}
+
+	def maximoDeInvitacionesPorEvento() {
+		maximoDeInvitacionesPorEvento
 	}
 
 }
@@ -121,22 +145,25 @@ class Profesional implements TipoDeUsuario {
 		LocalDateTime unFinDelEvento) {
 		if (puedoOrganizarUnEventoEsteMes(unUsuario, unInicioDelEvento, maximoDeEventosMensuales)) {
 
-			unUsuario.agregarEvento(new EventoCerrado(unNombre, unaLocacion, cantidadMaxima, unOrganizador, unaFechaMaximaDeConfirmacion,
-				unInicioDelEvento, unFinDelEvento))
+			unUsuario.eventosCerrados.add(
+				new EventoCerrado(unNombre, unaLocacion, cantidadMaxima, unOrganizador, unaFechaMaximaDeConfirmacion,
+					unInicioDelEvento, unFinDelEvento))
 
 		}
 	}
 
 	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
-		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
-			unUsuario.agregarEvento(new EventoAbierto(unNombre, unaLocacion, unUsuario, unValorDeLaEntrada,unaFechaMaximaDeConfirmacion,unInicioDelEvento,unFinDelEvento))
-			
+		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
+		unUsuario.eventosAbiertos.add(
+			new EventoAbierto(unNombre, unaLocacion, unUsuario, unValorDeLaEntrada, unaFechaMaximaDeConfirmacion,
+				unInicioDelEvento, unFinDelEvento))
+
 	}
 
-	override cancelarEvento(Usuario unUsuario) {
+	override cancelarEvento(Usuario unUsuario, Evento unEvento) {
 	}
 
-	override postergarEvento(Usuario unUsuario) {
+	override postergarEvento(Usuario unUsuario, Evento unEvento) {
 	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
@@ -147,6 +174,10 @@ class Profesional implements TipoDeUsuario {
 	override puedoOrganizarUnEventoEsteMes(Usuario unUsuario, LocalDateTime unInicioDelEvento,
 		int maximoDeEventosMensuales) {
 		true
+	}
+
+	def maximoDeEventosMensuales() {
+		maximoDeEventosMensuales
 	}
 
 }

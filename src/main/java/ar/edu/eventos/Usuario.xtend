@@ -12,7 +12,10 @@ import java.util.Set
 @Accessors
 class Usuario {
 	
+	List <Invitacion> invitacionesPendientes = newArrayList()
 	List <String> mensajes = newArrayList()
+	Set<EventoAbierto> eventosAbiertos = new HashSet ()
+	Set<EventoCerrado> eventosCerrados = new HashSet ()
 	Set<Evento> eventos = new HashSet ()
 	LocalDateTime fechaActual = LocalDateTime.now
 	String nombreDeUsuario
@@ -76,6 +79,10 @@ class Usuario {
 		Duration.between(fechaDeNacimiento, fechaActual).toDays() / 360 < 18
 	}
 
+	def boolean amigoTeGustariaVenir(Invitacion unaInvitacion) {
+		true
+	}
+	
 	def boolean queresVenir(Invitacion unaInvitacion) {
 		this.quieroIr(unaInvitacion)
 	}
@@ -94,8 +101,8 @@ class Usuario {
 
 	def quieroIr(Invitacion unaInvitacion) {
 		if(Duration.between(fechaActual, unaInvitacion.eventoCerrado.fechaMaximaDeConfirmacion).toMillis > 0.0){
-				this.aceptarInvitacion(true,unaInvitacion)
-			true
+				this.responderInvitacion(true,unaInvitacion)
+				unaInvitacion.estado
 		}
 	}
 
@@ -123,30 +130,32 @@ class Usuario {
 	}
 	/*El organizador de un evento es quién tiene la facultad de invitar a otros usuarios. */
 	
-	def invitar(EventoCerrado unEvento,Invitacion unaInvitacion){
-	/*El sistema no debe permitir aceptar invitaciones una vez pasada la fecha máxima de confirmación. */
-		if(fechaActual < unEvento.fechaMaximaDeConfirmacion){
+	def invitar(EventoCerrado unEventoCerrado,int unaCantidadDeAcompañantes, Usuario unUsuario){
+		new Invitacion (unUsuario, unaCantidadDeAcompañantes, unEventoCerrado)
+		
+		
+	}
+	
+	/*if(fechaActual < unEvento.fechaMaximaDeConfirmacion){
 			this.aceptarInvitacion(aceptacion,unaInvitacion)
 			unEvento.agregarInvitacion(unaInvitacion)
-		}
+		} */
+	def responderInvitacion(Boolean respuesta,Invitacion unaInvitacion){
+			unaInvitacion.estado = respuesta
 	}
-	def aceptarInvitacion(Boolean _aceptacion,Invitacion unaInvitacion){
-		aceptacion=_aceptacion
-		unaInvitacion.estado = aceptacion
-		if(aceptacion == true)
-		this.indicarCantidadDeAcompañantes(cantidadDeAcompañantes,unaInvitacion)
+	
+	def indicarCantidadDeAcompañantes(Invitacion unaInvitacion){
+		amigos.forEach[amigos|amigos.quieroIr(unaInvitacion)]
+			
+	
 	}
-	def indicarCantidadDeAcompañantes(int unaCantidad,Invitacion unaInvitacion){
-	if(unaCantidad < unaInvitacion.cantidadDeAcompañantes)
-	cantidadDeAcompañantes = unaCantidad
-	}
-	def cancelarEvento(Usuario unUsuario) {
-		tipoDeUsuario.cancelarEvento( unUsuario)
+	def cancelarEvento(Usuario unUsuario, Evento unEvento) {
+		tipoDeUsuario.cancelarEvento( unUsuario, unEvento)
 	}
 
-	def postergarEvento(Usuario unUsuario) {
-		tipoDeUsuario.postergarEvento(unUsuario)
+	def postergarEvento(Usuario unUsuario, Evento unEvento) {
+		tipoDeUsuario.postergarEvento(unUsuario, unEvento)
 	}
-
+	
 }
 

@@ -5,21 +5,19 @@ import java.time.LocalDateTime
 import java.util.Set
 import java.util.HashSet
 import ar.edu.eventos.exceptions.BusinessException
+import org.junit.experimental.theories.suppliers.TestedOn
 
 @Accessors
 class EventoCerrado extends Evento {
 
 	int cantidadMaxima
 	Set<Invitacion> invitaciones = new HashSet()
-
-	new(String unNombre, Locacion unaLocacion, int cantidadMaxima, Usuario unOrganizador,
+	
+		new(String unNombre, Locacion unaLocacion, int unaCantidadMaxima, Usuario unOrganizador,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
 		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
-	}
-
-	def capacidadMaxima() {
-		cantidadMaxima
+	cantidadMaxima = unaCantidadMaxima
 	}
 
 	def boolean esExitoso() {
@@ -33,10 +31,11 @@ class EventoCerrado extends Evento {
 	}
 
 	def invitarAUnUsuario(Usuario unUsuario, int unaCantidadDeAcompañantes) {
-		if (cantidadMaxima < unaCantidadDeAcompañantes + 1)
-			new Invitacion(unUsuario, unaCantidadDeAcompañantes, this)
-		else
-			throw new BusinessException("No se puede crear invitacion ya que supera su capacidad")
+		if (cantidadMaxima > (unaCantidadDeAcompañantes + 1)){// && cuantosAvamos < unUsuario.tipoDeUsuario.maximoDePersonasPorEvento && invitaciones.size > unUsuario.tipoDeUsuario.maximoDeInvitacionesPorEvento){
+				invitaciones.add(new Invitacion(unUsuario, unaCantidadDeAcompañantes, this))
+				
+			}
+		
 	}
 
 	def pedirConfirmacionDeLasEntradas() {
@@ -44,7 +43,12 @@ class EventoCerrado extends Evento {
 	}
 
 	def int cuantosAvamos() {
-		1
+		var int sumaTotal
+		var int i
+		for (i=0;i<invitaciones.size;i++){
+			sumaTotal= sumaTotal + invitaciones.get(i).cantidadConfirmada
+		}
+		sumaTotal
 	}
 
 	def cancelarEvento() {
@@ -75,7 +79,4 @@ class EventoCerrado extends Evento {
 		cantidadDeInvitacionesPendientes() + cantidadDeInvitacionesAceptadas()
 	}
 
-	def agregarInvitacion(Invitacion unaInvitacion) {
-		invitaciones.add(unaInvitacion)
-	}
 }

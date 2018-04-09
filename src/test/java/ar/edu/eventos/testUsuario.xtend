@@ -6,14 +6,13 @@ import org.junit.Before
 import org.uqbar.geodds.Point
 
 import java.time.LocalDateTime
-import java.awt.color.ProfileDataException
 
 class testUsuario {
 	LocalDateTime fechaActual = LocalDateTime.now()
 	Usuario carlos
 	Usuario pedro
 	Usuario lucas
-
+	Usuario juan
 	Point lugarGenerico = new Point(20, 2.0)
 	Locacion miCasa
 	Locacion complejo1
@@ -21,7 +20,6 @@ class testUsuario {
 	Evento casamiento1
 	Evento casamiento2
 	Evento casamiento3
-	Usuario juan
 
 	@Before
 	def void init() {
@@ -33,10 +31,6 @@ class testUsuario {
 			LocalDateTime.of(2005, 01, 10, 0, 0), 3, new Profesional)
 		lucas = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(2005, 10, 10, 0, 0), 3, new Free)
-		pedro.agregarAmigo(carlos)
-		pedro.agregarAmigo(lucas)
-		pedro.agregarAmigo(lucas)
-		pedro.eliminarAmigos(lucas)
 
 		juan = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", lugarGenerico, true,
 			LocalDateTime.of(2005, 10, 10, 0, 0), 3, new Free)
@@ -46,7 +40,6 @@ class testUsuario {
 		complejo1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 2000)
 
 		/*------------CREAR EVENTOS-------------- */
-				
 		casamiento = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 10, 10, 5, 00),
 			LocalDateTime.of(2007, 10, 10, 9, 00))
 		casamiento1 = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 8, 10, 5, 00),
@@ -62,13 +55,10 @@ class testUsuario {
 		juan.agregarEvento(casamiento1)
 		juan.agregarEvento(casamiento2)
 		juan.agregarEvento(casamiento3)
-
-
-
-
-
-
-
+		pedro.agregarAmigo(carlos)
+		pedro.agregarAmigo(lucas)
+		pedro.agregarAmigo(lucas)
+		pedro.eliminarAmigos(lucas)
 	}
 
 	@Test
@@ -119,8 +109,8 @@ class testUsuario {
 	@Test
 	def void PedroCambiaElTipoDeUsuario() {
 		pedro.cambiarTipoDeUsuario(new Free)
-		//print(pedro.eventos)
-		pedro.cancelarEvento(pedro)
+		pedro.cancelarEvento(pedro, casamiento)
 		Assert.assertEquals(true, pedro.mensajes.contains("NO PODES CANCELAR UN EVENTOS "))
 	}
+
 }

@@ -1,6 +1,7 @@
 package ar.edu.eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.List
 
 @Accessors
 class Invitacion {
@@ -9,17 +10,33 @@ class Invitacion {
 	EventoCerrado eventoCerrado
 	boolean estado = false
 	int cantidadDeAcompañantes
-
+	int cantidadConfirmada
+	List <Usuario> acompañantes = newArrayList
+	
 	new(Usuario unUsuario, int unaCantidadDeAcompañantes, EventoCerrado unEventoCerrado) {
 		usuario = unUsuario
 		cantidadDeAcompañantes = unaCantidadDeAcompañantes
 		eventoCerrado = unEventoCerrado
+		unUsuario.invitacionesPendientes.add(this)
+		unUsuario.quieroIr(this)
+		unUsuario.amigos.forEach[amigo | amigo.invitacionesPendientes.add(this)]
+		unUsuario.amigos.forEach[amigo | acompañantes.add(amigo)]
+		cuantosSomos()
 	}
+
+	def int cuantosSomos(){
+		if (estado){
+			cantidadConfirmada = acompañantes.filter(acompañante|acompañante.quieroIr(this)).size +1
+		}
+		else{
+			0
+		}
+	}
+
 
 	def queresVenir() {
 		if (usuario.queresVenir(this) == true) {
 			estado = true
-
 		}
 	}
 
