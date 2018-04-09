@@ -1,18 +1,18 @@
 package ar.edu.eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
-import java.util.List
 import java.time.LocalDateTime
+import java.util.Set
+import java.util.HashSet
 
 @Accessors
 class EventoCerrado extends Evento {
-	
+
 	int cantidadMaxima
-	List<Invitacion> invitaciones
-	
-	
+	Set<Invitacion> invitaciones = new HashSet()
+
 	new(String unNombre, Locacion unaLocacion, int cantidadMaxima, Usuario unOrganizador,
-		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
+		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
 		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
 	}
@@ -47,4 +47,31 @@ class EventoCerrado extends Evento {
 		estadoDelEvento = false // que pasa cuando se cancela un evento
 	}
 
+	/*Las invitaciones pendientes de confirmación suman el total de sus invitados. */
+	def cantidadDeInvitacionesPendientes() {
+		invitaciones.fold(1.0, [acum, invitacion|acum + invitacion.cantidadDeAcompañantes])
+	}
+
+	/*Las invitaciones aceptadas suman uno + la cantidad de acompañantes confirmados. */
+	def cantidadDeInvitacionesAceptadas() {
+		1 /*+ cantidadDeAcompañantesConfirmados()*/
+	}
+
+	def cantidadDeInvitacionesRechazadas() {
+		invitaciones.filter[invitacion|invitacion.estado == false]
+	}
+
+	/* La cantidad de posibles asistentes se calcula de la siguiente manera: 
+
+	 * Las invitaciones pendientes de confirmación suman el total de sus invitados.
+	 * Las invitaciones aceptadas suman uno + la cantidad de acompañantes confirmados.
+	 *  Las invitaciones rechazadas no suman. 
+	 */
+	def cantidadPosiblesDeAsistentes() {
+		cantidadDeInvitacionesPendientes() + cantidadDeInvitacionesAceptadas()
+	}
+
+	def agregarInvitacion(Invitacion unaInvitacion) {
+		invitaciones.add(unaInvitacion)
+	}
 }

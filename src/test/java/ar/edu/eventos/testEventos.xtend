@@ -21,7 +21,7 @@ class testEventos {
 	def void init() {
 		/*------------CREAR Organizadores-------------- */
 		juan = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", lugarGenerico, true,
-			LocalDateTime.of(2005, 10, 10, 0, 0), 3)
+			LocalDateTime.of(2005, 10, 10, 0, 0), 3,new Free)
 
 		/*------------CREAR LOCACIONES-------------- */
 		miCasa = new Locacion(new Point(1.0, 2.0), "Mi Casa", 800)

@@ -5,10 +5,12 @@ import java.time.LocalDateTime
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.geodds.Point
+import java.util.HashSet
+import java.util.Set
 
 @Accessors
 class Usuario {
-	List<Evento> eventos = newArrayList
+	Set<Evento> eventos = new HashSet ()
 	LocalDateTime fechaActual = LocalDateTime.now
 	String nombreDeUsuario
 	String nombre
@@ -21,10 +23,12 @@ class Usuario {
 	var double plataQueTengo = 100
 	var double radioDeCercanía
 	TipoDeUsuario tipoDeUsuario
+	Boolean aceptacion
+	int cantidadDeAcompañantes
 	
 
 	new(String unNombreDeUsuario, String unNombre, String unApellido, String unEmail, Point unLugar,
-		boolean es_Antisocial, LocalDateTime unaFecha, double unRadioDeCercanía) {
+		boolean es_Antisocial, LocalDateTime unaFecha, double unRadioDeCercanía,TipoDeUsuario unTipoDeUsuario) {
 		nombreDeUsuario = unNombreDeUsuario
 		nombre = unNombre
 		apellido = unApellido
@@ -33,7 +37,7 @@ class Usuario {
 		esAntisocial = es_Antisocial
 		fechaDeNacimiento = unaFecha
 		radioDeCercanía = unRadioDeCercanía
-		
+		tipoDeUsuario = unTipoDeUsuario
 	}
 
 	/* SOLO PARA SATISFACER EL TEST */
@@ -84,19 +88,48 @@ class Usuario {
 	/*&& tipoDeUsuario.voyONO() */
 	}
 
-	def organizarEventoCerrado(String unNombre, Locacion unaLocacion, int cantidadMaxima, Usuario unOrganizador,
+	def crearEventoCerrado(String unNombre, Locacion unaLocacion, int cantidadMaxima, Usuario unOrganizador,
 		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
-		tipoDeUsuario.organizarEventoCerrado(this,unNombre, unaLocacion, cantidadMaxima, unOrganizador,
+		
+		tipoDeUsuario.organizarEventoCerrado(this,unNombre, unaLocacion, cantidadMaxima, this,
 			unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
 	}
 
-	def organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unOrganizador, int unValorDeLaEntrada,
+
+	def CrearEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
 
-		tipoDeUsuario.organizarEventoAbierto(this,unNombre, unaLocacion, unOrganizador, unValorDeLaEntrada,
-			unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
+		tipoDeUsuario.organizarEventoAbierto( unNombre,  unaLocacion, this,  unValorDeLaEntrada,
+		 unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
 	}
 	
-	
+	           def devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
 
+                        /*Las devoluciones serán aceptadas hasta el día anterior al evento.*/
+                        if(fechaActual < unEvento.inicioDelEvento)
+                        unaEntrada.devolverDinero(fechaActual,unEvento)
+                        unEvento.usuarioDevuelveEntrada(this)
+
+            }
+/*El organizador de un evento es quién tiene la facultad de invitar a otros usuarios. */
+ 	  def invitar(EventoCerrado unEvento,Invitacion unaInvitacion){
+   
+/*El sistema no debe permitir aceptar invitaciones una vez pasada la fecha máxima de confirmación. */
+     if(fechaActual < unEvento.fechaMaximaDeConfirmacion)
+     this.aceptarInvitacion(aceptacion,unaInvitacion)
+     unEvento.agregarInvitacion(unaInvitacion)
+}
+    /*Los invitados podrán aceptar o rechazar la invitación*/
+def aceptarInvitacion(Boolean _aceptacion,Invitacion unaInvitacion){
+aceptacion=_aceptacion
+unaInvitacion.estado = aceptacion
+if(aceptacion == true)
+     this.indicarCantidadDeAcompañantes(cantidadDeAcompañantes,unaInvitacion)
+}
+/*En caso de aceptarla deberán indicar cuantos acompañantes
+ efectivamente asistirán, no pudiendo superar la cantidad definida en la invitación*/
+		def indicarCantidadDeAcompañantes(int unaCantidad,Invitacion unaInvitacion){
+if(unaCantidad < unaInvitacion.cantidadDeAcompañantes)
+    cantidadDeAcompañantes = unaCantidad
+}
 }

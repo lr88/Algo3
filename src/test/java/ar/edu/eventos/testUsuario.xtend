@@ -12,6 +12,7 @@ class testUsuario {
 	Usuario carlos
 	Usuario pedro
 	Usuario lucas
+	
 	Point lugarGenerico = new Point(20, 2.0)
 	Locacion miCasa
 	Locacion complejo1
@@ -23,12 +24,14 @@ class testUsuario {
 
 	@Before
 	def void init() {
+		
+
 		carlos = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3)
+			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
 		pedro = new Usuario("CPA", "Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(2005, 01, 10, 0, 0), 3)
+			LocalDateTime.of(2005, 01, 10, 0, 0), 3, new Free)
 		lucas = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(2005, 10, 10, 0, 0), 3)
+			LocalDateTime.of(2005, 10, 10, 0, 0), 3, new Free)
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
 		pedro.agregarAmigo(lucas)
@@ -36,7 +39,7 @@ class testUsuario {
 
 		/*------------CREAR Organizadores-------------- */
 		juan = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", lugarGenerico, true,
-			LocalDateTime.of(2005, 10, 10, 0, 0), 3)
+			LocalDateTime.of(2005, 10, 10, 0, 0), 3, new Free)
 
 		/*------------CREAR LOCACIONES-------------- */
 		miCasa = new Locacion(new Point(1.0, 2.0), "Mi Casa", 800)
@@ -97,4 +100,7 @@ class testUsuario {
 			juan.EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime.of(2007, 8, 10, 6, 00), 1))
 	}
 
+
+
+	
 }
