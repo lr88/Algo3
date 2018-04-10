@@ -34,5 +34,7 @@ class Evento {
 	def terminarEvento() {
 		estadoDelEvento = false
 	}
-
+	
+	def void cancelarElEvento(Usuario unUsuario, Evento unEvento){}
+	def void postergarElEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){}
 }

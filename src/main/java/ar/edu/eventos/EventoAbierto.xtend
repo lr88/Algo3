@@ -50,14 +50,24 @@ class EventoAbierto extends Evento {
 		if (this.capacidadMaxima() - this.cantidadDeEntradasVendidas > 0 && !unUsuario.soyMenorDeEdad(fechaActual) &&
 			hayTiempoParaConfirmar) {
 			entradas.add(new Entrada(unUsuario, ValorDeLaEntrada))
-			
-
+			unUsuario.plataQueTengo = unUsuario.plataQueTengo - ValorDeLaEntrada
 		}
 	}
 
-	def cancelarElEvento(){
+	override cancelarElEvento(Usuario unUsuario, Evento unEvento){
+		estadoDelEvento = false
+		entradas.forEach[entrada | entrada.usuario.mensajes.add("se cancelo el evento")]
+		entradas.forEach[entrada|entrada.devolverEltotal()]
+		entradas.clear
 		
 	}
+	
+	override postergarElEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
+		fuePostergado = true
+		entradas.forEach[entrada | entrada.usuario.mensajes.add("se postergo el evento")]
+		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 	
+	}
+
 
 	def int cantidadDeEntradasVendidas() {
 		entradas.size

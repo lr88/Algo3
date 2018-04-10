@@ -21,6 +21,7 @@ class Usuario {
 	Set<EventoAbierto> eventosAbiertos = new HashSet ()
 	Set<EventoCerrado> eventosCerrados = new HashSet ()
 	Set<Evento> eventos = new HashSet ()
+	
 	LocalDateTime fechaActual = LocalDateTime.now
 	String nombreDeUsuario
 	String nombre
@@ -145,17 +146,16 @@ class Usuario {
 			}
 	}
 	
-	def cancelarEventoAbierto(Usuario unUsuario, Evento unEvento) {
-		tipoDeUsuario.cancelarEventoAbierto( unUsuario, unEvento)
+	def void cancelarEvento(Usuario unUsuario, Evento unEvento){
+		tipoDeUsuario.cancelarElEvento( this, unEvento)
 	}
 	
-	def cancelarEventoCerrado(Usuario unUsuario, Evento unEvento) {
-		tipoDeUsuario.cancelarEventoCerrado( unUsuario, unEvento)
+	def void postergarEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
+		tipoDeUsuario.postergarElEvento(unUsuario, unEvento,NuevaFechaDeInicioDelEvento)
 	}
-
-	def postergarEvento(Usuario unUsuario, Evento unEvento) {
-		tipoDeUsuario.postergarEvento(unUsuario, unEvento)
-	}
+	
+	
+	
 	def aceptacionMasiva(){
 		var int i
 		for(i=0;i<invitacionesPendientes.size;i++){
@@ -193,6 +193,11 @@ class Usuario {
 		}
 	}
 	
+	def indicarNuevaFechaDeEvento(Evento unEvento,LocalDateTime nuevaFecha){
+		unEvento.finDelEvento.plusHours(Duration.between(unEvento.inicioDelEvento,nuevaFecha).toHours)
+		unEvento.fechaMaximaDeConfirmacion.plusHours(Duration.between(unEvento.inicioDelEvento,nuevaFecha).toHours)
+		unEvento.inicioDelEvento = nuevaFecha
+	}
 	
 
 }

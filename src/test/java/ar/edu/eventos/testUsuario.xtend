@@ -108,13 +108,12 @@ class testUsuario {
 	@Test
 	def void PedroCambiaElTipoDeUsuario() {
 		pedro.cambiarTipoDeUsuario(new Free)
-		pedro.cancelarEventoCerrado(pedro, casamiento)
+		pedro.cancelarEvento(pedro, casamiento)
 		Assert.assertEquals(true, pedro.mensajes.contains("NO PODES CANCELAR UN EVENTOS "))
 	}
 	
 	@Test
 	def void TipoDeUsuarioPedro() {
-		print(pedro.tipoDeUsuario)
 		Assert.assertEquals(99, pedro.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
 		Assert.assertEquals(99, pedro.tipoDeUsuario.maximoDePersonasPorEvento)
 		Assert.assertEquals(20, pedro.tipoDeUsuario.maximoDeEventosMensuales)
@@ -123,7 +122,6 @@ class testUsuario {
 	
 	@Test
 	def void TipoDeUsuarioCarlos() {
-		print(carlos.tipoDeUsuario)
 		Assert.assertEquals(1, carlos.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
 		Assert.assertEquals(50, carlos.tipoDeUsuario.maximoDePersonasPorEvento)
 		Assert.assertEquals(3, carlos.tipoDeUsuario.maximoDeEventosMensuales)
@@ -132,7 +130,6 @@ class testUsuario {
 	
 	@Test
 	def void TipoDeUsuarioLucas() {
-		print(lucas.tipoDeUsuario)
 		Assert.assertEquals(5, lucas.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
 		Assert.assertEquals(99, lucas.tipoDeUsuario.maximoDePersonasPorEvento)
 		Assert.assertEquals(99, lucas.tipoDeUsuario.maximoDeEventosMensuales)

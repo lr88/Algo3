@@ -52,10 +52,18 @@ class EventoCerrado extends Evento {
 		sumaTotal
 	}
 
-	def cancelarElEvento(){
+	override cancelarElEvento(Usuario unUsuario, Evento unEvento){
 		invitaciones.forEach[inv | inv.usuarioEnEstadoPendientes.forEach[usuar |usuar.mensajes.add("se cancelo el evento")]]
 		invitaciones.forEach[inv | inv.usuario.mensajes.add("se cancelo el evento")]
+		invitaciones.clear
 	}
+
+	override postergarElEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
+		invitaciones.forEach[inv | inv.usuarioEnEstadoPendientes.forEach[usuar |usuar.mensajes.add("se postergo el evento")]]
+		invitaciones.forEach[inv | inv.usuario.mensajes.add("se postergo el evento")]
+			
+	}
+
 
 
 	def cantidadDeInvitacionesPendientes() {

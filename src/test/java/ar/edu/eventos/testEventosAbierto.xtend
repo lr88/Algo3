@@ -109,7 +109,9 @@ class testEventosAbierto {
 	def void JuancrearUnEventoAbierto() {
 		juan.CrearEventoAbierto("Fiesta", miCasa, juan, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
 			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		Assert.assertEquals(1, juan.eventosAbiertos.size
+		Assert.assertEquals(
+			1,
+			juan.eventosAbiertos.size
 		)
 	}
 
@@ -118,6 +120,18 @@ class testEventosAbierto {
 		Organizador3.CrearEventoAbierto("Fiesta", miCasa, Organizador3, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
 			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
 		Assert.assertEquals(1, Organizador3.eventosAbiertos.size)
+	}
+
+	@Test
+	def void elEventoSeCancela() {
+		show1.cancelarElEvento(juan,show1)
+		Assert.assertEquals(true, juan.mensajes.contains("se cancelo el evento"))
+	}
+
+	@Test
+	def void elEventoSeCancelayDevuelveMontoDeLaEntrada() {
+		show1.cancelarElEvento(juan,show1)
+		Assert.assertEquals(100.0, juan.plataQueTengo, 0)
 	}
 
 }
