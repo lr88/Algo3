@@ -133,5 +133,11 @@ class testEventosAbierto {
 		show1.cancelarElEvento(juan, show1)
 		Assert.assertEquals(100.0, juan.plataQueTengo, 0)
 	}
+	
+	@Test
+	def void postergarEvento() {
+		show1.postergarElEvento(juan,show1,LocalDateTime.of(2019, 11, 10, 5, 00))
+		Assert.assertEquals(LocalDateTime.of(2019, 11, 10, 5, 00), show1.inicioDelEvento)
+	}
 
 }

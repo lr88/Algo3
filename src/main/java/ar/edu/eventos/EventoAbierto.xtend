@@ -76,4 +76,11 @@ class EventoAbierto extends Evento {
 	def usuarioDevuelveEntrada(Usuario unUsuario) {
 		entradas.remove(new Entrada(unUsuario, ValorDeLaEntrada))
 	}
+	
+	override void cambiarFecha(LocalDateTime nuevaFecha){
+		var  aux =	Duration.between(inicioDelEvento,nuevaFecha)
+		inicioDelEvento = inicioDelEvento.plus(aux)
+		finDelEvento = finDelEvento.plus(aux)
+		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
+	}
 }

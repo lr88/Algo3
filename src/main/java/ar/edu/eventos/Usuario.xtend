@@ -194,10 +194,8 @@ class Usuario {
 	}
 	
 	def indicarNuevaFechaDeEvento(Evento unEvento,LocalDateTime nuevaFecha){
-		var  aux =	Duration.between(unEvento.inicioDelEvento,nuevaFecha)
-		unEvento.inicioDelEvento.plus(aux)
-		unEvento.finDelEvento.plus(aux)
-		unEvento.fechaMaximaDeConfirmacion.plus(aux)
+		unEvento.cambiarFecha(nuevaFecha)
+			
 	}
 	
 

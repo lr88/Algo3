@@ -4,7 +4,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.time.LocalDateTime
 import java.util.Set
 import java.util.HashSet
-
+import java.time.Duration
 
 @Accessors
 class EventoCerrado extends Evento {
@@ -91,6 +91,13 @@ class EventoCerrado extends Evento {
 
 	def cantidadPosiblesDeAsistentes() {
 		cantidadDeInvitacionesPendientes() + cantidadDeInvitacionesAceptadas()
+	}
+	
+		override void cambiarFecha(LocalDateTime nuevaFecha){
+		var  aux =	Duration.between(inicioDelEvento,nuevaFecha)
+		inicioDelEvento = inicioDelEvento.plus(aux)
+		finDelEvento = finDelEvento.plus(aux)
+		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
 	}
 
 }
