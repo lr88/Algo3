@@ -124,13 +124,13 @@ class testEventosAbierto {
 
 	@Test
 	def void elEventoSeCancela() {
-		show1.cancelarElEvento(juan,show1)
+		show1.cancelarElEvento(juan, show1)
 		Assert.assertEquals(true, juan.mensajes.contains("se cancelo el evento"))
 	}
 
 	@Test
 	def void elEventoSeCancelayDevuelveMontoDeLaEntrada() {
-		show1.cancelarElEvento(juan,show1)
+		show1.cancelarElEvento(juan, show1)
 		Assert.assertEquals(100.0, juan.plataQueTengo, 0)
 	}
 
