@@ -12,7 +12,11 @@ import java.util.Set
 @Accessors
 class Usuario {
 	
-	List <Invitacion> invitacionesPendientes = newArrayList()
+	Set <Invitacion> invitacionesPendientes = new HashSet()
+	Set <Invitacion> invitacionesRechazadas = new HashSet()
+	Set <Invitacion> invitacionesAceptadas = new HashSet()
+	
+	
 	List <String> mensajes = newArrayList()
 	Set<EventoAbierto> eventosAbiertos = new HashSet ()
 	Set<EventoCerrado> eventosCerrados = new HashSet ()
@@ -25,7 +29,7 @@ class Usuario {
 	Point direccion
 	LocalDateTime fechaDeNacimiento
 	boolean esAntisocial
-	List<Usuario> amigos = newArrayList
+	Set<Usuario> amigos = new HashSet()
 	var double plataQueTengo = 100
 	var double radioDeCercanía
 	TipoDeUsuario tipoDeUsuario
@@ -79,16 +83,14 @@ class Usuario {
 		Duration.between(fechaDeNacimiento, fechaActual).toDays() / 360 < 18
 	}
 
-	def boolean amigoTeGustariaVenir(Invitacion unaInvitacion) {
-		true
-	}
-	
 	def boolean queresVenir(Invitacion unaInvitacion) {
-		this.quieroIr(unaInvitacion)
+		if(Duration.between(fechaActual, unaInvitacion.eventoCerrado.fechaMaximaDeConfirmacion).toMillis > 0.0){
+				this.responderInvitacion(true,unaInvitacion)
+		}
 	}
 
 	def int cuantosSomos(Invitacion unaInvitacion) {
-		amigos.filter[amigo|amigo.queresVenir(unaInvitacion) == true].size
+		amigos.filter[amigo|amigo.invitacionesAceptadas.contains(unaInvitacion)].size
 	}
 
 	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,int unMaximoDeEventosMensuales){
@@ -97,13 +99,6 @@ class Usuario {
 
 	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,int unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
 		eventos.filter[evento | evento.estadoDelEvento].size < unaCantidadMaximaPermitidaDeSimultaneidadDeEventos
-	}
-
-	def quieroIr(Invitacion unaInvitacion) {
-		if(Duration.between(fechaActual, unaInvitacion.eventoCerrado.fechaMaximaDeConfirmacion).toMillis > 0.0){
-				this.responderInvitacion(true,unaInvitacion)
-				unaInvitacion.estado
-		}
 	}
 
 	def crearEventoCerrado(String unNombre, Locacion unaLocacion, int cantidadMaxima, Usuario unOrganizador,
@@ -116,39 +111,40 @@ class Usuario {
 
 	def CrearEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
-
 		tipoDeUsuario.organizarEventoAbierto( unNombre,unaLocacion, this,unValorDeLaEntrada,
 		unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
 	}
 	
 	def devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
-	/*Las devoluciones serán aceptadas hasta el día anterior al evento.*/
 		if(fechaActual < unEvento.inicioDelEvento){
 			unaEntrada.devolverDinero(fechaActual,unEvento)
 		unEvento.usuarioDevuelveEntrada(this)
 		}
 	}
-	/*El organizador de un evento es quién tiene la facultad de invitar a otros usuarios. */
 	
 	def invitar(EventoCerrado unEventoCerrado,int unaCantidadDeAcompañantes, Usuario unUsuario){
 		new Invitacion (unUsuario, unaCantidadDeAcompañantes, unEventoCerrado)
-		
-		
+
 	}
 	
-	/*if(fechaActual < unEvento.fechaMaximaDeConfirmacion){
-			this.aceptarInvitacion(aceptacion,unaInvitacion)
-			unEvento.agregarInvitacion(unaInvitacion)
-		} */
 	def responderInvitacion(Boolean respuesta,Invitacion unaInvitacion){
 			unaInvitacion.estado = respuesta
-	}
-	
-	def indicarCantidadDeAcompañantes(Invitacion unaInvitacion){
-		amigos.forEach[amigos|amigos.quieroIr(unaInvitacion)]
+			if(respuesta){
+				unaInvitacion.usuarioEnEstadoPendientes.remove(this)
+				unaInvitacion.usuarioEnEstadoConfirmado.add(this)
+				invitacionesPendientes.remove(unaInvitacion)
+				invitacionesAceptadas.add(unaInvitacion)
+				
+			}
+			else{
+				unaInvitacion.usuarioEnEstadoPendientes.remove(this)
+				unaInvitacion.usuarioEnEstadoRechazados.add(this)
+				invitacionesPendientes.remove(unaInvitacion)
+				invitacionesRechazadas.add(unaInvitacion)
+			}
 			
-	
 	}
+	
 	def cancelarEvento(Usuario unUsuario, Evento unEvento) {
 		tipoDeUsuario.cancelarEvento( unUsuario, unEvento)
 	}

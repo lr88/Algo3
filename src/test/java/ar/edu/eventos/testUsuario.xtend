@@ -30,8 +30,7 @@ class testUsuario {
 		pedro = new Usuario("CPA", "Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(2005, 01, 10, 0, 0), 3, new Profesional)
 		lucas = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(2005, 10, 10, 0, 0), 3, new Free)
-
+			LocalDateTime.of(2005, 10, 10, 0, 0), 3, new Amateur)
 		juan = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", lugarGenerico, true,
 			LocalDateTime.of(2005, 10, 10, 0, 0), 3, new Free)
 
@@ -57,8 +56,8 @@ class testUsuario {
 		juan.agregarEvento(casamiento3)
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
-		pedro.agregarAmigo(lucas)
-		pedro.eliminarAmigos(lucas)
+		pedro.agregarAmigo(juan)
+		pedro.eliminarAmigos(juan)
 	}
 
 	@Test
@@ -111,6 +110,33 @@ class testUsuario {
 		pedro.cambiarTipoDeUsuario(new Free)
 		pedro.cancelarEvento(pedro, casamiento)
 		Assert.assertEquals(true, pedro.mensajes.contains("NO PODES CANCELAR UN EVENTOS "))
+	}
+	
+	@Test
+	def void TipoDeUsuarioPedro() {
+		print(pedro.tipoDeUsuario)
+		Assert.assertEquals(99, pedro.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
+		Assert.assertEquals(99, pedro.tipoDeUsuario.maximoDePersonasPorEvento)
+		Assert.assertEquals(20, pedro.tipoDeUsuario.maximoDeEventosMensuales)
+		Assert.assertEquals(99, pedro.tipoDeUsuario.maximoDeInvitacionesPorEvento)
+	}
+	
+	@Test
+	def void TipoDeUsuarioCarlos() {
+		print(carlos.tipoDeUsuario)
+		Assert.assertEquals(1, carlos.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
+		Assert.assertEquals(50, carlos.tipoDeUsuario.maximoDePersonasPorEvento)
+		Assert.assertEquals(3, carlos.tipoDeUsuario.maximoDeEventosMensuales)
+		Assert.assertEquals(99, carlos.tipoDeUsuario.maximoDeInvitacionesPorEvento)
+	}
+	
+	@Test
+	def void TipoDeUsuarioLucas() {
+		print(lucas.tipoDeUsuario)
+		Assert.assertEquals(5, lucas.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
+		Assert.assertEquals(99, lucas.tipoDeUsuario.maximoDePersonasPorEvento)
+		Assert.assertEquals(99, lucas.tipoDeUsuario.maximoDeEventosMensuales)
+		Assert.assertEquals(50, lucas.tipoDeUsuario.maximoDeInvitacionesPorEvento)
 	}
 
 }

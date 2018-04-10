@@ -12,41 +12,43 @@ class EventoCerrado extends Evento {
 
 	int cantidadMaxima
 	Set<Invitacion> invitaciones = new HashSet()
-	
-		new(String unNombre, Locacion unaLocacion, int unaCantidadMaxima, Usuario unOrganizador,
+
+	new(String unNombre, Locacion unaLocacion, int unaCantidadMaxima, Usuario unOrganizador,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
 		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
-	cantidadMaxima = unaCantidadMaxima
+		cantidadMaxima = unaCantidadMaxima
 	}
 
 	def boolean esExitoso() {
-		cantidadMaxima * 0.8 < this.cuantosAvamos && estadoDelEvento
+		cantidadMaxima * 0.8 < this.cuantosVamos && estadoDelEvento
 
 	}
 
 	def boolean esUnFracaso() {
-		cantidadMaxima * 0.5 > this.cuantosAvamos
+		cantidadMaxima * 0.5 > this.cuantosVamos
 
 	}
 
 	def invitarAUnUsuario(Usuario unUsuario, int unaCantidadDeAcompañantes) {
-		if (cantidadMaxima > (unaCantidadDeAcompañantes + 1)){// && cuantosAvamos < unUsuario.tipoDeUsuario.maximoDePersonasPorEvento && invitaciones.size > unUsuario.tipoDeUsuario.maximoDeInvitacionesPorEvento){
-				invitaciones.add(new Invitacion(unUsuario, unaCantidadDeAcompañantes, this))
-				
-			}
-		
+		if (cantidadMaxima > (unaCantidadDeAcompañantes + 1) &&
+			cuantosVamos < unUsuario.tipoDeUsuario.maximoDePersonasPorEvento &&
+			invitaciones.size < unUsuario.tipoDeUsuario.maximoDeInvitacionesPorEvento) {
+			invitaciones.add(new Invitacion(unUsuario, unaCantidadDeAcompañantes, this))
+
+		}
+
 	}
 
 	def pedirConfirmacionDeLasEntradas() {
-		invitaciones.forEach[invitacion|invitacion.queresVenir()]
+		invitaciones.forEach[invitacion|invitacion.pedirConfirmacion()]
 	}
 
-	def int cuantosAvamos() {
-		var int sumaTotal
+	def int cuantosVamos() {
+		var int sumaTotal = 0
 		var int i
-		for (i=0;i<invitaciones.size;i++){
-			sumaTotal= sumaTotal + invitaciones.get(i).cantidadConfirmada
+		for (i = 0; i < invitaciones.size; i++) {
+			sumaTotal = sumaTotal + invitaciones.get(i).usuarioEnEstadoConfirmado.size
 		}
 		sumaTotal
 	}
@@ -55,26 +57,29 @@ class EventoCerrado extends Evento {
 		estadoDelEvento = false // que pasa cuando se cancela un evento
 	}
 
-	/*Las invitaciones pendientes de confirmación suman el total de sus invitados. */
 	def cantidadDeInvitacionesPendientes() {
-		invitaciones.fold(1.0, [acum, invitacion|acum + invitacion.cantidadDeAcompañantes])
+		var int sumaTotal = 0
+		var int i
+		for (i = 0; i < invitaciones.size; i++) {
+			sumaTotal = sumaTotal + invitaciones.get(i).usuarioEnEstadoPendientes.size
+		}
+		sumaTotal
 	}
 
-	/*Las invitaciones aceptadas suman uno + la cantidad de acompañantes confirmados. */
-	def cantidadDeInvitacionesAceptadas() {
-		1 /*+ cantidadDeAcompañantesConfirmados()*/
-	}
+	
+	def int cantidadDeInvitacionesAceptadas() {
+			invitaciones.filter[inv | inv.estado == true ].size
+		}
 
 	def cantidadDeInvitacionesRechazadas() {
-		invitaciones.filter[invitacion|invitacion.estado == false]
+		var int sumaTotal = 0
+		var int i
+		for (i = 0; i < invitaciones.size; i++) {
+			sumaTotal = sumaTotal + invitaciones.get(i).usuarioEnEstadoRechazados.size
+		}
+		sumaTotal
 	}
 
-	/* La cantidad de posibles asistentes se calcula de la siguiente manera: 
-
-	 * Las invitaciones pendientes de confirmación suman el total de sus invitados.
-	 * Las invitaciones aceptadas suman uno + la cantidad de acompañantes confirmados.
-	 *  Las invitaciones rechazadas no suman. 
-	 */
 	def cantidadPosiblesDeAsistentes() {
 		cantidadDeInvitacionesPendientes() + cantidadDeInvitacionesAceptadas()
 	}

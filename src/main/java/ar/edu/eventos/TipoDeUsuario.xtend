@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 interface TipoDeUsuario {
 
 	LocalDateTime fechaActual = LocalDateTime.now
+	int infinito = 99
 
 	def abstract void organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion,
 		int cantidadMaxima, Usuario unOrganizador, LocalDateTime unaFechaMaximaDeConfirmacion,
@@ -22,6 +23,11 @@ interface TipoDeUsuario {
 
 	def abstract boolean puedoOrganizarUnEventoEsteMes(Usuario unUsuario, LocalDateTime unInicioDelEvento,
 		int maximoDeEventosMensuales)
+
+	def abstract int cantidadMaximaPermitidaDeSimultaneidadDeEventos()
+	def abstract int maximoDePersonasPorEvento()
+	def abstract int maximoDeEventosMensuales()
+	def abstract int maximoDeInvitacionesPorEvento()
 
 }
 
@@ -70,16 +76,20 @@ class Free implements TipoDeUsuario {
 		unUsuario.puedoOrganizarUnEventoEsteMes(unInicioDelEvento, maximoDeEventosMensuales)
 	}
 
-	def cantidadMaximaPermitidaDeSimultaneidadDeEventos() {
+	override cantidadMaximaPermitidaDeSimultaneidadDeEventos() {
 		cantidadMaximaPermitidaDeSimultaneidadDeEventos
 	}
 
-	def maximoDePersonasPorEvento() {
+	override maximoDePersonasPorEvento() {
 		maximoDePersonasPorEvento
 	}
 
-	def maximoDeEventosMensuales() {
+	override maximoDeEventosMensuales() {
 		maximoDeEventosMensuales
+	}
+	
+	override maximoDeInvitacionesPorEvento() {
+		infinito
 	}
 
 }
@@ -126,12 +136,20 @@ class Amateur implements TipoDeUsuario {
 		true
 	}
 
-	def cantidadMaximaPermitidaDeSimultaneidadDeEventos() {
+	override cantidadMaximaPermitidaDeSimultaneidadDeEventos() {
 		cantidadMaximaPermitidaDeSimultaneidadDeEventos
 	}
 
-	def maximoDeInvitacionesPorEvento() {
+	override maximoDeInvitacionesPorEvento() {
 		maximoDeInvitacionesPorEvento
+	}
+	
+	override maximoDePersonasPorEvento() {
+		infinito
+	}
+	
+	override maximoDeEventosMensuales() {
+		infinito
 	}
 
 }
@@ -139,7 +157,7 @@ class Amateur implements TipoDeUsuario {
 class Profesional implements TipoDeUsuario {
 
 	int maximoDeEventosMensuales = 20
-
+	
 	override organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion, int cantidadMaxima,
 		Usuario unOrganizador, LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento,
 		LocalDateTime unFinDelEvento) {
@@ -176,8 +194,20 @@ class Profesional implements TipoDeUsuario {
 		true
 	}
 
-	def maximoDeEventosMensuales() {
+	override maximoDeEventosMensuales() {
 		maximoDeEventosMensuales
+	}
+	
+	override cantidadMaximaPermitidaDeSimultaneidadDeEventos() {
+		infinito
+	}
+	
+	override maximoDePersonasPorEvento() {
+		infinito
+	}
+	
+	override maximoDeInvitacionesPorEvento() {
+		infinito
 	}
 
 }
