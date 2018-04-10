@@ -4,8 +4,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.time.LocalDateTime
 import java.util.Set
 import java.util.HashSet
-import ar.edu.eventos.exceptions.BusinessException
-import org.junit.experimental.theories.suppliers.TestedOn
+
 
 @Accessors
 class EventoCerrado extends Evento {
@@ -53,9 +52,11 @@ class EventoCerrado extends Evento {
 		sumaTotal
 	}
 
-	def cancelarEvento() {
-		estadoDelEvento = false // que pasa cuando se cancela un evento
+	def cancelarElEvento(){
+		invitaciones.forEach[inv | inv.usuarioEnEstadoPendientes.forEach[usuar |usuar.mensajes.add("se cancelo el evento")]]
+		invitaciones.forEach[inv | inv.usuario.mensajes.add("se cancelo el evento")]
 	}
+
 
 	def cantidadDeInvitacionesPendientes() {
 		var int sumaTotal = 0

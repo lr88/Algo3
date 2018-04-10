@@ -17,7 +17,8 @@ class Evento {
 	var Boolean fuePostergado = false
 	boolean estadoDelEvento = true
 
-	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
+	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, LocalDateTime unInicioDelEvento,
+		LocalDateTime unFinDelEvento) {
 		nombre = unNombre
 		locacion = unaLocacion
 		organizador = unOrganizador
@@ -30,10 +31,8 @@ class Evento {
 		Duration.between(inicioDelEvento, finDelEvento).toHours()
 	}
 
-	def terminarEvento(){
+	def terminarEvento() {
 		estadoDelEvento = false
 	}
-	
-	
-	
+
 }

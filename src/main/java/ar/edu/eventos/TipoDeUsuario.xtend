@@ -14,7 +14,9 @@ interface TipoDeUsuario {
 	def void organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento)
 
-	def abstract void cancelarEvento(Usuario unUsuario, Evento unEvento)
+	def abstract void cancelarEventoAbierto(Usuario unUsuario, Evento unEvento)
+
+	def abstract void cancelarEventoCerrado(Usuario unUsuario, Evento unEvento)
 
 	def abstract void postergarEvento(Usuario unUsuario, Evento unEvento)
 
@@ -25,8 +27,11 @@ interface TipoDeUsuario {
 		int maximoDeEventosMensuales)
 
 	def abstract int cantidadMaximaPermitidaDeSimultaneidadDeEventos()
+
 	def abstract int maximoDePersonasPorEvento()
+
 	def abstract int maximoDeEventosMensuales()
+
 	def abstract int maximoDeInvitacionesPorEvento()
 
 }
@@ -56,7 +61,12 @@ class Free implements TipoDeUsuario {
 
 	}
 
-	override cancelarEvento(Usuario unUsuario, Evento unEvento) {
+	override cancelarEventoAbierto(Usuario unUsuario, Evento unEvento) {
+		unUsuario.recibirMensaje("NO PODES CANCELAR UN EVENTOS ")
+
+	}
+
+	override cancelarEventoCerrado(Usuario unUsuario, Evento unEvento) {
 		unUsuario.recibirMensaje("NO PODES CANCELAR UN EVENTOS ")
 
 	}
@@ -87,7 +97,7 @@ class Free implements TipoDeUsuario {
 	override maximoDeEventosMensuales() {
 		maximoDeEventosMensuales
 	}
-	
+
 	override maximoDeInvitacionesPorEvento() {
 		infinito
 	}
@@ -125,7 +135,10 @@ class Amateur implements TipoDeUsuario {
 
 	}
 
-	override cancelarEvento(Usuario unUsuario, Evento unEvento) {
+	override cancelarEventoAbierto(Usuario unUsuario, Evento unEvento) {
+	}
+
+	override cancelarEventoCerrado(Usuario unUsuario, Evento unEvento) {
 	}
 
 	override postergarEvento(Usuario unUsuario, Evento unEvento) {
@@ -143,11 +156,11 @@ class Amateur implements TipoDeUsuario {
 	override maximoDeInvitacionesPorEvento() {
 		maximoDeInvitacionesPorEvento
 	}
-	
+
 	override maximoDePersonasPorEvento() {
 		infinito
 	}
-	
+
 	override maximoDeEventosMensuales() {
 		infinito
 	}
@@ -157,7 +170,7 @@ class Amateur implements TipoDeUsuario {
 class Profesional implements TipoDeUsuario {
 
 	int maximoDeEventosMensuales = 20
-	
+
 	override organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion, int cantidadMaxima,
 		Usuario unOrganizador, LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento,
 		LocalDateTime unFinDelEvento) {
@@ -178,7 +191,10 @@ class Profesional implements TipoDeUsuario {
 
 	}
 
-	override cancelarEvento(Usuario unUsuario, Evento unEvento) {
+	override cancelarEventoAbierto(Usuario unUsuario, Evento unEvento) {
+	}
+
+	override cancelarEventoCerrado(Usuario unUsuario, Evento unEvento) {
 	}
 
 	override postergarEvento(Usuario unUsuario, Evento unEvento) {
@@ -197,15 +213,15 @@ class Profesional implements TipoDeUsuario {
 	override maximoDeEventosMensuales() {
 		maximoDeEventosMensuales
 	}
-	
+
 	override cantidadMaximaPermitidaDeSimultaneidadDeEventos() {
 		infinito
 	}
-	
+
 	override maximoDePersonasPorEvento() {
 		infinito
 	}
-	
+
 	override maximoDeInvitacionesPorEvento() {
 		infinito
 	}

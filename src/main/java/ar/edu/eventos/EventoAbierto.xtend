@@ -55,6 +55,10 @@ class EventoAbierto extends Evento {
 		}
 	}
 
+	def cancelarElEvento(){
+		
+	}
+
 	def int cantidadDeEntradasVendidas() {
 		entradas.size
 	}

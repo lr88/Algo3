@@ -87,6 +87,9 @@ class Usuario {
 		if(Duration.between(fechaActual, unaInvitacion.eventoCerrado.fechaMaximaDeConfirmacion).toMillis > 0.0){
 				this.responderInvitacion(true,unaInvitacion)
 		}
+		else{
+			this.responderInvitacion(false,unaInvitacion)
+		}
 	}
 
 	def int cuantosSomos(Invitacion unaInvitacion) {
@@ -124,7 +127,6 @@ class Usuario {
 	
 	def invitar(EventoCerrado unEventoCerrado,int unaCantidadDeAcompañantes, Usuario unUsuario){
 		new Invitacion (unUsuario, unaCantidadDeAcompañantes, unEventoCerrado)
-
 	}
 	
 	def responderInvitacion(Boolean respuesta,Invitacion unaInvitacion){
@@ -134,7 +136,6 @@ class Usuario {
 				unaInvitacion.usuarioEnEstadoConfirmado.add(this)
 				invitacionesPendientes.remove(unaInvitacion)
 				invitacionesAceptadas.add(unaInvitacion)
-				
 			}
 			else{
 				unaInvitacion.usuarioEnEstadoPendientes.remove(this)
@@ -142,16 +143,57 @@ class Usuario {
 				invitacionesPendientes.remove(unaInvitacion)
 				invitacionesRechazadas.add(unaInvitacion)
 			}
-			
 	}
 	
-	def cancelarEvento(Usuario unUsuario, Evento unEvento) {
-		tipoDeUsuario.cancelarEvento( unUsuario, unEvento)
+	def cancelarEventoAbierto(Usuario unUsuario, Evento unEvento) {
+		tipoDeUsuario.cancelarEventoAbierto( unUsuario, unEvento)
+	}
+	
+	def cancelarEventoCerrado(Usuario unUsuario, Evento unEvento) {
+		tipoDeUsuario.cancelarEventoCerrado( unUsuario, unEvento)
 	}
 
 	def postergarEvento(Usuario unUsuario, Evento unEvento) {
 		tipoDeUsuario.postergarEvento(unUsuario, unEvento)
 	}
+	def aceptacionMasiva(){
+		var int i
+		for(i=0;i<invitacionesPendientes.size;i++){
+			if(esElOrganizadorMiAmigo(invitacionesPendientes.get(i))
+				&& asistenMasDeTantosAmigos(invitacionesPendientes.get(i),4)
+				&& meQuedaSerca(invitacionesPendientes.get(i))
+			){
+				responderInvitacion(true,invitacionesPendientes.get(i))
+			}
+		}
+	}
 	
+	def boolean esElOrganizadorMiAmigo(Invitacion unaInvitacion){
+		amigos.contains(unaInvitacion.usuario)
+	}
+	def boolean asistenMasDeTantosAmigos(Invitacion unaInvitacion,int cantidad){
+		amigos.filter(amigo| amigo.invitacionesAceptadas.contains(unaInvitacion)).size >= cantidad
+	}
+	def boolean meQuedaSerca(Invitacion invitacion) {
+		invitacion.eventoCerrado.locacion.distancia(direccion) < radioDeCercanía 
+	}
+	
+	def rechazoMasivo(){
+		if (esAntisocial){
+		var int i
+			for(i=0;i<invitacionesPendientes.size;i++){
+				if(!meQuedaSerca(invitacionesPendientes.get(i)) || 
+					esElOrganizadorMiAmigo(invitacionesPendientes.get(i))|| 
+					asistenMasDeTantosAmigos(invitacionesPendientes.get(i),2)
+					)
+			{
+				responderInvitacion(false,invitacionesPendientes.get(i))
+			}
+		}	
+		}
+	}
+	
+	
+
 }
 
