@@ -12,7 +12,7 @@ class Invitacion {
 	EventoCerrado evento
 	
 	boolean EstadoAceptado = false
-	boolean EstadoPendiente = false
+	boolean EstadoPendiente = true
 	boolean EstadoRechazado = false
 	
 	int cantidadMaximaDeAcompañantes

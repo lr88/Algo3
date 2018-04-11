@@ -8,109 +8,42 @@ import org.uqbar.geodds.Point
 
 class testEventosAbierto {
 	
+	Usuario usuario1
+	Locacion casaUsuario1
+	
+	
+	EventoAbierto eventoAbierto1
+	/*new(String unNombreDeUsuario, String unNombre, String unApellido, String unEmail, Point unLugar,
+		boolean es_Antisocial, LocalDateTime unaFecha, double unRadioDeCercanía,TipoDeUsuario unTipoDeUsuario) {
+		nombreDeUsuario = unNombreDeUsuario
+		nombre = unNombre
+		apellido = unApellido
+		email = unEmail
+		direccion = unLugar
+		esAntisocial = es_Antisocial
+		fechaDeNacimiento = unaFecha
+		radioDeCercanía = unRadioDeCercanía
+		tipoDeUsuario = unTipoDeUsuario
+	} */
+
 
 	@Before
 	def void init() {
-		/*------------CREAR Organizadores-------------- */
 		
+	casaUsuario1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 3)	
+	
+	usuario1 = new Usuario ("usuario1","usuario1","usuario1","usuario1@usuario1.com",
+		new Point(1.0, 2.0),false,LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional
+	)
+	}
 
-		/*------------CREAR LOCACIONES-------------- */
+
+	@Test
+	def void a() {
+		usuario1.CrearEventoAbierto()
 		
-
-		/*------------CREAR EVENTOS-------------- */
 		
-
-
-	/*------------INSTANCIAR OBJETOS-------------- */
-	}
-
-	@Test
-	def void capacidadMaxima() {
-		Assert.assertEquals(5, show1.capacidadMaxima, 1)
-	}
-
-	@Test
-	def void capacidadesSonExitosas() {
-		Assert.assertEquals(true, show1.lasCapacidadesSonExitosas)
-	}
-
-	@Test
-	def void eventoExitoso() {
-		Assert.assertEquals(true, show1.esExitoso)
-	}
-
-	@Test
-	def void eventoesUnFracaso() {
-		Assert.assertEquals(false, show1.esUnFracaso)
-	}
-
-	@Test
-	def void hayTiempoParaConfirmar() {
-		Assert.assertEquals(true, show1.hayTiempoParaConfirmar())
-	}
-
-	@Test
-	def void Organizador1IntrntacrearUnEventoAbierto() {
-		Organizador1.CrearEventoAbierto("Fiesta", miCasa, Organizador1, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
-			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		Assert.assertEquals(0, Organizador1.eventos.size)
-	}
-
-	@Test
-	def void mensajeParaOrganizador1IntrntacrearUnEventoAbierto() {
-		Organizador1.CrearEventoAbierto("Fiesta", miCasa, Organizador1, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
-			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		Assert.assertEquals(true, Organizador1.mensajes.contains("NO PODES ORGANIZAR EVENTOS ABIERTOS"))
-	}
-
-	@Test
-	def void Organizador2crearUnEventoAbierto() {
-		Organizador2.CrearEventoAbierto("Fiesta", miCasa, Organizador2, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
-			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		Assert.assertEquals(1, Organizador2.eventosAbiertos.size)
-	}
-
-	@Test
-	def void JuancrearUnEventoAbierto() {
-		juan.CrearEventoAbierto("Fiesta", miCasa, juan, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
-			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		Assert.assertEquals(
-			1,
-			juan.eventosAbiertos.size
-		)
-	}
-
-	@Test
-	def void Organizador3crearUnEventoAbierto() {
-		Organizador3.CrearEventoAbierto("Fiesta", miCasa, Organizador3, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
-			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		Assert.assertEquals(1, Organizador3.eventosAbiertos.size)
-	}
-
-	@Test
-	def void elEventoSeCancela() {
-		show1.cancelarElEvento(juan, show1)
-		Assert.assertEquals(true, juan.mensajes.contains("se cancelo el evento"))
-	}
-
-	@Test
-	def void elEventoSeCancelayDevuelveMontoDeLaEntrada() {
-		show1.cancelarElEvento(juan, show1)
-		Assert.assertEquals(100.0, juan.plataQueTengo, 0)
-	}
-
-	@Test
-	def void postergarEvento() {
-		print(show1.inicioDelEvento)
-		show1.postergarElEvento(juan, show1, LocalDateTime.of(2019, 11, 10, 5, 00))
-		Assert.assertEquals(LocalDateTime.of(2019, 11, 10, 5, 00), show1.inicioDelEvento)
-	}
-
-	@Test
-	def void choloDevuelveLaEntradaYrecibeUnPorcentaje() {
-		cholo4.comprarEntradaDeEventoAbierto(show5)
-		cholo4.devolverEntrada(show5.entradas.get(0), show5)
-		Assert.assertEquals(80.0, cholo4.plataQueTengo, 0)
+		
 	}
 
 }
