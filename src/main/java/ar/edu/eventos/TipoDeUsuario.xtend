@@ -14,9 +14,9 @@ interface TipoDeUsuario {
 	def void organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento)
 
-	def abstract void cancelarElEvento(Usuario unUsuario, Evento unEvento)
+	def abstract void cancelarElEvento(Evento unEvento)
 
-	def abstract void postergarElEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento)
+	def abstract void postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento)
 
 	def abstract boolean cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
 		int cantidadMaximaPermitidaDeSimultaneidadDeEventos)
@@ -59,13 +59,13 @@ class Free implements TipoDeUsuario {
 
 	}
 
-	override cancelarElEvento(Usuario unUsuario, Evento unEvento) {
-		unUsuario.recibirMensaje("NO PODES CANCELAR UN EVENTOS ")
+	override cancelarElEvento(Evento unEvento) {
+		/*unUsuario.recibirMensaje("NO PODES CANCELAR UN EVENTOS ")*/
 
 	}
 
-	override postergarElEvento (Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento) {
-		unUsuario.mensajes.add("NO PODES POSTERGAR UN EVENTOS")
+	override postergarElEvento (Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento) {
+		/*unUsuario.mensajes.add("NO PODES POSTERGAR UN EVENTOS")*/
 	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
@@ -128,12 +128,12 @@ class Amateur implements TipoDeUsuario {
 
 	}
 
-	override cancelarElEvento(Usuario unUsuario, Evento unEvento) {
-		unEvento.cancelarElEvento(unUsuario, unEvento)
+	override cancelarElEvento(Evento unEvento) {
+		unEvento.cancelarElEvento(unEvento)
 	}
 
-	override postergarElEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento) {
-		unEvento.postergarElEvento( unUsuario,  unEvento, NuevaFechaDeInicioDelEvento)
+	override postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento) {
+		unEvento.postergarElEvento(unEvento, NuevaFechaDeInicioDelEvento)
 	}
 
 	override puedoOrganizarUnEventoEsteMes(Usuario unUsuario, LocalDateTime unInicioDelEvento,
@@ -183,12 +183,12 @@ class Profesional implements TipoDeUsuario {
 
 	}
 
-	override cancelarElEvento(Usuario unUsuario, Evento unEvento) {
-		unEvento.cancelarElEvento(unUsuario, unEvento)
+	override cancelarElEvento(Evento unEvento) {
+		unEvento.cancelarElEvento(unEvento)
 	}
 
-	override postergarElEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento) {
-		unEvento.postergarElEvento(unUsuario, unEvento,NuevaFechaDeInicioDelEvento)
+	override postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento) {
+		unEvento.postergarElEvento(unEvento,NuevaFechaDeInicioDelEvento)
 	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,

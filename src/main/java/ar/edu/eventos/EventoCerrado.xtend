@@ -20,16 +20,23 @@ class EventoCerrado extends Evento {
 	}
 
 	def boolean esExitoso() {
-		cantidadMaxima * 0.8 < this.cuantosVamos && estadoDelEvento
+		this.invitacionesAceptadasMasDelOchentaPorciento() && estadoDelEvento == true
 
 	}
 
 	def boolean esUnFracaso() {
-		cantidadMaxima * 0.5 > this.cuantosVamos
-
+		 cantidadDeInvitacionAceptadas() > cantidadDeInvitados()*0.5
 	}
-
-	def invitarAUnUsuario(Usuario unUsuario, int unaCantidadDeAcompañantes) {
+    
+    
+    def invitacionesAceptadasMasDelOchentaPorciento(){
+    	invitaciones.filter[invitaciones|invitaciones.estadoAceptado].size()> cantidadDeInvitados()*0.8
+    }
+    
+    def cantidadDeInvitacionAceptadas(){
+    	invitaciones.filter[invitaciones|invitaciones.estadoAceptado].size()
+    }
+	/*def invitarAUnUsuario(Usuario unUsuario, int unaCantidadDeAcompañantes) {
 		if (cantidadMaxima > (unaCantidadDeAcompañantes + 1) &&
 			cuantosVamos < unUsuario.tipoDeUsuario.maximoDePersonasPorEvento &&
 			invitaciones.size < unUsuario.tipoDeUsuario.maximoDeInvitacionesPorEvento) {
@@ -37,63 +44,56 @@ class EventoCerrado extends Evento {
 
 		}
 
-	}
-
-	def pedirConfirmacionDeLasEntradas() {
+	}*/
+     
+    def agregarInvitaciones(Invitacion unaInvitacion){
+    	invitaciones.add(unaInvitacion)
+    }
+    
+	/*def pedirConfirmacionDeLasEntradas() {
 		invitaciones.forEach[invitacion|invitacion.pedirConfirmacion()]
-	}
+	}*/
 
-	def int cuantosVamos() {
-		var int sumaTotal = 0
-		var int i
-		for (i = 0; i < invitaciones.size; i++) {
-			sumaTotal = sumaTotal + invitaciones.get(i).usuarioEnEstadoConfirmado.size
-		}
-		sumaTotal
-	}
 
-	override cancelarElEvento(Usuario unUsuario, Evento unEvento){
-		invitaciones.forEach[inv | inv.usuarioEnEstadoPendientes.forEach[usuar |usuar.mensajes.add("se cancelo el evento")]]
-		invitaciones.forEach[inv | inv.usuario.mensajes.add("se cancelo el evento")]
+
+	override cancelarElEvento(Evento unEvento){
+	    estadoDelEvento = true
+		invitaciones.filter[invitacion | !invitacion.estadoRechazado].forEach[invitacion| invitacion.usuario.mensajes.add("El evento fue cancelado")]
 		invitaciones.clear
 	}
 
-	override postergarElEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
-		invitaciones.forEach[inv | inv.usuarioEnEstadoPendientes.forEach[usuar |usuar.mensajes.add("se postergo el evento")]]
-		invitaciones.forEach[inv | inv.usuario.mensajes.add("se postergo el evento")]
-			
+	override postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
+		fuePostergado = true
+		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 
+		invitaciones.forEach[invitacion |invitacion.usuario.mensajes.add("El evento se postergo")]
+		
 	}
 
 
-
+     /*Las invitaciones pendientes de confirmación suman el total de sus invitados */
 	def cantidadDeInvitacionesPendientes() {
-		var int sumaTotal = 0
-		var int i
-		for (i = 0; i < invitaciones.size; i++) {
-			sumaTotal = sumaTotal + invitaciones.get(i).usuarioEnEstadoPendientes.size
-		}
-		sumaTotal
+		invitaciones.filter[invitacion|invitacion.estadoPendiente].size() + this.cantidadDeInvitados()
 	}
-
+    
+    
+    def cantidadDeInvitados(){
+    	invitaciones.size()
+    }
 	
+	/*Las invitaciones aceptadas suman uno + la cantidad de acompañantes confirmados. */
 	def int cantidadDeInvitacionesAceptadas() {
-			invitaciones.filter[inv | inv.estado == true ].size
+			invitaciones.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes ]) + 1
 		}
 
 	def cantidadDeInvitacionesRechazadas() {
-		var int sumaTotal = 0
-		var int i
-		for (i = 0; i < invitaciones.size; i++) {
-			sumaTotal = sumaTotal + invitaciones.get(i).usuarioEnEstadoRechazados.size
-		}
-		sumaTotal
+	        0
 	}
 
 	def cantidadPosiblesDeAsistentes() {
 		cantidadDeInvitacionesPendientes() + cantidadDeInvitacionesAceptadas()
 	}
 	
-		override void cambiarFecha(LocalDateTime nuevaFecha){
+	override void cambiarFecha(LocalDateTime nuevaFecha){
 		var  aux =	Duration.between(inicioDelEvento,nuevaFecha)
 		inicioDelEvento = inicioDelEvento.plus(aux)
 		finDelEvento = finDelEvento.plus(aux)

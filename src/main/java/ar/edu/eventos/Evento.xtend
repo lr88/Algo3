@@ -15,7 +15,7 @@ class Evento {
 	Locacion locacion
 	Usuario organizador
 	var Boolean fuePostergado = false
-	boolean estadoDelEvento = true
+	Boolean estadoDelEvento = true
 
 	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, LocalDateTime unInicioDelEvento,
 		LocalDateTime unFinDelEvento) {
@@ -35,6 +35,6 @@ class Evento {
 		estadoDelEvento = false
 	}
 	def void cambiarFecha(LocalDateTime nuevaFecha){}
-	def void cancelarElEvento(Usuario unUsuario, Evento unEvento){}
-	def void postergarElEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){}
+	def void cancelarElEvento(Evento unEvento){}
+	def void postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){}
 }

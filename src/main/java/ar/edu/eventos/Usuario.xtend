@@ -1,13 +1,14 @@
 package ar.edu.eventos
 
 import java.time.Duration
+
 import java.time.LocalDateTime
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.geodds.Point
 import java.util.HashSet
 import java.util.Set
-
+import ar.edu.eventos.exceptions.BusinessException
 
 @Accessors
 class Usuario {
@@ -97,14 +98,28 @@ class Usuario {
 			unEvento.usuarioDevuelveEntrada(unaEntrada)
 		}
 	}
-
-	def invitar(int unaCantidadDeAcompañantes, Usuario unUsuario){
-		new Invitacion (unUsuario, unaCantidadDeAcompañantes)
+    
+    /*El organizador de un evento es quién tiene la facultad de invitar a otros usuarios. 
+     Al realizar una invitación deberá indicar quién es el invitado y la cantidad de acompañantes. */
+     /*Al momento de realizar una invitación se debe tener en cuenta que la cantidad 
+     de posibles asistentes no supere la capacidad máxima del evento
+      */
+	def invitar(int unaCantidadDeAcompañantes, Usuario unUsuario,EventoCerrado unEvento){
+		unUsuario.mensajes.add("TE HAN INVITADO A UN EVENTO")
+		if(unEvento.cantidadPosiblesDeAsistentes()< unEvento.cantidadMaxima)
+		unEvento.agregarInvitaciones(new Invitacion (unUsuario, unaCantidadDeAcompañantes))
+		else
+		throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
 	}
 	
-	def responderInvitacion(Boolean respuesta,Invitacion unaInvitacion,int unaCantidad){
+	/*Los invitados podrán aceptar o rechazar la invitación. 
+	 En caso de aceptarla deberán indicar cuantos acompañantes efectivamente asistirán,
+	 no pudiendo superar la cantidad definida en la invitación. 
+   El sistema no debe permitir aceptar invitaciones una vez pasada la fecha máxima de confirmación.  */
+   
+	def responderInvitacion(Boolean respuesta,Invitacion unaInvitacion,int unaCantidad,EventoCerrado unEvento){
 			
-			if(respuesta && unaCantidad < unaInvitacion.cantidadMaximaDeAcompañantes){
+			if(respuesta==true && unaCantidad < unaInvitacion.cantidadMaximaDeAcompañantes && fechaActual<unEvento.fechaMaximaDeConfirmacion){
 				
 			unaInvitacion.estadoAceptado = true
 			unaInvitacion.cantidadDeAcompañantes = unaCantidad
@@ -114,51 +129,33 @@ class Usuario {
 			}
 		}
 	
-	def void cancelarEvento(Usuario unUsuario, Evento unEvento){
-		tipoDeUsuario.cancelarElEvento( this, unEvento)
+	def void cancelarEvento(Evento unEvento){
+		tipoDeUsuario.cancelarElEvento(unEvento)
 	}
 	
-	def void postergarEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
-		tipoDeUsuario.postergarElEvento(unUsuario, unEvento,NuevaFechaDeInicioDelEvento)
+	def void postergarEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
+		tipoDeUsuario.postergarElEvento(unEvento,NuevaFechaDeInicioDelEvento)
 	}
 	
 	
 	
 	def aceptacionMasiva(){
-		var int i
-		for(i=0;i<invitacionesPendientes.size;i++){
-			if(esElOrganizadorMiAmigo(invitacionesPendientes.get(i))
-				&& asistenMasDeTantosAmigos(invitacionesPendientes.get(i),4)
-				&& meQuedaSerca(invitacionesPendientes.get(i))
-			){
-				responderInvitacion(true,invitacionesPendientes.get(i))
-			}
-		}
+	
 	}
 	
-	def boolean esElOrganizadorMiAmigo(Invitacion unaInvitacion){
+	/*def boolean esElOrganizadorMiAmigo(Invitacion unaInvitacion){
 		amigos.contains(unaInvitacion.eventoCerrado.organizador)
-	}
-	def boolean asistenMasDeTantosAmigos(Invitacion unaInvitacion,int cantidad){
+	}*/
+	/*def boolean asistenMasDeTantosAmigos(Invitacion unaInvitacion,int cantidad){
 		amigos.filter(amigo| amigo.invitacionesAceptadas.contains(unaInvitacion)).size >= cantidad
-	}
-	def boolean meQuedaSerca(Invitacion invitacion) {
+	}*/
+	
+	/*def boolean meQuedaSerca(Invitacion invitacion) {
 		invitacion.eventoCerrado.locacion.distancia(direccion) < radioDeCercanía 
-	}
+	}*/
 	
 	def rechazoMasivo(){
-		if (esAntisocial){
-		var int i
-			for(i=0;i<invitacionesPendientes.size;i++){
-				if(!meQuedaSerca(invitacionesPendientes.get(i)) || 
-					esElOrganizadorMiAmigo(invitacionesPendientes.get(i))|| 
-					asistenMasDeTantosAmigos(invitacionesPendientes.get(i),2)
-					)
-			{
-				responderInvitacion(false,invitacionesPendientes.get(i))
-			}
-		}	
-		}
+		
 	}
 	
 	def indicarNuevaFechaDeEvento(Evento unEvento,LocalDateTime nuevaFecha){

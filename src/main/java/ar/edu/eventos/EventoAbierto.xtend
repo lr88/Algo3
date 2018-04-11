@@ -53,7 +53,7 @@ class EventoAbierto extends Evento {
 		}
 	}
 
-	override cancelarElEvento(Usuario unUsuario, Evento unEvento){
+	override cancelarElEvento(Evento unEvento){
 		
 		
 		estadoDelEvento = false
@@ -63,7 +63,7 @@ class EventoAbierto extends Evento {
 		
 	}
 	
-	override postergarElEvento(Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
+	override postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
 		fuePostergado = true
 		entradas.forEach[entrada | entrada.usuario.mensajes.add("se postergo el evento")]
 		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 	
