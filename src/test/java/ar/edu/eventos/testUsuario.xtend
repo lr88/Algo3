@@ -105,7 +105,7 @@ class testUsuario {
 	@Test
 	def void PedroCambiaElTipoDeUsuario() {
 		pedro.cambiarTipoDeUsuario(new Free)
-		pedro.cancelarEvento(pedro, casamiento)
+		pedro.cancelarEvento(casamiento)
 		Assert.assertEquals(true, pedro.mensajes.contains("NO PODES CANCELAR UN EVENTOS "))
 	}
 	
