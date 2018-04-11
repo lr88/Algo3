@@ -15,7 +15,7 @@ class Evento {
 	Locacion locacion
 	Usuario organizador
 	var Boolean fuePostergado = false
-	Boolean estadoDelEvento = true
+	var Boolean fueCancelado = false
 
 	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, LocalDateTime unInicioDelEvento,
 		LocalDateTime unFinDelEvento) {
@@ -31,10 +31,13 @@ class Evento {
 		Duration.between(inicioDelEvento, finDelEvento).toHours()
 	}
 
-	def terminarEvento() {
-		estadoDelEvento = false
+	def terminoElEvento() {
+		Duration.between(finDelEvento, fechaActual).toMillis() > 0
 	}
-	def void cambiarFecha(LocalDateTime nuevaFecha){}
-	def void cancelarElEvento(Evento unEvento){}
-	def void postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){}
+
+	def void cambiarFecha(LocalDateTime nuevaFecha) {}
+
+	def void cancelarElEvento(Evento unEvento) {}
+
+	def void postergarElEvento(Evento unEvento, LocalDateTime NuevaFechaDeInicioDelEvento) {}
 }

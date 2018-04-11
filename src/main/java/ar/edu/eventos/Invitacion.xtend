@@ -9,6 +9,8 @@ import java.util.HashSet
 class Invitacion {
 
 	Usuario usuario
+	EventoCerrado evento
+	
 	boolean EstadoAceptado = false
 	boolean EstadoPendiente = false
 	boolean EstadoRechazado = false
@@ -17,10 +19,10 @@ class Invitacion {
 	int cantidadDeAcompañantes
 	
 	
-	new(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes) {
+	new(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) {
 		usuario = unUsuario
 		cantidadMaximaDeAcompañantes = unaCantidadMaximaDeAcompañantes
-		
+		evento = unEvento
 	}
 
 

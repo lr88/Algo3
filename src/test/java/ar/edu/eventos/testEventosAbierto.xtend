@@ -7,60 +7,19 @@ import org.junit.Test
 import org.uqbar.geodds.Point
 
 class testEventosAbierto {
-	Point lugarGenerico = new Point(20, 2.0)
-	Locacion complejo1
-	EventoAbierto show1
-	EventoAbierto show2
-	EventoAbierto show3
-	EventoAbierto show4
-	EventoAbierto show5
-
-	Usuario juan
-	Usuario Organizador1
-	Usuario Organizador2
-	Usuario Organizador3
-	Usuario Organizador4
-	Usuario cholo4
-
-	Locacion miCasa
+	
 
 	@Before
 	def void init() {
 		/*------------CREAR Organizadores-------------- */
-		juan = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", lugarGenerico, true,
-			LocalDateTime.of(1985, 10, 10, 0, 0), 3, new Profesional)
-		Organizador1 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		Organizador2 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Amateur)
-		Organizador3 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
-		Organizador4 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
-		cholo4 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
+		
 
 		/*------------CREAR LOCACIONES-------------- */
-		complejo1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 4)
-		miCasa = new Locacion(new Point(1.0, 2.0), "Complejo1", 3)
+		
 
 		/*------------CREAR EVENTOS-------------- */
-		show1 = new EventoAbierto("show1", complejo1, Organizador3, 0, LocalDateTime.of(2018, 10, 10, 0, 0),
-			LocalDateTime.of(2019, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
-		show2 = new EventoAbierto("show1", complejo1, Organizador3, 5, LocalDateTime.of(2020, 10, 10, 0, 0),
-			LocalDateTime.of(2020, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
-		show3 = new EventoAbierto("show1", complejo1, Organizador3, 5, LocalDateTime.of(2020, 10, 10, 0, 0),
-			LocalDateTime.of(2020, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
-		show4 = new EventoAbierto("show1", complejo1, Organizador3, 5, LocalDateTime.of(2020, 10, 10, 0, 0),
-			LocalDateTime.of(2020, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
-		show5 = new EventoAbierto("show1", complejo1, cholo4, 100, LocalDateTime.of(2020, 10, 10, 0, 0),
-			LocalDateTime.of(2020, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
+		
 
-		juan.comprarEntradaDeEventoAbierto(show1)
-		Organizador1.comprarEntradaDeEventoAbierto(show1)
-		Organizador2.comprarEntradaDeEventoAbierto(show1)
-		Organizador3.comprarEntradaDeEventoAbierto(show1)
-		Organizador4.comprarEntradaDeEventoAbierto(show1)
 
 	/*------------INSTANCIAR OBJETOS-------------- */
 	}
