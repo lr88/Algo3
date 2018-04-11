@@ -65,7 +65,7 @@ class Free implements TipoDeUsuario {
 	}
 
 	override postergarElEvento (Usuario unUsuario, Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento) {
-		unUsuario.recibirMensaje("NO PODES POSTERGAR UN EVENTOS")
+		unUsuario.mensajes.add("NO PODES POSTERGAR UN EVENTOS")
 	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,

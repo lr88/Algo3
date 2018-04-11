@@ -13,12 +13,14 @@ class testEventosAbierto {
 	EventoAbierto show2
 	EventoAbierto show3
 	EventoAbierto show4
+	EventoAbierto show5
 
 	Usuario juan
 	Usuario Organizador1
 	Usuario Organizador2
 	Usuario Organizador3
 	Usuario Organizador4
+	Usuario cholo4
 
 	Locacion miCasa
 
@@ -35,19 +37,23 @@ class testEventosAbierto {
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
 		Organizador4 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
+		cholo4 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
 
 		/*------------CREAR LOCACIONES-------------- */
 		complejo1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 4)
 		miCasa = new Locacion(new Point(1.0, 2.0), "Complejo1", 3)
 
 		/*------------CREAR EVENTOS-------------- */
-		show1 = new EventoAbierto("show1", complejo1, Organizador3, 5, LocalDateTime.of(2018, 10, 10, 0, 0),
+		show1 = new EventoAbierto("show1", complejo1, Organizador3, 0, LocalDateTime.of(2018, 10, 10, 0, 0),
 			LocalDateTime.of(2019, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
 		show2 = new EventoAbierto("show1", complejo1, Organizador3, 5, LocalDateTime.of(2020, 10, 10, 0, 0),
 			LocalDateTime.of(2020, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
 		show3 = new EventoAbierto("show1", complejo1, Organizador3, 5, LocalDateTime.of(2020, 10, 10, 0, 0),
 			LocalDateTime.of(2020, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
 		show4 = new EventoAbierto("show1", complejo1, Organizador3, 5, LocalDateTime.of(2020, 10, 10, 0, 0),
+			LocalDateTime.of(2020, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
+		show5 = new EventoAbierto("show1", complejo1, cholo4, 100, LocalDateTime.of(2020, 10, 10, 0, 0),
 			LocalDateTime.of(2020, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 10, 0, 0))
 
 		juan.comprarEntradaDeEventoAbierto(show1)
@@ -133,11 +139,19 @@ class testEventosAbierto {
 		show1.cancelarElEvento(juan, show1)
 		Assert.assertEquals(100.0, juan.plataQueTengo, 0)
 	}
-	
+
 	@Test
 	def void postergarEvento() {
-		show1.postergarElEvento(juan,show1,LocalDateTime.of(2019, 11, 10, 5, 00))
+		print(show1.inicioDelEvento)
+		show1.postergarElEvento(juan, show1, LocalDateTime.of(2019, 11, 10, 5, 00))
 		Assert.assertEquals(LocalDateTime.of(2019, 11, 10, 5, 00), show1.inicioDelEvento)
+	}
+
+	@Test
+	def void choloDevuelveLaEntradaYrecibeUnPorcentaje() {
+		cholo4.comprarEntradaDeEventoAbierto(show5)
+		cholo4.devolverEntrada(show5.entradas.get(0), show5)
+		Assert.assertEquals(80.0, cholo4.plataQueTengo, 0)
 	}
 
 }

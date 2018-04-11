@@ -50,11 +50,12 @@ class EventoAbierto extends Evento {
 		if (this.capacidadMaxima() - this.cantidadDeEntradasVendidas > 0 && !unUsuario.soyMenorDeEdad(fechaActual) &&
 			hayTiempoParaConfirmar) {
 			entradas.add(new Entrada(unUsuario, ValorDeLaEntrada))
-			unUsuario.plataQueTengo = unUsuario.plataQueTengo - ValorDeLaEntrada
 		}
 	}
 
 	override cancelarElEvento(Usuario unUsuario, Evento unEvento){
+		
+		
 		estadoDelEvento = false
 		entradas.forEach[entrada | entrada.usuario.mensajes.add("se cancelo el evento")]
 		entradas.forEach[entrada|entrada.devolverEltotal()]
@@ -66,6 +67,7 @@ class EventoAbierto extends Evento {
 		fuePostergado = true
 		entradas.forEach[entrada | entrada.usuario.mensajes.add("se postergo el evento")]
 		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 	
+	
 	}
 
 
@@ -73,12 +75,14 @@ class EventoAbierto extends Evento {
 		entradas.size
 	}
 
-	def usuarioDevuelveEntrada(Usuario unUsuario) {
-		entradas.remove(new Entrada(unUsuario, ValorDeLaEntrada))
+	def usuarioDevuelveEntrada(Entrada unaEntrada) {
+		entradas.remove(unaEntrada)
 	}
 	
 	override void cambiarFecha(LocalDateTime nuevaFecha){
+		
 		var  aux =	Duration.between(inicioDelEvento,nuevaFecha)
+		print(aux)
 		inicioDelEvento = inicioDelEvento.plus(aux)
 		finDelEvento = finDelEvento.plus(aux)
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)

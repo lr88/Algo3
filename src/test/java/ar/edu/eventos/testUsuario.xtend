@@ -50,10 +50,7 @@ class testUsuario {
 		pedro.CrearEventoAbierto("Fiesta", miCasa, pedro, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
 			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
 		/*------------INSTANCIAR OBJETOS-------------- */
-		juan.agregarEvento(casamiento)
-		juan.agregarEvento(casamiento1)
-		juan.agregarEvento(casamiento2)
-		juan.agregarEvento(casamiento3)
+		
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
 		pedro.agregarAmigo(juan)

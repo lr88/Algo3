@@ -9,56 +9,19 @@ import java.util.HashSet
 class Invitacion {
 
 	Usuario usuario
-	EventoCerrado eventoCerrado
-	boolean estado = false
+	boolean EstadoAceptado = false
+	boolean EstadoPendiente = false
+	boolean EstadoRechazado = false
+	
 	int cantidadMaximaDeAcompañantes
-	Set<Usuario> UsuarioEnEstadoConfirmado = new HashSet()
-	Set<Usuario> UsuarioEnEstadoPendientes = new HashSet()
-	Set<Usuario> UsuarioEnEstadoRechazados = new HashSet()
+	int cantidadDeAcompañantes
 	
 	
-	
-	new(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes, EventoCerrado unEventoCerrado) {
+	new(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes) {
 		usuario = unUsuario
 		cantidadMaximaDeAcompañantes = unaCantidadMaximaDeAcompañantes
-		eventoCerrado = unEventoCerrado
-		procesoDecreacionDeLaInvitacion(unUsuario)
-
-	}
-
-	def procesoDecreacionDeLaInvitacion(Usuario unUsuario) {
-		UsuarioEnEstadoPendientes.add(unUsuario)
-		unUsuario.invitacionesPendientes.add(this)
-		unUsuario.amigos.forEach[amigo|UsuarioEnEstadoPendientes.add(amigo)]
-		unUsuario.amigos.forEach[amigo| amigo.invitacionesPendientes.add(this)]
-		
-	}
-	def pedirConfirmacion() {
-		queresVenir()
-		cuantosSomos()
 		
 	}
 
-	def cuantosSomos() {
-		if (estado) {
-			UsuarioEnEstadoPendientes.forEach[amigo|amigo.queresVenir(this)]
-			
-		}
-	}
-
-	def queresVenir() {
-		if (usuario.queresVenir(this)) {
-			UsuarioEnEstadoPendientes.remove(usuario)
-			UsuarioEnEstadoConfirmado.add(usuario)
-			estado = true
-		}
-		else{
-			UsuarioEnEstadoPendientes.remove(usuario)
-			UsuarioEnEstadoRechazados.add(usuario)
-			estado = false
-		}
-	
-	
-	}
 
 }
