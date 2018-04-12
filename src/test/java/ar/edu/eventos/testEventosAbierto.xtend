@@ -30,19 +30,36 @@ class testEventosAbierto {
 
 
 	@Test
-	def void UnUsuarioCompraUnaEnradaYAlCancelarseElEventoReciveLaNotificacionSeCanceloElEvento() {
+	def void UnUsuarioCompraUnaEnradaYAlCancelarseElEventoRecibeLaNotificacionSeCanceloElEvento() {
 		
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1)
 		usuario1.cancelarEvento(eventoAbierto1)
 		Assert.assertEquals(true,usuario2.mensajes.contains("se cancelo el evento"))
 	}
 	@Test
-	def void UnUsuarioCompraUnaEnradaYElEventoReciveLaNotificacionSeCanceloElEvento() {
+	def void UnUsuarioCompraUnaEnradaYElEventoRecibeLaNotificacionSeCanceloElEvento() {
 		
 		usuario1.CrearEventoAbierto("Mi cumple",casaUsuario1,usuario1,100,LocalDateTime.of(2020, 10, 10, 0, 0),LocalDateTime.of(2020, 10, 11, 0, 0),LocalDateTime.of(2020, 10, 12, 0, 0))
 		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
 		usuario1.cancelarEvento(usuario1.eventosAbiertos.get(0))
 		Assert.assertEquals(true,usuario2.mensajes.contains("se cancelo el evento"))
+	}
+	@Test
+	def void UnUsuarioCreaUnEventoYLoPosterga() {
+		
+		usuario1.CrearEventoAbierto("Mi cumple",casaUsuario1,usuario1,100,LocalDateTime.of(2020, 10, 10, 0, 0),LocalDateTime.of(2020, 10, 11, 0, 0),LocalDateTime.of(2020, 10, 12, 0, 0))
+		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
+		usuario1.postergarEvento(usuario1.eventosAbiertos.get(0),LocalDateTime.of(2020, 10, 11, 0, 0))
+		
+		Assert.assertEquals(true,usuario2.mensajes.contains("se postergo el evento"))
+	}
+	def void UnUsuarioCreaUnEventoYLoPostergaYelEventocambialafecha() {
+		
+		usuario1.CrearEventoAbierto("Mi cumple",casaUsuario1,usuario1,100,LocalDateTime.of(2020, 10, 10, 0, 0),LocalDateTime.of(2020, 10, 11, 0, 0),LocalDateTime.of(2020, 10, 12, 0, 0))
+		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
+		usuario1.postergarEvento(usuario1.eventosAbiertos.get(0),LocalDateTime.of(2020, 10, 11, 0, 0))
+		
+		Assert.assertEquals(LocalDateTime.of(2020, 10, 11, 0, 0),usuario1.eventosAbiertos.get(0).inicioDelEvento)
 	}
 
 }

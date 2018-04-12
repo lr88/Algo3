@@ -69,7 +69,7 @@ class EventoCerrado extends Evento {
 	override postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){//NO TOCAR
 		fuePostergado = true
 		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 
-		invitaciones.forEach[invitacion |invitacion.usuario.mensajes.add("El evento se postergo")]
+		invitaciones.forEach[invitacion |invitacion.usuario.mensajes.add("se postergo el evento")]
 		
 	}
 
