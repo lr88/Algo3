@@ -39,13 +39,13 @@ class testUsuario {
 		complejo1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 2000)
 
 		/*------------CREAR EVENTOS-------------- */
-		casamiento = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 10, 10, 5, 00),
+		casamiento = new EventoCerrado("Casaminto de Flor y leo", miCasa,3, juan,LocalDateTime.of(2007, 10, 10, 5, 00), LocalDateTime.of(2007, 10, 10, 5, 00),
 			LocalDateTime.of(2007, 10, 10, 9, 00))
-		casamiento1 = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 8, 10, 5, 00),
+		casamiento1 = new EventoCerrado("Casaminto de Flor y leo", miCasa,3, juan,LocalDateTime.of(2007, 10, 10, 5, 00), LocalDateTime.of(2007, 10, 10, 5, 00),
 			LocalDateTime.of(2007, 10, 10, 9, 00))
-		casamiento2 = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 8, 10, 5, 00),
+		casamiento2 = new EventoCerrado("Casaminto de Flor y leo", miCasa,3, juan,LocalDateTime.of(2007, 10, 10, 5, 00), LocalDateTime.of(2007, 10, 10, 5, 00),
 			LocalDateTime.of(2007, 10, 10, 9, 00))
-		casamiento3 = new Evento("Casaminto de Flor y leo", miCasa, juan, LocalDateTime.of(2007, 6, 10, 5, 00),
+		casamiento3 = new EventoCerrado("Casaminto de Flor y leo", miCasa,3, juan,LocalDateTime.of(2007, 10, 10, 5, 00), LocalDateTime.of(2007, 10, 10, 5, 00),
 			LocalDateTime.of(2007, 10, 10, 9, 00))
 		pedro.CrearEventoAbierto("Fiesta", miCasa, pedro, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
 			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
@@ -59,12 +59,12 @@ class testUsuario {
 
 	@Test
 	def void noEsSocial() {
-		Assert.assertEquals(false, carlos.esAntisocial)
+		Assert.assertFalse(carlos.esAntisocial)
 	}
 
 	@Test
 	def void EsSocial() {
-		Assert.assertEquals(false, pedro.esAntisocial)
+		Assert.assertFalse(pedro.esAntisocial)
 	}
 
 	@Test
@@ -74,39 +74,32 @@ class testUsuario {
 
 	@Test
 	def void contenesALucas() {
-		Assert.assertEquals(true, pedro.amigos.contains(lucas))
-	}
+		Assert.assertTrue(pedro.amigos.contains(lucas))
+		}
 
 	@Test
 	def void soyMenor() {
-		Assert.assertEquals(true, pedro.soyMenorDeEdad(fechaActual))
+		Assert.assertTrue( pedro.soyMenorDeEdad(fechaActual))
 	}
 
 	@Test
 	def void juanNoOrganizaMasDeTresEventosElMismoMes() {
-		Assert.assertEquals(true, juan.puedoOrganizarUnEventoEsteMes(LocalDateTime.of(2007, 8, 10, 5, 00), 3))
+		Assert.assertTrue(juan.puedoOrganizarUnEventoEsteMes(LocalDateTime.of(2007, 8, 10, 5, 00), 3))
 
 	}
 
 	@Test
 	def void EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez() {
-		pedro.eventosAbiertos.get(0).terminarEvento
-		Assert.assertEquals(true,
+		pedro.eventosAbiertos.get(0).terminoElEvento
+		Assert.assertTrue(
 			pedro.EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime.of(2007, 8, 10, 6, 00), 1))
-	}
-
-	@Test
-	def void PedroTieneUnEventoFinalizado() {
-		pedro.agregarEvento(casamiento)
-		casamiento.terminarEvento
-		Assert.assertEquals(1, pedro.eventos.filter[evento|evento.estadoDelEvento == false].size)
 	}
 
 	@Test
 	def void PedroCambiaElTipoDeUsuario() {
 		pedro.cambiarTipoDeUsuario(new Free)
 		pedro.cancelarEvento(casamiento)
-		Assert.assertEquals(true, pedro.mensajes.contains("NO PODES CANCELAR UN EVENTOS "))
+		Assert.assertTrue(pedro.mensajes.contains("NO PODES CANCELAR UN EVENTOS "))
 	}
 	
 	@Test

@@ -34,7 +34,7 @@ class testEventosAbierto {
 		
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1)
 		usuario1.cancelarEvento(eventoAbierto1)
-		Assert.assertEquals(true,usuario2.mensajes.contains("se cancelo el evento"))
+		Assert.assertTrue(usuario2.mensajes.contains("se cancelo el evento"))
 	}
 	@Test
 	def void UnUsuarioCompraUnaEnradaYElEventoRecibeLaNotificacionSeCanceloElEvento() {
@@ -42,7 +42,7 @@ class testEventosAbierto {
 		usuario1.CrearEventoAbierto("Mi cumple",casaUsuario1,usuario1,100,LocalDateTime.of(2020, 10, 10, 0, 0),LocalDateTime.of(2020, 10, 11, 0, 0),LocalDateTime.of(2020, 10, 12, 0, 0))
 		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
 		usuario1.cancelarEvento(usuario1.eventosAbiertos.get(0))
-		Assert.assertEquals(true,usuario2.mensajes.contains("se cancelo el evento"))
+		Assert.assertTrue(usuario2.mensajes.contains("se cancelo el evento"))
 	}
 	@Test
 	def void UnUsuarioCreaUnEventoYLoPosterga() {
@@ -51,7 +51,7 @@ class testEventosAbierto {
 		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
 		usuario1.postergarEvento(usuario1.eventosAbiertos.get(0),LocalDateTime.of(2020, 10, 11, 0, 0))
 		
-		Assert.assertEquals(true,usuario2.mensajes.contains("se postergo el evento"))
+		Assert.assertTrue(usuario2.mensajes.contains("se postergo el evento"))
 	}
 	def void UnUsuarioCreaUnEventoYLoPostergaYelEventocambialafecha() {
 		

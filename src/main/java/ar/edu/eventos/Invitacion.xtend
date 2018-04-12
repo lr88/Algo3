@@ -23,6 +23,7 @@ class Invitacion {
 		usuario = unUsuario
 		cantidadMaximaDeAcompañantes = unaCantidadMaximaDeAcompañantes
 		evento = unEvento
+		unUsuario.miListaDeInvitaciones.add(this)
 	}
 
 

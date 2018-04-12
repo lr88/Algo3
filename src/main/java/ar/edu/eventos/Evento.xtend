@@ -16,7 +16,8 @@ class Evento {
 	Usuario organizador
 	var Boolean fuePostergado = false
 	var Boolean fueCancelado = false
-
+	
+	
 	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, LocalDateTime unInicioDelEvento,
 		LocalDateTime unFinDelEvento) {
 		nombre = unNombre
