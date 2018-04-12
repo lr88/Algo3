@@ -20,21 +20,19 @@ class EventoCerrado extends Evento {
 	}
 	
 
-	def boolean esExitoso() {// NO TOCAR
-		/*Un evento cerrado fue exitoso si confirmaron al menos el 80% de las invitaciones y no fue cancelado */
+	def boolean esExitoso() {
 		this.cantidadDeInvitacionesAceptadas > cantidadDeInvitaciones *0.8 && fueCancelado == false
 	}
 	
-	def boolean esUnFracaso() {// NO TOCAR
-	/*Se considera un fracaso a los eventos cerrados a los que asisten menos del 50% de los invitados.*/
+	def boolean esUnFracaso() {
 		 cantidadMaximaDelEvento *0.5 > cantidadDeInvitadosAceptadosMasSusAsistentes
 		}
     
-    def cantidadDeInvitacionesAceptadas(){// NO TOCAR 
+    def cantidadDeInvitacionesAceptadas(){ 
     	invitacionesAceptadas.size()
     }
     
-    def invitacionesAceptadas(){// NO TOCAR 
+    def invitacionesAceptadas(){ 
     	invitaciones.filter[invitaciones|invitaciones.estadoAceptado]
     }
     
@@ -46,27 +44,24 @@ class EventoCerrado extends Evento {
     		invitacionesPendientes.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes + 1 ]) 
 		}
      
-     def invitacionesPendientes(){// NO TOCAR 
+     def invitacionesPendientes(){ 
     	invitaciones.filter[invitaciones|invitaciones.estadoPendiente]
     }
     
-    def cantidaDePosiblesAsistentes(){// NO TOCAR 
-		/*Las invitaciones pendientes de confirmación suman el total de sus invitados.
-		Las invitaciones aceptadas suman uno + la cantidad de acompañantes confirmados.
-		Las invitaciones rechazadas no suman.  
-	 */
+    def cantidaDePosiblesAsistentes(){ 
+	
 		cantidadDeInvitadosPendientesMasSusAsistentes + cantidadDeInvitadosAceptadosMasSusAsistentes 
 	}
 	
 	
      
-   override cancelarElEvento(Evento unEvento){// NO TOCAR 
+   override cancelarElEvento(Evento unEvento){ 
 	    fueCancelado = true
 		invitaciones.filter[invitacion | !invitacion.estadoRechazado].forEach[invitacion| invitacion.usuario.mensajes.add("El evento fue cancelado")]
 		invitaciones.clear
 	}
 
-	override postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){//NO TOCAR
+	override postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
 		fuePostergado = true
 		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 
 		invitaciones.forEach[invitacion |invitacion.usuario.mensajes.add("se postergo el evento")]

@@ -2,9 +2,6 @@ package ar.edu.eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
 
-import java.util.Set
-import java.util.HashSet
-
 @Accessors
 class Invitacion {
 
@@ -25,6 +22,7 @@ class Invitacion {
 		evento = unEvento
 		unUsuario.miListaDeInvitaciones.add(this)
 	}
-
+	
+	
 
 }

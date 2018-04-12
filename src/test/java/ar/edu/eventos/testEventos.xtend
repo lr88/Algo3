@@ -26,7 +26,7 @@ class testEventos {
 
 	@Test
 	def void distancia() {
-		print(miCasa.distancia(new Point(1.1, 2.0)))
+		
 		Assert.assertEquals(11.11, miCasa.distancia(new Point(1.1, 2.0)), 1)
 	}
 

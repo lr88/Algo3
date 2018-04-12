@@ -12,7 +12,7 @@ class testEventosAbierto {
 	Usuario usuario2
 	Locacion casaUsuario1
 	EventoAbierto eventoAbierto1
-	LocalDateTime fechaActual = LocalDateTime.now()
+	
 
 	@Before
 	def void init() {

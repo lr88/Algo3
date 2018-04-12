@@ -20,12 +20,13 @@ class Entrada {
 	}
 
 	def void devolverDinero(LocalDateTime unaFecha, EventoAbierto unEvento) {
-		if (Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() < 6){
-			usuario.plataQueTengo = usuario.plataQueTengo +
-				Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() * diezPorCiento * valorDeLAEntrada + valorDeLAEntrada * veintePorCiento
+		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLAEntrada * 0.2
+		if (Duration.between(unaFecha, unEvento.inicioDelEvento).toDays()  <= 6){
+			usuario.plataQueTengo = usuario.plataQueTengo +	Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() * diezPorCiento * valorDeLAEntrada 
 		}
 		else{
-			usuario.plataQueTengo = usuario.plataQueTengo + 6 * diezPorCiento * valorDeLAEntrada + valorDeLAEntrada * veintePorCiento
+			
+			usuario.plataQueTengo = usuario.plataQueTengo + 6 * diezPorCiento * valorDeLAEntrada
 		}
 		}
 

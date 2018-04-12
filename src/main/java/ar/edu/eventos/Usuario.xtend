@@ -1,14 +1,13 @@
 package ar.edu.eventos
 
+import ar.edu.eventos.exceptions.BusinessException
 import java.time.Duration
-
 import java.time.LocalDateTime
+import java.util.HashSet
 import java.util.List
+import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.geodds.Point
-import java.util.HashSet
-import java.util.Set
-import ar.edu.eventos.exceptions.BusinessException
 
 @Accessors
 class Usuario {
@@ -20,7 +19,7 @@ class Usuario {
 	Set<Usuario> amigos = new HashSet()	
 	Set <Invitacion> miListaDeInvitaciones = new HashSet ()
 	List <Invitacion> aceptadas = newArrayList()
-	
+	var List <EventoCerrado> even
 	String nombreDeUsuario
 	String nombre
 	String apellido
@@ -48,59 +47,59 @@ class Usuario {
 		tipoDeUsuario = unTipoDeUsuario
 	}
 
-	def cambiarTipoDeUsuario(TipoDeUsuario unTipoDeUsuario){// NO TOCAR
+	def cambiarTipoDeUsuario(TipoDeUsuario unTipoDeUsuario){
 		tipoDeUsuario = unTipoDeUsuario
 	}
 	
-	def void agregarAmigo(Usuario unAmigo) {// NO TOCAR
+	def void agregarAmigo(Usuario unAmigo) {
 		amigos.add(unAmigo)
 	}
-	def int cantidadDeAmigos() {// NO TOCAR
+	def int cantidadDeAmigos() {
 		amigos.size
 	}
-	def eliminarAmigos(Usuario unUsuario) {// NO TOCAR
+	def eliminarAmigos(Usuario unUsuario) {
 		amigos.remove(unUsuario)
 	}
-	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento) {// NO TOCAR
+	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento) {
 		unEvento.adquirirEntrada(this)
 	}
 
-	def boolean soyMenorDeEdad(LocalDateTime fechaActual) {// NO TOCAR
+	def boolean soyMenorDeEdad(LocalDateTime fechaActual) {
 		Duration.between(fechaDeNacimiento, fechaActual).toDays() / 360 < 18
 	}
 
-	def listaDeTodosMisEventos(){// NO TOCAR
+	def listaDeTodosMisEventos(){
 		eventosCerrados+eventosAbiertos
 	}
 
-	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,int unMaximoDeEventosMensuales){// NO TOCAR
+	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,int unMaximoDeEventosMensuales){
 		listaDeTodosMisEventos.filter[evento|evento.inicioDelEvento.getMonth == unInicioDelEvento.getMonth && evento.inicioDelEvento.getYear == unInicioDelEvento.getYear].size < unMaximoDeEventosMensuales
 	}
 
-	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,int unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {// NO TOCAR
+	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,int unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
 		listaDeTodosMisEventos.filter[evento | evento.terminoElEvento == false].size < unaCantidadMaximaPermitidaDeSimultaneidadDeEventos
 	}
 
 	def crearEventoCerrado(String unNombre, Locacion unaLocacion, int cantidadMaxima, Usuario unOrganizador,
-		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {// NO TOCAR
+		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
 		tipoDeUsuario.organizarEventoCerrado(this,unNombre, unaLocacion, cantidadMaxima, this,
 			unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
 	}
 
 	def CrearEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
-		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {// NO TOCAR
+		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
 		tipoDeUsuario.organizarEventoAbierto( unNombre,unaLocacion, this,unValorDeLaEntrada,
 		unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
 	}
 	
 	def devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
-		if(fechaActual < unEvento.inicioDelEvento){
+		if(fechaActual.dayOfYear < unEvento.inicioDelEvento.dayOfYear){
 			unaEntrada.devolverDinero(fechaActual,unEvento)
 			unEvento.usuarioDevuelveEntrada(unaEntrada)
 		}
 	}
     
-	def invitarAUnUsuario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) {// NO TOCAR 
+	def invitarAUnUsuario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) { 
 		if (unEvento.cantidaDePosiblesAsistentes < unEvento.cantidadMaximaDelEvento){
 			unEvento.invitaciones.add(new Invitacion (unUsuario, unaCantidadMaximaDeAcompañantes,unEvento))
 				unUsuario.mensajes.add("Fuiste Invitado al Evento "+ nombre)
@@ -111,14 +110,15 @@ class Usuario {
 	}
 	
 
-  	 def aceptarInvitacion(Invitacion unaInvitacion,int unaCantidadDeAcompañantes,EventoCerrado unEvento){// NO TOCAR
-		if(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes && fechaActual<unEvento.fechaMaximaDeConfirmacion){
+  	 def aceptarInvitacion(Invitacion unaInvitacion,int unaCantidadDeAcompañantes){
+		
+		if(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes && fechaActual<unaInvitacion.evento.fechaMaximaDeConfirmacion){
 				unaInvitacion.estadoPendiente = false
 				unaInvitacion.estadoAceptado = true
 			unaInvitacion.cantidadDeAcompañantes = unaCantidadDeAcompañantes
 			}
 		else{
-				rechazarInvitacion( unaInvitacion, unaCantidadDeAcompañantes, unEvento)
+				rechazarInvitacion( unaInvitacion, unaCantidadDeAcompañantes, unaInvitacion.evento)
 			}
 	}
 	def rechazarInvitacion(Invitacion unaInvitacion,int unaCantidad,EventoCerrado unEvento){
@@ -135,50 +135,42 @@ class Usuario {
 		tipoDeUsuario.postergarElEvento(this,unEvento,NuevaFechaDeInicioDelEvento)
 	}
 	
-	
-	
-	def listaDeInvitacionesPendientes(){
-		miListaDeInvitaciones.filter[invitacion| invitacion.estadoPendiente == true]
-	}
 	def aceptacionMasiva(){
-		(listaDeInvitacionesPendientes.filter[invitacion | esElOrganizadorMiAmigo(invitacion) == true]
-		+ listaDeInvitacionesPendientes.filter[invitacion | asistenMasDeTantosAmigos(invitacion, 4) == true]
-		+listaDeInvitacionesPendientes.filter[invitacion | meQuedaSerca( invitacion) == true])
-		.forEach[inv | this.aceptarInvitacion(inv,inv.cantidadDeAcompañantes,inv.evento)]
-		}
+		listaDeTodosMisInvitacionesPendientes.forEach[inv | if(esElOrganizadorMiAmigo(inv)  || asistenMasDeTantosAmigos(inv,4)  /*||!meQuedaSerca(inv)*/)
+				aceptarInvitacion(inv,inv.cantidadDeAcompañantes)]
+	
+	}
 	
 	def boolean esElOrganizadorMiAmigo(Invitacion unaInvitacion){
 		amigos.contains(unaInvitacion.evento.organizador)
 	}
 	
-	def  asistenMasDeTantosAmigos(Invitacion unaInvitacion,int cantidad){
+	def asistenMasDeTantosAmigos(Invitacion unaInvitacion,int cantidad){
 		this.miListaDeInvitaciones.filter[invi|invi.evento.nombre == (unaInvitacion.usuario.miListaDeInvitaciones.map[invita|invita.evento.nombre])].size()>cantidad
 	}
 	
-	def boolean meQuedaSerca(Invitacion invitacion) {
+	def meQuedaSerca(Invitacion invitacion) {
+		
 		invitacion.evento.locacion.distancia(direccion) < radioDeCercanía 
 	}
 	def rechazoMasivo(){
-	if(esAntisocial){
-		(miListaDeInvitaciones.filter[invitacion | esElOrganizadorMiAmigo(invitacion) == true &&
-			asistenMasDeTantosAmigos(invitacion, 1)]
-			+ miListaDeInvitaciones.filter[invitacion | !asistenMasDeTantosAmigos(invitacion, 2) == true]
-			+ miListaDeInvitaciones.filter[invitacion | meQuedaSerca( invitacion) == false])
-			.forEach[inv | this.rechazarInvitacion(inv,inv.cantidadDeAcompañantes,inv.evento)]
-			}
+		if(esAntisocial){
+		listaDeTodosMisInvitacionesPendientes.forEach[inv | if((esElOrganizadorMiAmigo(inv) && asistenMasDeTantosAmigos(inv,1)) || !asistenMasDeTantosAmigos(inv,2)  /*||!meQuedaSerca(inv)*/)
+				aceptarInvitacion(inv,inv.cantidadDeAcompañantes)]
+	}
 	else{
-		miListaDeInvitaciones.filter[invitacion | asistenMasDeTantosAmigos(invitacion, 0) == true && meQuedaSerca(invitacion) == false]
+		miListaDeInvitaciones.filter[invitacion | asistenMasDeTantosAmigos(invitacion, 0) == true/* && meQuedaSerca(invitacion) == false */]
 			.forEach[inv | this.rechazarInvitacion(inv,inv.cantidadDeAcompañantes,inv.evento)]
 		}
 	}
 
-	def listaDeTodosMisInvitacionesRechazadas(){// NO TOCAR
+	def listaDeTodosMisInvitacionesRechazadas(){
 		miListaDeInvitaciones.filter[ invitacion | invitacion.estadoRechazado == true]
 	}
-	def listaDeTodosMisInvitacionesAceptadas(){// NO TOCAR
+	def listaDeTodosMisInvitacionesAceptadas(){
 		miListaDeInvitaciones.filter[ invitacion | invitacion.estadoAceptado == true]
 	}
-	def listaDeTodosMisInvitacionesPendientes(){// NO TOCAR
+	def listaDeTodosMisInvitacionesPendientes(){
 		miListaDeInvitaciones.filter[ invitacion | invitacion.estadoPendiente == true]
 	}
 		

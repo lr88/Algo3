@@ -19,7 +19,7 @@ class Locacion {
 	}
 
 	def distancia(Point punto) {
-		return this.ubicacion.distance(punto)
+		ubicacion.distance(punto)
 	}
 
 	def capacidadMaxima() {
