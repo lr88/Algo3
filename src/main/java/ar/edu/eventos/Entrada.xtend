@@ -6,7 +6,7 @@ import java.time.Duration
 
 @Accessors
 class Entrada {
- 
+
 	var double valorDeLAEntrada
 	Usuario usuario
 	val veintePorCiento = 0.2
@@ -22,14 +22,14 @@ class Entrada {
 
 	def void devolverDinero(LocalDateTime unaFecha, EventoAbierto unEvento) {
 		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLAEntrada * 0.2
-		if (Duration.between(unaFecha, unEvento.inicioDelEvento).toDays()  <= 6){
-			usuario.plataQueTengo = usuario.plataQueTengo +	Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() * diezPorCiento * valorDeLAEntrada 
-		}
-		else{
-			
+		if (Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() <= 6) {
+			usuario.plataQueTengo = usuario.plataQueTengo +
+				Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() * diezPorCiento * valorDeLAEntrada
+		} else {
+
 			usuario.plataQueTengo = usuario.plataQueTengo + 6 * diezPorCiento * valorDeLAEntrada
 		}
-		}
+	}
 
 	def void devolverEltotal() {
 		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLAEntrada
