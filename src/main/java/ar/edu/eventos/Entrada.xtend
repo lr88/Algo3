@@ -6,7 +6,7 @@ import java.time.Duration
 
 @Accessors
 class Entrada {
-
+ 
 	var double valorDeLAEntrada
 	Usuario usuario
 	val veintePorCiento = 0.2
