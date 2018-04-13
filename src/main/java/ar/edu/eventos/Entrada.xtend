@@ -15,6 +15,7 @@ class Entrada {
 	new(Usuario unUsuario, double unValorDeLaEntrada) {
 		usuario = unUsuario
 		valorDeLAEntrada = unValorDeLaEntrada
+		unUsuario.entregarEntradaAlusuario(this)
 		usuario.mensajes.add("Felicitaciones tu entrada fue comprada Con Exito")
 		usuario.plataQueTengo = usuario.plataQueTengo - valorDeLAEntrada
 	}

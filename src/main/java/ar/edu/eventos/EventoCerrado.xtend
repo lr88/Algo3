@@ -9,59 +9,63 @@ import java.time.Duration
 @Accessors
 class EventoCerrado extends Evento {
 
-	int cantidadMaximaDelEvento
+	Integer cantidadMaximaDeInvitados
 	Set<Invitacion> invitaciones = new HashSet()
 
-	new(String unNombre, Locacion unaLocacion, int unaCantidadMaximaDeInvitados, Usuario unOrganizador,
+	new(String unNombre, Locacion unaLocacion, Integer unaCantidadMaximaDeInvitados, Usuario unOrganizador,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
 		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
-		cantidadMaximaDelEvento = unaCantidadMaximaDeInvitados
+		cantidadMaximaDeInvitados = unaCantidadMaximaDeInvitados
 	}
 	
+	def Integer capacidadMaxima() {
+		cantidadMaximaDeInvitados
+	}
+
+	def LocalDateTime fechaMáximaConfirmación(){
+		fechaMaximaDeConfirmacion
+	}
 
 	def boolean esExitoso() {
-		this.cantidadDeInvitacionesAceptadas > cantidadDeInvitaciones *0.8 && fueCancelado == false
+		cantidadDeInvitacionesAceptadas > cantidadDeInvitaciones *0.8 && fueCancelado == false
 	}
 	
 	def boolean esUnFracaso() {
-		 cantidadMaximaDelEvento *0.5 > cantidadDeInvitadosAceptadosMasSusAsistentes
+		 cantidadMaximaDeInvitados * 0.5 > cantidadDeInvitadosAceptadosMasSusAsistentes
 		}
     
-    def cantidadDeInvitacionesAceptadas(){ 
-    	invitacionesAceptadas.size()
+    def Integer cantidadDeInvitacionesAceptadas(){ 
+    	listaDeInvitacionesAceptadas.size()
     }
     
-    def invitacionesAceptadas(){ 
+    def  listaDeInvitacionesAceptadas(){ 
     	invitaciones.filter[invitaciones|invitaciones.estadoAceptado]
     }
     
-    def int cantidadDeInvitadosAceptadosMasSusAsistentes() {
-    		invitacionesAceptadas.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes + 1 ]) 
+    def Integer cantidadDeInvitadosAceptadosMasSusAsistentes() {
+    		listaDeInvitacionesAceptadas.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes + 1 ]) 
 		}
     
-    def int cantidadDeInvitadosPendientesMasSusAsistentes() {
-    		invitacionesPendientes.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes + 1 ]) 
+    def Integer cantidadDeInvitadosPendientesMasSusAsistentes() {
+    		listaDeInvitacionesPendientes.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes + 1 ]) 
 		}
      
-     def invitacionesPendientes(){ 
+     def  listaDeInvitacionesPendientes(){ 
     	invitaciones.filter[invitaciones|invitaciones.estadoPendiente]
     }
     
-    def cantidaDePosiblesAsistentes(){ 
-	
+    def Integer cantidaDePosiblesAsistentes(){ 
 		cantidadDeInvitadosPendientesMasSusAsistentes + cantidadDeInvitadosAceptadosMasSusAsistentes 
 	}
 	
-	
-     
-   override cancelarElEvento(Evento unEvento){ 
+   override void cancelarElEvento(Evento unEvento){ 
 	    fueCancelado = true
 		invitaciones.filter[invitacion | !invitacion.estadoRechazado].forEach[invitacion| invitacion.usuario.mensajes.add("El evento fue cancelado")]
 		invitaciones.clear
 	}
 
-	override postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
+	override void postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
 		fuePostergado = true
 		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 
 		invitaciones.forEach[invitacion |invitacion.usuario.mensajes.add("se postergo el evento")]

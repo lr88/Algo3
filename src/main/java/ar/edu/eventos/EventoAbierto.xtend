@@ -10,10 +10,10 @@ import java.util.HashSet
 @Accessors
 class EventoAbierto extends Evento {
 
-	int ValorDeLaEntrada
+	Integer ValorDeLaEntrada
 	Set<Entrada> entradas = new HashSet()
 
-	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, int unValorDeLaEntrada,
+	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, Integer unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
 
@@ -22,68 +22,67 @@ class EventoAbierto extends Evento {
 
 	}
 
+	def void adquirirEntrada(Usuario unUsuario) {
+		if (entradasDisponibles > 0 && !unUsuario.soyMenorDeEdad(fechaActual) && hayTiempoParaConfirmar)
+			agregarEntrada(new Entrada(unUsuario, ValorDeLaEntrada))
+			
+	}
+
+	def void agregarEntrada(Entrada unaEntrada) {
+		entradas.add(unaEntrada)
+	}
+
+	def LocalDateTime fechaMáximaConfirmación(){
+		fechaMaximaDeConfirmacion
+	}
+
 	def double capacidadMaxima() {
 		locacion.capacidadMaxima()
 	}
-    
-    def cantidadTotalDeEntradasParaVender(){
-    	  capacidadMaxima
-    }
-	def boolean esExitoso() {
-		seVendioMasDelNoventaPorCientoDeLasEntradas && !fuePostergado && !fueCancelado
+
+	def cantidadTotalDeEntradasDisponibles(){
+		capacidadMaxima
 	}
 
-	def boolean seVendioMasDelNoventaPorCientoDeLasEntradas() {
-		cantidadTotalDeEntradasParaVender * 0.9 < cantidadDeEntradasVendidas
+	def boolean esExitoso() {
+		cantidadTotalDeEntradasDisponibles * 0.9 < cantidadDeEntradasVendidas && !fuePostergado && !fueCancelado
 	}
 
 	def boolean esUnFracaso() {
-		cantidadDeEntradasVendidas > cantidadTotalDeEntradasParaVender * 0.5
+		cantidadDeEntradasVendidas > cantidadTotalDeEntradasDisponibles * 0.5
 	}
 
 	def boolean hayTiempoParaConfirmar() {
-		(Duration.between(fechaActual,fechaMaximaDeConfirmacion).toHours()) > 0
+		(Duration.between(fechaActual, fechaMaximaDeConfirmacion).toHours()) > 0
 	}
 
-	def void adquirirEntrada(Usuario unUsuario) {
-		if (entradasDisponibles > 0 && !unUsuario.soyMenorDeEdad(fechaActual) &&
-			hayTiempoParaConfirmar) 
-		agregarEntradas(new Entrada(unUsuario, ValorDeLaEntrada))
-	}
-	
-	def agregarEntradas(Entrada unaEntrada){
-		entradas.add(unaEntrada)
-	}
-	
-	def entradasDisponibles(){
-		cantidadTotalDeEntradasParaVender - cantidadDeEntradasVendidas
+	def Integer entradasDisponibles() {
+		(cantidadTotalDeEntradasDisponibles - cantidadDeEntradasVendidas).intValue
 	}
 
 	override cancelarElEvento(Evento unEvento) {
-        fueCancelado = true
-    	entradas.forEach[entrada | entrada.usuario.mensajes.add("se cancelo el evento")]
+		fueCancelado = true
+		entradas.forEach[entrada|entrada.usuario.mensajes.add("se cancelo el evento")]
 		entradas.forEach[entrada|entrada.devolverEltotal()]
 		entradas.clear
 	}
 
-	override postergarElEvento(Evento unEvento, LocalDateTime NuevaFechaDeInicioDelEvento) {
+	override void postergarElEvento(Evento unEvento, LocalDateTime NuevaFechaDeInicioDelEvento) {
 		fuePostergado = true
-		entradas.forEach[entrada | entrada.usuario.mensajes.add("se postergo el evento")]
- 		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 
+		entradas.forEach[entrada|entrada.usuario.mensajes.add("se postergo el evento")]
+		organizador.indicarNuevaFechaDeEvento(this, NuevaFechaDeInicioDelEvento)
 	}
 
-	def int cantidadDeEntradasVendidas() {
+	def Integer cantidadDeEntradasVendidas() {
 		entradas.size
 	}
 
-	def usuarioDevuelveEntrada(Entrada unaEntrada) {
+	def void usuarioDevuelveEntrada(Entrada unaEntrada) {
 		entradas.remove(unaEntrada)
 	}
 
 	override void cambiarFecha(LocalDateTime nuevaFecha) {
-
 		var aux = Duration.between(inicioDelEvento, nuevaFecha)
-		print(aux)
 		inicioDelEvento = inicioDelEvento.plus(aux)
 		finDelEvento = finDelEvento.plus(aux)
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)

@@ -22,7 +22,7 @@ class Locacion {
 		ubicacion.distance(punto)
 	}
 
-	def capacidadMaxima() {
+	def double capacidadMaxima() {
 		superficieM2 / distribucionM2PorPersona
 	}
 

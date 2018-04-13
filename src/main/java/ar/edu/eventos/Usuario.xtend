@@ -18,8 +18,8 @@ class Usuario {
 	Set<EventoCerrado> eventosCerrados = new HashSet ()
 	Set<Usuario> amigos = new HashSet()	
 	Set <Invitacion> miListaDeInvitaciones = new HashSet ()
-	List <Invitacion> aceptadas = newArrayList()
-	var List <EventoCerrado> even
+	Set<Entrada> ListaDeEntradas = new HashSet()	
+
 	String nombreDeUsuario
 	String nombre
 	String apellido
@@ -31,7 +31,7 @@ class Usuario {
 	var double plataQueTengo = 100
 	var double radioDeCercanía
 	TipoDeUsuario tipoDeUsuario
-	int cantidadDeAcompañantes
+	Integer cantidadDeAcompañantes
 	
 
 	new(String unNombreDeUsuario, String unNombre, String unApellido, String unEmail, Point unLugar,
@@ -47,6 +47,14 @@ class Usuario {
 		tipoDeUsuario = unTipoDeUsuario
 	}
 
+	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento) {
+		unEvento.adquirirEntrada(this)
+	}
+
+	def entregarEntradaAlusuario(Entrada entrada) {
+		ListaDeEntradas.add(entrada)
+	}
+	
 	def cambiarTipoDeUsuario(TipoDeUsuario unTipoDeUsuario){
 		tipoDeUsuario = unTipoDeUsuario
 	}
@@ -54,14 +62,11 @@ class Usuario {
 	def void agregarAmigo(Usuario unAmigo) {
 		amigos.add(unAmigo)
 	}
-	def int cantidadDeAmigos() {
+	def Integer cantidadDeAmigos() {
 		amigos.size
 	}
 	def eliminarAmigos(Usuario unUsuario) {
 		amigos.remove(unUsuario)
-	}
-	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento) {
-		unEvento.adquirirEntrada(this)
 	}
 
 	def boolean soyMenorDeEdad(LocalDateTime fechaActual) {
@@ -72,21 +77,21 @@ class Usuario {
 		eventosCerrados+eventosAbiertos
 	}
 
-	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,int unMaximoDeEventosMensuales){
+	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,Integer unMaximoDeEventosMensuales){
 		listaDeTodosMisEventos.filter[evento|evento.inicioDelEvento.getMonth == unInicioDelEvento.getMonth && evento.inicioDelEvento.getYear == unInicioDelEvento.getYear].size < unMaximoDeEventosMensuales
 	}
 
-	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,int unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
+	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,Integer unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
 		listaDeTodosMisEventos.filter[evento | evento.terminoElEvento == false].size < unaCantidadMaximaPermitidaDeSimultaneidadDeEventos
 	}
 
-	def crearEventoCerrado(String unNombre, Locacion unaLocacion, int cantidadMaxima, Usuario unOrganizador,
+	def crearEventoCerrado(String unNombre, Locacion unaLocacion, Integer cantidadMaxima, Usuario unOrganizador,
 		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
 		tipoDeUsuario.organizarEventoCerrado(this,unNombre, unaLocacion, cantidadMaxima, this,
 			unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
 	}
 
-	def CrearEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
+	def CrearEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, Integer unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
 		tipoDeUsuario.organizarEventoAbierto( unNombre,unaLocacion, this,unValorDeLaEntrada,
 		unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
@@ -99,32 +104,37 @@ class Usuario {
 		}
 	}
     
-	def invitarAUnUsuario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) { 
-		if (unEvento.cantidaDePosiblesAsistentes < unEvento.cantidadMaximaDelEvento){
+	def invitarAUnUsuario(Usuario unUsuario, Integer unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) { 
+		if(unEvento.organizador == this){
+			if (unEvento.cantidaDePosiblesAsistentes < unEvento.cantidadMaximaDeInvitados){
 			unEvento.invitaciones.add(new Invitacion (unUsuario, unaCantidadMaximaDeAcompañantes,unEvento))
 				unUsuario.mensajes.add("Fuiste Invitado al Evento "+ nombre)
+			}
+			else{
+				throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
+			}
 		}
 		else{
-		throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
-			}
+		throw new BusinessException("No se puede crear invitacion, no el organizador del evento")
+		}
 	}
 	
 
-  	 def aceptarInvitacion(Invitacion unaInvitacion,int unaCantidadDeAcompañantes){
-		
-		if(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes && fechaActual<unaInvitacion.evento.fechaMaximaDeConfirmacion){
+  	 def aceptarInvitacion(Invitacion unaInvitacion,Integer unaCantidadDeAcompañantes){
+		if(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes && fechaActual < unaInvitacion.evento.fechaMaximaDeConfirmacion){
 				unaInvitacion.estadoPendiente = false
 				unaInvitacion.estadoAceptado = true
-			unaInvitacion.cantidadDeAcompañantes = unaCantidadDeAcompañantes
-			}
+				unaInvitacion.cantidadDeAcompañantes = unaCantidadDeAcompañantes
+		}
 		else{
-				rechazarInvitacion( unaInvitacion, unaCantidadDeAcompañantes, unaInvitacion.evento)
-			}
+			throw new BusinessException("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes")
+		}
+		
 	}
-	def rechazarInvitacion(Invitacion unaInvitacion,int unaCantidad,EventoCerrado unEvento){
+	
+	def rechazarInvitacion(Invitacion unaInvitacion,Integer unaCantidad,EventoCerrado unEvento){
 				unaInvitacion.estadoPendiente = false
 				unaInvitacion.estadoRechazado = true
-			
 		}
 	
 	def void cancelarEvento(Evento unEvento){
@@ -145,14 +155,14 @@ class Usuario {
 		amigos.contains(unaInvitacion.evento.organizador)
 	}
 	
-	def asistenMasDeTantosAmigos(Invitacion unaInvitacion,int cantidad){
+	def asistenMasDeTantosAmigos(Invitacion unaInvitacion,Integer cantidad){
 		this.miListaDeInvitaciones.filter[invi|invi.evento.nombre == (unaInvitacion.usuario.miListaDeInvitaciones.map[invita|invita.evento.nombre])].size()>cantidad
 	}
 	
 	def meQuedaSerca(Invitacion invitacion) {
-		
 		invitacion.evento.locacion.distancia(direccion) < radioDeCercanía 
 	}
+	
 	def rechazoMasivo(){
 		if(esAntisocial){
 		listaDeTodosMisInvitacionesPendientes.forEach[inv | if((esElOrganizadorMiAmigo(inv) && asistenMasDeTantosAmigos(inv,1)) || !asistenMasDeTantosAmigos(inv,2)  /*||!meQuedaSerca(inv)*/)
@@ -177,5 +187,8 @@ class Usuario {
 	def indicarNuevaFechaDeEvento(Evento unEvento,LocalDateTime nuevaFecha){
 		unEvento.cambiarFecha(nuevaFecha)
 	}
+	
+	
+	
 }
 

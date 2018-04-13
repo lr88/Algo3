@@ -5,13 +5,13 @@ import java.time.LocalDateTime
 interface TipoDeUsuario {
 
 	LocalDateTime fechaActual = LocalDateTime.now
-	int infinito = 99
+	Integer infinito = 99
 
 	def abstract void organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion,
-		int cantidadMaximaDePersonas, Usuario unOrganizador, LocalDateTime unaFechaMaximaDeConfirmacion,
+		Integer cantidadMaximaDePersonas, Usuario unOrganizador, LocalDateTime unaFechaMaximaDeConfirmacion,
 		LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento)
 
-	def void organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
+	def void organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, Integer unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento)
 
 	def abstract void cancelarElEvento(Usuario unUsuario,Evento unEvento)
@@ -19,27 +19,27 @@ interface TipoDeUsuario {
 	def abstract void postergarElEvento(Usuario unUsuario,Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento)
 
 	def abstract boolean cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
-		int cantidadMaximaPermitidaDeSimultaneidadDeEventos)
+		Integer cantidadMaximaPermitidaDeSimultaneidadDeEventos)
 
 	def abstract boolean puedoOrganizarUnEventoEsteMes(Usuario unUsuario, LocalDateTime unInicioDelEvento,
-		int maximoDeEventosMensuales)
+		Integer maximoDeEventosMensuales)
 
-	def abstract int cantidadMaximaPermitidaDeSimultaneidadDeEventos()
+	def abstract Integer cantidadMaximaPermitidaDeSimultaneidadDeEventos()
 
-	def abstract int maximoDePersonasPorEvento()
+	def abstract Integer maximoDePersonasPorEvento()
 
-	def abstract int maximoDeEventosMensuales()
+	def abstract Integer maximoDeEventosMensuales()
 
-	def abstract int maximoDeInvitacionesPorEvento()
+	def abstract Integer maximoDeInvitacionesPorEvento()
 
 }
 
 class Free implements TipoDeUsuario {
-	int cantidadMaximaPermitidaDeSimultaneidadDeEventos = 1
-	int maximoDePersonasPorEvento = 50
-	int maximoDeEventosMensuales = 3
+	Integer cantidadMaximaPermitidaDeSimultaneidadDeEventos = 1
+	Integer maximoDePersonasPorEvento = 50
+	Integer maximoDeEventosMensuales = 3
 
-	override organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion, int cantidadMaximaDePersonas,
+	override organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion, Integer cantidadMaximaDePersonas,
 		Usuario unOrganizador, LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento,
 		LocalDateTime unFinDelEvento) {
 
@@ -47,13 +47,15 @@ class Free implements TipoDeUsuario {
 			puedoOrganizarUnEventoEsteMes(unUsuario, unInicioDelEvento, maximoDeEventosMensuales) &&
 			cantidadPermitidaDeEventosALaVez(unUsuario, unInicioDelEvento,
 				cantidadMaximaPermitidaDeSimultaneidadDeEventos)) {
+		
+		
 			unUsuario.eventosCerrados.add(
 				new EventoCerrado(unNombre, unaLocacion, cantidadMaximaDePersonas, unOrganizador, unaFechaMaximaDeConfirmacion,
 					unInicioDelEvento, unFinDelEvento))
 		}
 	}
 
-	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
+	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, Integer unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		unUsuario.mensajes.add("NO PODES ORGANIZAR EVENTOS ABIERTOS")
 
@@ -69,13 +71,13 @@ class Free implements TipoDeUsuario {
 	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
-		int cantidadMaximaPermitidaDeSimultaneidadDeEventos) {
+		Integer cantidadMaximaPermitidaDeSimultaneidadDeEventos) {
 		unUsuario.EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(unInicioDelEvento,
 			cantidadMaximaPermitidaDeSimultaneidadDeEventos)
 	}
 
 	override puedoOrganizarUnEventoEsteMes(Usuario unUsuario, LocalDateTime unInicioDelEvento,
-		int maximoDeEventosMensuales) {
+		Integer maximoDeEventosMensuales) {
 		unUsuario.puedoOrganizarUnEventoEsteMes(unInicioDelEvento, maximoDeEventosMensuales)
 	}
 
@@ -98,29 +100,33 @@ class Free implements TipoDeUsuario {
 }
 
 class Amateur implements TipoDeUsuario {
-	int maximoDeInvitacionesPorEvento = 50
-	int cantidadMaximaPermitidaDeSimultaneidadDeEventos = 5
+	Integer maximoDeInvitacionesPorEvento = 50
+	Integer cantidadMaximaPermitidaDeSimultaneidadDeEventos = 5
 
-	override organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion, int cantidadMaximaDePersonas,
+	override organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion, Integer cantidadMaximaDePersonas,
 		Usuario unOrganizador, LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento,
 		LocalDateTime unFinDelEvento) {
+
 		if (cantidadPermitidaDeEventosALaVez(unUsuario, unInicioDelEvento,
-			cantidadMaximaPermitidaDeSimultaneidadDeEventos)) {
-			if (cantidadMaximaDePersonas <= maximoDeInvitacionesPorEvento) {
+			cantidadMaximaPermitidaDeSimultaneidadDeEventos)&&
+			cantidadMaximaDePersonas <= maximoDeInvitacionesPorEvento) {
+
+						
 				unUsuario.eventosCerrados.add(
+	
 					new EventoCerrado(unNombre, unaLocacion, cantidadMaximaDePersonas, unOrganizador,
 						unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento))
-			}
+			
 		}
 	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
-		int cantidadMaximaPermitidaDeSimultaneidadDeEventos) {
+		Integer cantidadMaximaPermitidaDeSimultaneidadDeEventos) {
 		unUsuario.EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(unInicioDelEvento,
 			cantidadMaximaPermitidaDeSimultaneidadDeEventos)
 	}
 
-	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
+	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, Integer unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		unUsuario.eventosAbiertos.add(
 			new EventoAbierto(unNombre, unaLocacion, unUsuario, unValorDeLaEntrada, unaFechaMaximaDeConfirmacion,
@@ -137,7 +143,7 @@ class Amateur implements TipoDeUsuario {
 	}
 
 	override puedoOrganizarUnEventoEsteMes(Usuario unUsuario, LocalDateTime unInicioDelEvento,
-		int maximoDeEventosMensuales) {
+		Integer maximoDeEventosMensuales) {
 		true
 	}
 
@@ -161,9 +167,9 @@ class Amateur implements TipoDeUsuario {
 
 class Profesional implements TipoDeUsuario {
 
-	int maximoDeEventosMensuales = 20
+	Integer maximoDeEventosMensuales = 20
 
-	override organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion, int cantidadMaximaDePersonas,
+	override organizarEventoCerrado(Usuario unUsuario, String unNombre, Locacion unaLocacion, Integer cantidadMaximaDePersonas,
 		Usuario unOrganizador, LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento,
 		LocalDateTime unFinDelEvento) {
 		if (puedoOrganizarUnEventoEsteMes(unUsuario, unInicioDelEvento, maximoDeEventosMensuales)) {
@@ -175,7 +181,7 @@ class Profesional implements TipoDeUsuario {
 		}
 	}
 
-	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
+	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, Integer unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		unUsuario.eventosAbiertos.add(
 			new EventoAbierto(unNombre, unaLocacion, unUsuario, unValorDeLaEntrada, unaFechaMaximaDeConfirmacion,
@@ -192,12 +198,12 @@ class Profesional implements TipoDeUsuario {
 	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,
-		int cantidadMaximaPermitidaDeSimultaneidadDeEventos) {
+		Integer cantidadMaximaPermitidaDeSimultaneidadDeEventos) {
 		true
 	}
 
 	override puedoOrganizarUnEventoEsteMes(Usuario unUsuario, LocalDateTime unInicioDelEvento,
-		int maximoDeEventosMensuales) {
+		Integer maximoDeEventosMensuales) {
 		true
 	}
 
