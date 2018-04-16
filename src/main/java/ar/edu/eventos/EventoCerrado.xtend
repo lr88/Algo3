@@ -17,6 +17,7 @@ class EventoCerrado extends Evento {
 		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
 		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
 		cantidadMaximaDeInvitados = unaCantidadMaximaDeInvitados
+		print("se creo un evento Cerrado\n")
 	}
 	
 	def int capacidadMaxima() {
@@ -68,7 +69,8 @@ class EventoCerrado extends Evento {
 	override void postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
 		fuePostergado = true
 		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 
-		invitaciones.forEach[invitacion |invitacion.usuario.mensajes.add("se postergo el evento")]
+		invitaciones.forEach[invitacion |invitacion.usuario.mensajes.add("se postergo el evento\n")]
+		print("se postergo el evento\n")
 		
 	}
 

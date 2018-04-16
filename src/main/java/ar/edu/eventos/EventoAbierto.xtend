@@ -62,14 +62,14 @@ class EventoAbierto extends Evento {
 
 	override cancelarElEvento(Evento unEvento) {
 		fueCancelado = true
-		entradas.forEach[entrada|entrada.usuario.mensajes.add("se cancelo el evento")]
+		entradas.forEach[entrada|entrada.usuario.mensajes.add("se cancelo el evento\n")]
 		entradas.forEach[entrada|entrada.devolverEltotal()]
 		entradas.clear
 	}
 
 	override void postergarElEvento(Evento unEvento, LocalDateTime NuevaFechaDeInicioDelEvento) {
 		fuePostergado = true
-		entradas.forEach[entrada|entrada.usuario.mensajes.add("se postergo el evento")]
+		entradas.forEach[entrada|entrada.usuario.mensajes.add("se postergo el evento\n")]
 		organizador.indicarNuevaFechaDeEvento(this, NuevaFechaDeInicioDelEvento)
 	}
 

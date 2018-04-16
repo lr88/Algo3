@@ -21,6 +21,7 @@ class Invitacion {
 		cantidadMaximaDeAcompañantes = unaCantidadMaximaDeAcompañantes
 		evento = unEvento
 		unUsuario.miListaDeInvitaciones.add(this)
+		print("la invitacion Fue Realizada\n")
 	}
 	
 	

@@ -27,24 +27,24 @@ class testEventosCerrado {
 		
 		miCasa = new Locacion(new Point(10, 10), "Complejo1", 3)
 		
-		persona1 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), true,
+		persona1 = new Usuario("persona1", "C", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), true,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		persona2 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+		persona2 = new Usuario("persona2", "A", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		persona3 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+		persona3 = new Usuario("persona3", "R", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		persona4 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+		persona4 = new Usuario("persona4", "L", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		persona5 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+		persona5 = new Usuario("persona5", "O", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		persona6 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+		persona6 = new Usuario("persona6", "S", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
 
-		Organizador1 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+		Organizador1 = new Usuario("Organizador1", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		Organizador2 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), true,
+		Organizador2 = new Usuario("Organizador2", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), true,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Amateur)
-		Organizador3 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+		Organizador3 = new Usuario("Organizador3", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
 
 		Organizador3.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador3,

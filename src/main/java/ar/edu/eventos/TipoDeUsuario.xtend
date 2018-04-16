@@ -58,16 +58,18 @@ class Free implements TipoDeUsuario {
 	override organizarEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		unUsuario.mensajes.add("NO PODES ORGANIZAR EVENTOS ABIERTOS")
+		print("NO PODES ORGANIZAR EVENTOS ABIERTOS")
 
 	}
 
 	override cancelarElEvento(Usuario unUsuario,Evento unEvento) {
 		unUsuario.mensajes.add("NO PODES CANCELAR UN EVENTOS ")
-
+	print("NO PODES CANCELAR UN EVENTOS ")
 	}
 
 	override postergarElEvento (Usuario unUsuario,Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento) {
 		unUsuario.mensajes.add("NO PODES POSTERGAR UN EVENTOS")
+		print("NO PODES POSTERGAR UN EVENTOS")
 	}
 
 	override cantidadPermitidaDeEventosALaVez(Usuario unUsuario, LocalDateTime unInicioDelEvento,

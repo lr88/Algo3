@@ -45,6 +45,7 @@ class Usuario {
 		fechaDeNacimiento = unaFecha
 		radioDeCercanía = unRadioDeCercanía
 		tipoDeUsuario = unTipoDeUsuario
+		print("felicitaciones te Registraste Correctamente  "+nombreDeUsuario+"\n")
 	}
 
 	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento) {
@@ -109,12 +110,16 @@ class Usuario {
 			if (unEvento.cantidaDePosiblesAsistentes < unEvento.cantidadMaximaDeInvitados){
 			unEvento.invitaciones.add(new Invitacion (unUsuario, unaCantidadMaximaDeAcompañantes,unEvento))
 				unUsuario.mensajes.add("Fuiste Invitado al Evento "+ nombre)
+				print("Fuiste Invitado al Evento "+ unUsuario.nombre+"\n")
 			}
 			else{
+				print("No se puede crear invitacion, supera la cantidad maxima del evento\n")
 				throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
+				
 			}
 		}
 		else{
+			print("No se puede crear invitacion, no el organizador del evento\n")
 		throw new BusinessException("No se puede crear invitacion, no el organizador del evento")
 		}
 	}
@@ -127,6 +132,7 @@ class Usuario {
 				unaInvitacion.cantidadDeAcompañantes = unaCantidadDeAcompañantes
 		}
 		else{
+			print("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes\n")
 			throw new BusinessException("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes")
 		}
 		
