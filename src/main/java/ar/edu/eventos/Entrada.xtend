@@ -17,6 +17,7 @@ class Entrada {
 		valorDeLAEntrada = unValorDeLaEntrada
 		unUsuario.entregarEntradaAlusuario(this)
 		usuario.mensajes.add("Felicitaciones tu entrada fue comprada Con Exito")
+		print("Felicitaciones tu entrada fue comprada Con Exito")
 		usuario.plataQueTengo = usuario.plataQueTengo - valorDeLAEntrada
 	}
 
@@ -41,6 +42,7 @@ class Entrada {
 
 	def void devolverEltotal() {
 		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLAEntrada
+		print("Felicitaciones tu entrada fue devuelta con su 100 % de su valor con Exito")
 	}
 
 }

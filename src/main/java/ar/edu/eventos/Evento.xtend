@@ -25,7 +25,8 @@ class Evento {
 		organizador = unOrganizador
 		inicioDelEvento = unInicioDelEvento
 		finDelEvento = unFinDelEvento
-
+		print("se creo un evento")
+		
 	}
 
 	def duracion() {

@@ -19,7 +19,7 @@ class EventoAbierto extends Evento {
 
 		ValorDeLaEntrada = unValorDeLaEntrada
 		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
-
+		print("se creo un evento Abierto\n")
 	}
 
 	def void adquirirEntrada(Usuario unUsuario) {
