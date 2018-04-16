@@ -20,14 +20,22 @@ class Entrada {
 		usuario.plataQueTengo = usuario.plataQueTengo - valorDeLAEntrada
 	}
 
-	def void devolverDinero(LocalDateTime unaFecha, EventoAbierto unEvento) {
-		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLAEntrada * 0.2
-		if (Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() <= 6) {
-			usuario.plataQueTengo = usuario.plataQueTengo +
-				Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() * diezPorCiento * valorDeLAEntrada
-		} else {
 
-			usuario.plataQueTengo = usuario.plataQueTengo + 6 * diezPorCiento * valorDeLAEntrada
+	def elEventoFuePostegadoOCancelado(EventoAbierto unEvento){
+		unEvento.fueCancelado || unEvento.fuePostergado
+	}
+
+	def void devolverDinero(LocalDateTime unaFecha, EventoAbierto unEvento) {
+		if(elEventoFuePostegadoOCancelado(unEvento)){
+				devolverEltotal			
+		}
+		else{
+				if (0 < Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() && Duration.between(unaFecha, unEvento.inicioDelEvento).toDays()  < 8) {
+					usuario.plataQueTengo = usuario.plataQueTengo + (Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() + 1) * diezPorCiento * valorDeLAEntrada
+					}
+		 		else {
+					usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLAEntrada
+				}
 		}
 	}
 
