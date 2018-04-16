@@ -12,11 +12,11 @@ class Invitacion {
 	boolean EstadoPendiente = true
 	boolean EstadoRechazado = false
 	
-	Integer cantidadMaximaDeAcompañantes
-	Integer cantidadDeAcompañantes
+	int cantidadMaximaDeAcompañantes
+	int cantidadDeAcompañantes
 	
 	
-	new(Usuario unUsuario, Integer unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) {
+	new(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) {
 		usuario = unUsuario
 		cantidadMaximaDeAcompañantes = unaCantidadMaximaDeAcompañantes
 		evento = unEvento

@@ -10,10 +10,10 @@ import java.util.HashSet
 @Accessors
 class EventoAbierto extends Evento {
 
-	Integer ValorDeLaEntrada
+	int ValorDeLaEntrada
 	Set<Entrada> entradas = new HashSet()
 
-	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, Integer unValorDeLaEntrada,
+	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, int unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
 
@@ -56,7 +56,7 @@ class EventoAbierto extends Evento {
 		(Duration.between(fechaActual, fechaMaximaDeConfirmacion).toHours()) > 0
 	}
 
-	def Integer entradasDisponibles() {
+	def int entradasDisponibles() {
 		(cantidadTotalDeEntradasDisponibles - cantidadDeEntradasVendidas).intValue
 	}
 
@@ -73,7 +73,7 @@ class EventoAbierto extends Evento {
 		organizador.indicarNuevaFechaDeEvento(this, NuevaFechaDeInicioDelEvento)
 	}
 
-	def Integer cantidadDeEntradasVendidas() {
+	def int cantidadDeEntradasVendidas() {
 		entradas.size
 	}
 

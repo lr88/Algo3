@@ -31,7 +31,7 @@ class Usuario {
 	var double plataQueTengo = 100
 	var double radioDeCercanía
 	TipoDeUsuario tipoDeUsuario
-	Integer cantidadDeAcompañantes
+	int cantidadDeAcompañantes
 	
 
 	new(String unNombreDeUsuario, String unNombre, String unApellido, String unEmail, Point unLugar,
@@ -62,7 +62,7 @@ class Usuario {
 	def void agregarAmigo(Usuario unAmigo) {
 		amigos.add(unAmigo)
 	}
-	def Integer cantidadDeAmigos() {
+	def int cantidadDeAmigos() {
 		amigos.size
 	}
 	def eliminarAmigos(Usuario unUsuario) {
@@ -77,21 +77,21 @@ class Usuario {
 		eventosCerrados+eventosAbiertos
 	}
 
-	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,Integer unMaximoDeEventosMensuales){
+	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,int unMaximoDeEventosMensuales){
 		listaDeTodosMisEventos.filter[evento|evento.inicioDelEvento.getMonth == unInicioDelEvento.getMonth && evento.inicioDelEvento.getYear == unInicioDelEvento.getYear].size < unMaximoDeEventosMensuales
 	}
 
-	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,Integer unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
+	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,int unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
 		listaDeTodosMisEventos.filter[evento | evento.terminoElEvento == false].size < unaCantidadMaximaPermitidaDeSimultaneidadDeEventos
 	}
 
-	def crearEventoCerrado(String unNombre, Locacion unaLocacion, Integer cantidadMaxima, Usuario unOrganizador,
+	def crearEventoCerrado(String unNombre, Locacion unaLocacion, int cantidadMaxima, Usuario unOrganizador,
 		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
 		tipoDeUsuario.organizarEventoCerrado(this,unNombre, unaLocacion, cantidadMaxima, this,
 			unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
 	}
 
-	def CrearEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, Integer unValorDeLaEntrada,
+	def CrearEventoAbierto(String unNombre, Locacion unaLocacion, Usuario unUsuario, int unValorDeLaEntrada,
 		LocalDateTime unaFechaMaximaDeConfirmacion,LocalDateTime unInicioDelEvento,LocalDateTime unFinDelEvento) {
 		tipoDeUsuario.organizarEventoAbierto( unNombre,unaLocacion, this,unValorDeLaEntrada,
 		unaFechaMaximaDeConfirmacion, unInicioDelEvento, unFinDelEvento)
@@ -104,7 +104,7 @@ class Usuario {
 		}
 	}
     
-	def invitarAUnUsuario(Usuario unUsuario, Integer unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) { 
+	def invitarAUnUsuario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) { 
 		if(unEvento.organizador == this){
 			if (unEvento.cantidaDePosiblesAsistentes < unEvento.cantidadMaximaDeInvitados){
 			unEvento.invitaciones.add(new Invitacion (unUsuario, unaCantidadMaximaDeAcompañantes,unEvento))
@@ -120,7 +120,7 @@ class Usuario {
 	}
 	
 
-  	 def aceptarInvitacion(Invitacion unaInvitacion,Integer unaCantidadDeAcompañantes){
+  	 def aceptarInvitacion(Invitacion unaInvitacion,int unaCantidadDeAcompañantes){
 		if(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes && fechaActual < unaInvitacion.evento.fechaMaximaDeConfirmacion){
 				unaInvitacion.estadoPendiente = false
 				unaInvitacion.estadoAceptado = true
@@ -132,7 +132,7 @@ class Usuario {
 		
 	}
 	
-	def rechazarInvitacion(Invitacion unaInvitacion,Integer unaCantidad,EventoCerrado unEvento){
+	def rechazarInvitacion(Invitacion unaInvitacion,int unaCantidad,EventoCerrado unEvento){
 				unaInvitacion.estadoPendiente = false
 				unaInvitacion.estadoRechazado = true
 		}
@@ -155,7 +155,7 @@ class Usuario {
 		amigos.contains(unaInvitacion.evento.organizador)
 	}
 	
-	def asistenMasDeTantosAmigos(Invitacion unaInvitacion,Integer cantidad){
+	def asistenMasDeTantosAmigos(Invitacion unaInvitacion,int cantidad){
 		this.miListaDeInvitaciones.filter[invi|invi.evento.nombre == (unaInvitacion.usuario.miListaDeInvitaciones.map[invita|invita.evento.nombre])].size()>cantidad
 	}
 	

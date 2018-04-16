@@ -9,17 +9,17 @@ import java.time.Duration
 @Accessors
 class EventoCerrado extends Evento {
 
-	Integer cantidadMaximaDeInvitados
+	int cantidadMaximaDeInvitados
 	Set<Invitacion> invitaciones = new HashSet()
 
-	new(String unNombre, Locacion unaLocacion, Integer unaCantidadMaximaDeInvitados, Usuario unOrganizador,
+	new(String unNombre, Locacion unaLocacion, int unaCantidadMaximaDeInvitados, Usuario unOrganizador,
 		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
 		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
 		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
 		cantidadMaximaDeInvitados = unaCantidadMaximaDeInvitados
 	}
 	
-	def Integer capacidadMaxima() {
+	def int capacidadMaxima() {
 		cantidadMaximaDeInvitados
 	}
 
@@ -35,7 +35,7 @@ class EventoCerrado extends Evento {
 		 cantidadMaximaDeInvitados * 0.5 > cantidadDeInvitadosAceptadosMasSusAsistentes
 		}
     
-    def Integer cantidadDeInvitacionesAceptadas(){ 
+    def int cantidadDeInvitacionesAceptadas(){ 
     	listaDeInvitacionesAceptadas.size()
     }
     
@@ -43,11 +43,11 @@ class EventoCerrado extends Evento {
     	invitaciones.filter[invitaciones|invitaciones.estadoAceptado]
     }
     
-    def Integer cantidadDeInvitadosAceptadosMasSusAsistentes() {
+    def int cantidadDeInvitadosAceptadosMasSusAsistentes() {
     		listaDeInvitacionesAceptadas.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes + 1 ]) 
 		}
     
-    def Integer cantidadDeInvitadosPendientesMasSusAsistentes() {
+    def int cantidadDeInvitadosPendientesMasSusAsistentes() {
     		listaDeInvitacionesPendientes.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes + 1 ]) 
 		}
      
@@ -55,7 +55,7 @@ class EventoCerrado extends Evento {
     	invitaciones.filter[invitaciones|invitaciones.estadoPendiente]
     }
     
-    def Integer cantidaDePosiblesAsistentes(){ 
+    def int cantidaDePosiblesAsistentes(){ 
 		cantidadDeInvitadosPendientesMasSusAsistentes + cantidadDeInvitadosAceptadosMasSusAsistentes 
 	}
 	

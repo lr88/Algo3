@@ -24,7 +24,9 @@ class testEventosCerrado {
 
 	@Before
 	def void init() {
-
+		
+		miCasa = new Locacion(new Point(10, 10), "Complejo1", 3)
+		
 		persona1 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), true,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
 		persona2 = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
@@ -48,11 +50,12 @@ class testEventosCerrado {
 		Organizador3.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador3,
 			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
 			LocalDateTime.of(2020, 6, 11, 6, 00))
+		
 		Organizador3.CrearEventoAbierto("Fiesta de pedro y leo", miCasa, Organizador3, 20,
 			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
 			LocalDateTime.of(2020, 6, 11, 6, 00))
 
-		Organizador1.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador3,
+		Organizador1.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador1,
 			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
 			LocalDateTime.of(2020, 6, 11, 6, 00))
 
@@ -69,14 +72,11 @@ class testEventosCerrado {
 		Organizador3.invitarAUnUsuario(persona5, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona6, 5, evento1)
 		
-		Organizador1.invitarAUnUsuario(persona1, 5, evento1)
+		Organizador1.invitarAUnUsuario(persona1, 5, evento2)
 		
 		persona1.agregarAmigo(persona2)
 		persona1.agregarAmigo(persona3)
-		
-		
-		
-		miCasa = new Locacion(new Point(10, 10), "Complejo1", 3)
+
 
 	}
 
@@ -108,7 +108,7 @@ class testEventosCerrado {
 
 	@Test
 	def void cantidadDeTodasLasInvitacionesDeUnEveto() {
-		Assert.assertEquals(7, evento1.invitaciones.size)
+		Assert.assertEquals(6, evento1.invitaciones.size)
 	}
 
 	@Test
