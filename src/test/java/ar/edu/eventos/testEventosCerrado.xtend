@@ -5,6 +5,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
+import java.util.List
 
 class testEventosCerrado {
 
@@ -19,6 +20,7 @@ class testEventosCerrado {
 	Usuario persona4
 	Usuario persona5
 	Usuario persona6
+	List<Usuario> listaDeUsuariosDelTest = newArrayList()
 
 	Locacion miCasa
 
@@ -39,6 +41,13 @@ class testEventosCerrado {
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
 		persona6 = new Usuario("persona6", "S", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
+
+		listaDeUsuariosDelTest.add(persona1)
+		listaDeUsuariosDelTest.add(persona2)
+		listaDeUsuariosDelTest.add(persona3)
+		listaDeUsuariosDelTest.add(persona4)
+		listaDeUsuariosDelTest.add(persona5)
+		listaDeUsuariosDelTest.add(persona6)
 
 		Organizador1 = new Usuario("Organizador1", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
@@ -76,15 +85,26 @@ class testEventosCerrado {
 
 		persona1.agregarAmigo(persona2)
 		persona1.agregarAmigo(persona3)
+
+	}
+
+	@Test
+	def void EsExitoso() {
+		listaDeUsuariosDelTest.forEach[usuario|usuario.aceptarTodasLasInvitaciones]
+		Assert.assertTrue(evento1.esExitoso)
+	}
+
+	@Test
+	def void fueUnFracaso() {
+		listaDeUsuariosDelTest.forEach[usuario|usuario.rechazarTodasLasInvitaciones]
+		Assert.assertTrue(evento1.esUnFracaso)
 	}
 
 	@Test
 	def void pasoLaFechaDeConfirmacion() {
 		evento1.cambiarFecha(LocalDateTime.of(2004, 10, 10, 00, 00))
 		Organizador1.invitarAUnUsuario(persona2, 5, evento2)
-		Assert.assertTrue(persona2.mensajes.contains("Paso el tiempo de compra de entradas\n"))
-		(persona2.aceptarInvitacion(persona2.listaDeTodosMisInvitacionesPendientes.get(0),1)) 
-		Assert.assertEquals(0, persona2.listaDeTodosMisInvitacionesPendientes.size, 0)
+		Assert.assertEquals(2, persona2.listaDeTodosMisInvitacionesPendientes.size, 0)
 		Assert.assertEquals(0, evento1.cantidadDeInvitacionesAceptadas, 0)
 	}
 

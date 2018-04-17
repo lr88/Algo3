@@ -47,7 +47,14 @@ class Usuario {
 		tipoDeUsuario = unTipoDeUsuario
 		print("felicitaciones te Registraste Correctamente  "+nombreDeUsuario+"\n")
 	}
-
+//	SOLO PARA EL TEST ------------
+	def aceptarTodasLasInvitaciones(){
+		listaDeTodosMisInvitacionesPendientes.forEach[invitacion |aceptarInvitacion(invitacion,3)]
+	}
+	def rechazarTodasLasInvitaciones(){
+		listaDeTodosMisInvitacionesPendientes.forEach[invitacion |rechazarInvitacion(invitacion)]
+	}
+// -------------------------------
 	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento) {
 		unEvento.adquirirEntrada(this)
 	}
@@ -138,7 +145,7 @@ class Usuario {
 		
 	}
 	
-	def rechazarInvitacion(Invitacion unaInvitacion,int unaCantidad,EventoCerrado unEvento){
+	def rechazarInvitacion(Invitacion unaInvitacion){
 				unaInvitacion.estadoPendiente = false
 				unaInvitacion.estadoRechazado = true
 		}
@@ -176,7 +183,7 @@ class Usuario {
 	}
 	else{
 		miListaDeInvitaciones.filter[invitacion | asistenMasDeTantosAmigos(invitacion, 0) == true/* && meQuedaSerca(invitacion) == false */]
-			.forEach[inv | this.rechazarInvitacion(inv,inv.cantidadDeAcompañantes,inv.evento)]
+			.forEach[invitacion | this.rechazarInvitacion(invitacion)]
 		}
 	}
 

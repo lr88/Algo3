@@ -49,7 +49,7 @@ class EventoAbierto extends Evento {
 	}
 
 	def boolean esUnFracaso() {
-		cantidadDeEntradasVendidas > cantidadTotalDeEntradasDisponibles * 0.5
+		cantidadDeEntradasVendidas < cantidadTotalDeEntradasDisponibles * 0.5
 	}
 
 	def boolean hayTiempoParaConfirmar(Usuario unUsuario) {
