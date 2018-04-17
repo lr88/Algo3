@@ -48,8 +48,8 @@ class Usuario {
 		print("felicitaciones te Registraste Correctamente  "+nombreDeUsuario+"\n")
 	}
 //	SOLO PARA EL TEST ------------
-	def aceptarTodasLasInvitaciones(){
-		listaDeTodosMisInvitacionesPendientes.forEach[invitacion |aceptarInvitacion(invitacion,3)]
+	def aceptarTodasLasInvitaciones(int cantidadDeacompañantes){
+		listaDeTodosMisInvitacionesPendientes.forEach[invitacion |aceptarInvitacion(invitacion,cantidadDeacompañantes)]
 	}
 	def rechazarTodasLasInvitaciones(){
 		listaDeTodosMisInvitacionesPendientes.forEach[invitacion |rechazarInvitacion(invitacion)]
@@ -121,13 +121,13 @@ class Usuario {
 			}
 			else{
 				print("No se puede crear invitacion, supera la cantidad maxima del evento\n")
-				throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
+				//throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
 				
 			}
 		}
 		else{
 			print("No se puede crear invitacion, no el organizador del evento\n")
-		throw new BusinessException("No se puede crear invitacion, no el organizador del evento")
+		//throw new BusinessException("No se puede crear invitacion, no el organizador del evento")
 		}
 	}
 	
@@ -140,7 +140,8 @@ class Usuario {
 		}
 		else{
 			print("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes\n")
-			throw new BusinessException("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes")
+			mensajes.add("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes")
+			//throw new BusinessException("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes")
 		}
 		
 	}

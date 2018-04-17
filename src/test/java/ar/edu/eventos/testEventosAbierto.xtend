@@ -50,6 +50,8 @@ class testEventosAbierto {
 		Assert.assertTrue(eventoAbierto1.esUnFracaso)
 	}
 
+
+
 	@Test
 	def void fechaDeConfirmacion() {
 		Assert.assertEquals(LocalDateTime.of(2019, 10, 10, 00, 00), eventoAbierto1.fechaMaximaDeConfirmacion)

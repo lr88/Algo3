@@ -89,8 +89,14 @@ class testEventosCerrado {
 	}
 
 	@Test
+	def void  alQuererAceptarUnaInvitacionQueSuperaLaCantidadPermitidaDeAcompañantesEstaNoSepermiteAceptar() {
+		persona1.aceptarInvitacion(persona1.listaDeTodosMisInvitacionesPendientes.get(0),25)
+		Assert.assertEquals(0,persona1.listaDeTodosMisInvitacionesAceptadas.size,0)
+	}
+
+	@Test
 	def void EsExitoso() {
-		listaDeUsuariosDelTest.forEach[usuario|usuario.aceptarTodasLasInvitaciones]
+		listaDeUsuariosDelTest.forEach[usuario|usuario.aceptarTodasLasInvitaciones(3)]
 		Assert.assertTrue(evento1.esExitoso)
 	}
 
