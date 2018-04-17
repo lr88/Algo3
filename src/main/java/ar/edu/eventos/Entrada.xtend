@@ -31,8 +31,8 @@ class Entrada {
 				devolverEltotal			
 		}
 		else{
-				if (0 < Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() && Duration.between(unaFecha, unEvento.inicioDelEvento).toDays()  < 8) {
-					usuario.plataQueTengo = usuario.plataQueTengo + (Duration.between(unaFecha, unEvento.inicioDelEvento).toDays() + 1) * diezPorCiento * valorDeLAEntrada
+				if (0 < Duration.between(unaFecha, unEvento.fechaDeInicioDelEvento).toDays() && Duration.between(unaFecha, unEvento.fechaDeInicioDelEvento).toDays()  < 8) {
+					usuario.plataQueTengo = usuario.plataQueTengo + (Duration.between(unaFecha, unEvento.fechaDeInicioDelEvento).toDays() + 1) * diezPorCiento * valorDeLAEntrada
 					}
 		 		else {
 					usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLAEntrada

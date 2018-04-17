@@ -79,9 +79,9 @@ class EventoCerrado extends Evento {
     }
 	
 	override void cambiarFecha(LocalDateTime nuevaFecha){
-		var  aux =	Duration.between(inicioDelEvento,nuevaFecha)
-		inicioDelEvento = inicioDelEvento.plus(aux)
-		finDelEvento = finDelEvento.plus(aux)
+		var  aux =	Duration.between(fechaDeInicioDelEvento,nuevaFecha)
+		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
+		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
 	}
 

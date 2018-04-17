@@ -24,9 +24,9 @@ class testEventosCerrado {
 
 	@Before
 	def void init() {
-		
+
 		miCasa = new Locacion(new Point(10, 10), "Complejo1", 3)
-		
+
 		persona1 = new Usuario("persona1", "C", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), true,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
 		persona2 = new Usuario("persona2", "A", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
@@ -50,7 +50,7 @@ class testEventosCerrado {
 		Organizador3.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador3,
 			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
 			LocalDateTime.of(2020, 6, 11, 6, 00))
-		
+
 		Organizador3.CrearEventoAbierto("Fiesta de pedro y leo", miCasa, Organizador3, 20,
 			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
 			LocalDateTime.of(2020, 6, 11, 6, 00))
@@ -61,7 +61,7 @@ class testEventosCerrado {
 
 		persona1.agregarAmigo(persona2)
 		persona1.agregarAmigo(persona3)
-		
+
 		evento1 = Organizador3.eventosCerrados.get(0)
 		evento2 = Organizador1.eventosCerrados.get(0)
 
@@ -71,13 +71,31 @@ class testEventosCerrado {
 		Organizador3.invitarAUnUsuario(persona4, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona5, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona6, 5, evento1)
-		
+
 		Organizador1.invitarAUnUsuario(persona1, 5, evento2)
-		
+
 		persona1.agregarAmigo(persona2)
 		persona1.agregarAmigo(persona3)
+	}
 
+	@Test
+	def void pasoLaFechaDeConfirmacion() {
+		evento1.cambiarFecha(LocalDateTime.of(2004, 10, 10, 00, 00))
+		Organizador1.invitarAUnUsuario(persona2, 5, evento2)
+		Assert.assertTrue(persona2.mensajes.contains("Paso el tiempo de compra de entradas\n"))
+		(persona2.aceptarInvitacion(persona2.listaDeTodosMisInvitacionesPendientes.get(0),1)) 
+		Assert.assertEquals(0, persona2.listaDeTodosMisInvitacionesPendientes.size, 0)
+		Assert.assertEquals(0, evento1.cantidadDeInvitacionesAceptadas, 0)
+	}
 
+	@Test
+	def void capacidadMazimaEventoAbierto() {
+		Assert.assertEquals(20, evento1.capacidadMaxima, 0)
+	}
+
+	@Test
+	def void fechaDeConfirmacion() {
+		Assert.assertEquals(LocalDateTime.of(2020, 6, 10, 5, 00), evento1.fechaMaximaDeConfirmacion)
 	}
 
 	@Test
@@ -134,9 +152,9 @@ class testEventosCerrado {
 
 	@Test
 	def listaDeTodasLasInvitacionesDeUnEveto() {
-		persona2.miListaDeInvitaciones.forEach[inv | persona2.aceptarInvitacion(inv,2)]
-		persona3.miListaDeInvitaciones.forEach[inv | persona3.aceptarInvitacion(inv,2)]
-		Assert.assertEquals(1,1)
+		persona2.miListaDeInvitaciones.forEach[inv|persona2.aceptarInvitacion(inv, 2)]
+		persona3.miListaDeInvitaciones.forEach[inv|persona3.aceptarInvitacion(inv, 2)]
+		Assert.assertEquals(1, 1)
 	}
-	
+
 }

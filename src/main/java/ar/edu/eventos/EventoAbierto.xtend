@@ -23,7 +23,7 @@ class EventoAbierto extends Evento {
 	}
 
 	def void adquirirEntrada(Usuario unUsuario) {
-		if (entradasDisponibles > 0 && !unUsuario.soyMenorDeEdad(fechaActual) && hayTiempoParaConfirmar)
+		if (entradasDisponibles > 0 && !unUsuario.soyMenorDeEdad(fechaActual) && hayTiempoParaConfirmar(unUsuario))
 			agregarEntrada(new Entrada(unUsuario, ValorDeLaEntrada))
 			
 	}
@@ -52,8 +52,15 @@ class EventoAbierto extends Evento {
 		cantidadDeEntradasVendidas > cantidadTotalDeEntradasDisponibles * 0.5
 	}
 
-	def boolean hayTiempoParaConfirmar() {
-		(Duration.between(fechaActual, fechaMaximaDeConfirmacion).toHours()) > 0
+	def boolean hayTiempoParaConfirmar(Usuario unUsuario) {
+		if((Duration.between(fechaActual,fechaMaximaDeConfirmacion).toHours()) > 0){
+			true
+		}
+		else{
+			print("Paso el tiempo de compra de entradas\n")
+			unUsuario.mensajes.add("Paso el tiempo de compra de entradas\n")
+			false
+		}
 	}
 
 	def int entradasDisponibles() {
@@ -82,9 +89,9 @@ class EventoAbierto extends Evento {
 	}
 
 	override void cambiarFecha(LocalDateTime nuevaFecha) {
-		var aux = Duration.between(inicioDelEvento, nuevaFecha)
-		inicioDelEvento = inicioDelEvento.plus(aux)
-		finDelEvento = finDelEvento.plus(aux)
+		var aux = Duration.between(fechaDeInicioDelEvento, nuevaFecha)
+		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
+		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
 	}
 }

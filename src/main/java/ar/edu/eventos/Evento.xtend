@@ -9,8 +9,8 @@ class Evento {
 
 	LocalDateTime fechaMaximaDeConfirmacion
 	LocalDateTime fechaActual = LocalDateTime.now()
-	LocalDateTime inicioDelEvento
-	LocalDateTime finDelEvento
+	LocalDateTime fechaDeInicioDelEvento
+	LocalDateTime fechaDeFinDelEvento
 	String nombre
 	Locacion locacion
 	Usuario organizador
@@ -23,16 +23,16 @@ class Evento {
 		nombre = unNombre
 		locacion = unaLocacion
 		organizador = unOrganizador
-		inicioDelEvento = unInicioDelEvento
-		finDelEvento = unFinDelEvento
+		fechaDeInicioDelEvento = unInicioDelEvento
+		fechaDeFinDelEvento = unFinDelEvento
 	}
 
 	def duracion() {
-		Duration.between(inicioDelEvento, finDelEvento).toHours()
+		Duration.between(fechaDeInicioDelEvento, fechaDeFinDelEvento).toHours()
 	}
 
 	def terminoElEvento() {
-		Duration.between(finDelEvento, fechaActual).toMillis() > 0
+		Duration.between(fechaDeFinDelEvento, fechaActual).toMillis() > 0
 	}
 
 	def void cambiarFecha(LocalDateTime nuevaFecha) {}

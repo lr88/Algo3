@@ -79,7 +79,7 @@ class Usuario {
 	}
 
 	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,int unMaximoDeEventosMensuales){
-		listaDeTodosMisEventos.filter[evento|evento.inicioDelEvento.getMonth == unInicioDelEvento.getMonth && evento.inicioDelEvento.getYear == unInicioDelEvento.getYear].size < unMaximoDeEventosMensuales
+		listaDeTodosMisEventos.filter[evento|evento.fechaDeInicioDelEvento.getMonth == unInicioDelEvento.getMonth && evento.fechaDeInicioDelEvento.getYear == unInicioDelEvento.getYear].size < unMaximoDeEventosMensuales
 	}
 
 	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,int unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
@@ -99,7 +99,7 @@ class Usuario {
 	}
 	
 	def devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
-		if(fechaActual.dayOfYear < unEvento.inicioDelEvento.dayOfYear){
+		if(fechaActual.dayOfYear < unEvento.fechaDeInicioDelEvento.dayOfYear){
 			unaEntrada.devolverDinero(fechaActual,unEvento)
 			unEvento.usuarioDevuelveEntrada(unaEntrada)
 		}
