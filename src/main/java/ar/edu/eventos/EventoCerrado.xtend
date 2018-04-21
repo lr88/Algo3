@@ -15,11 +15,11 @@ class EventoCerrado extends Evento {
 		cantidadMaximaDeInvitados
 	}
 
-	def boolean esExitoso() {
+	override boolean esExitoso() {
 		cantidadDeInvitacionesAceptadas > cantidadDeInvitaciones * 0.8 && fueCancelado == false
 	}
 
-	def boolean esUnFracaso() {
+	override boolean esUnFracaso() {
 		cantidadMaximaDeInvitados * 0.5 > cantidadDeInvitadosAceptadosMasSusAsistentes
 	}
 

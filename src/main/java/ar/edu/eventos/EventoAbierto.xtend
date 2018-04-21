@@ -31,11 +31,11 @@ class EventoAbierto extends Evento {
 		locacion.capacidadMaxima()
 	}
 
-	def boolean esExitoso() {
+	override boolean esExitoso() {
 		capacidadMaxima * 0.9 < cantidadDeEntradasVendidas && !fuePostergado && !fueCancelado
 	}
 
-	def boolean esUnFracaso() {
+	override boolean esUnFracaso() {
 		cantidadDeEntradasVendidas < capacidadMaxima * 0.5
 	}
 

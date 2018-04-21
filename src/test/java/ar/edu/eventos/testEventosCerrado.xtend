@@ -29,16 +29,13 @@ class testEventosCerrado {
 
 		miCasa = new Locacion(new Point(10, 10), "Complejo1", 3)
 
-		persona1 = new Usuario("persona1", "C", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), true,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		persona2 = new Usuario("persona2", "A", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		persona3 = new Usuario("persona3", "R", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		persona4 = new Usuario("persona4", "L", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		persona5 = new Usuario("persona5", "O", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
+		persona1 = new Usuario() =>{
+			
+		}
+		persona2 = new Usuario()
+		persona3 = new Usuario()
+		persona4 = new Usuario()
+		persona5 = new Usuario()
 		persona6 = new Usuario("persona6", "S", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
 
@@ -129,7 +126,7 @@ class testEventosCerrado {
 		Organizador1.crearEventoCerrado("Fiesta de Flor y leo", miCasa, 20, Organizador1,
 			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 10, 5, 00),
 			LocalDateTime.of(2020, 6, 10, 5, 00))
-		Assert.assertEquals(1, Organizador1.eventosCerrados.size)
+		Assert.assertEquals(1, Organizador1.eventos.size)
 	}
 
 	@Test
@@ -137,17 +134,17 @@ class testEventosCerrado {
 		Organizador2.crearEventoCerrado("Fiesta de Flor y leo", miCasa, 20, Organizador2,
 			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 10, 5, 00),
 			LocalDateTime.of(2020, 6, 10, 5, 00))
-		Assert.assertEquals(1, Organizador2.eventosCerrados.size)
+		Assert.assertEquals(1, Organizador2.eventos.size)
 	}
 
 	@Test
 	def void Organizador3crearDosEventosCerrado() {
-		Assert.assertEquals(1, Organizador3.eventosCerrados.size)
+		Assert.assertEquals(1, Organizador3.eventos.size)
 	}
 
 	@Test
 	def void listaDeTodosMisEventos() {
-		Assert.assertEquals(2, Organizador3.listaDeTodosMisEventos().size)
+		Assert.assertEquals(2, Organizador3.eventos.size)
 	}
 
 	@Test
@@ -157,7 +154,7 @@ class testEventosCerrado {
 
 	@Test
 	def void listaDeTodasLasInvitacionesDeUnUsuario() {
-		Assert.assertEquals(2, persona1.miListaDeInvitaciones.size)
+		Assert.assertEquals(2, persona1.invitaciones.size)
 	}
 
 	@Test
@@ -178,8 +175,8 @@ class testEventosCerrado {
 
 	@Test
 	def listaDeTodasLasInvitacionesDeUnEveto() {
-		persona2.miListaDeInvitaciones.forEach[inv|persona2.aceptarInvitacion(inv, 2)]
-		persona3.miListaDeInvitaciones.forEach[inv|persona3.aceptarInvitacion(inv, 2)]
+		persona2.invitaciones.forEach[inv|persona2.aceptarInvitacion(inv, 2)]
+		persona3.invitaciones.forEach[inv|persona3.aceptarInvitacion(inv, 2)]
 		Assert.assertEquals(1, 1)
 	}
 

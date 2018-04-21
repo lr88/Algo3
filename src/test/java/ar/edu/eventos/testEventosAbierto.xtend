@@ -53,23 +53,23 @@ class testEventosAbierto {
 		eventoAbierto1 = new EventoAbierto() => [
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 10, 10, 20, 0)
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2020, 10, 12, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2019, 10, 10, 0, 0)
 		]
 
 		entrada1 = new Entrada(eventoAbierto1) => [
-			valorDeLAEntrada = 20
+			valorDeLAEntrada = 100
 		]
 		entrada2 = new Entrada(eventoAbierto1) => [
-			valorDeLAEntrada = 20
+			valorDeLAEntrada = 100
 		]
 		entrada3 = new Entrada(eventoAbierto1) => [
-			valorDeLAEntrada = 20
+			valorDeLAEntrada = 100
 		]
 		entrada4 = new Entrada(eventoAbierto1) => [
-			valorDeLAEntrada = 20
+			valorDeLAEntrada = 100
 		]
 		entrada5 = new Entrada(eventoAbierto1) => [
-			valorDeLAEntrada = 20
+			valorDeLAEntrada = 100
 		]
 	}
 

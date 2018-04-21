@@ -12,7 +12,8 @@ import org.uqbar.geodds.Point
 @Accessors
 class Usuario {
 	List <String> mensajes = newArrayList()
-	Set<Evento> eventos = new HashSet ()
+	Set<EventoCerrado> eventosCerrados = new HashSet ()
+	Set<EventoAbierto> eventosAbiertos = new HashSet ()
 	Set<Usuario> amigos = new HashSet()	
 	Set <Invitacion> invitaciones = new HashSet ()
 	Set<Entrada> entradas = new HashSet()	
@@ -45,6 +46,10 @@ class Usuario {
 	
 	def void agregarAmigo(Usuario unAmigo) {
 		amigos.add(unAmigo)
+	}
+	
+	def eventos(){
+		eventosAbiertos + eventosCerrados
 	}
 	
 	def eliminarAmigos(Usuario unUsuario) {

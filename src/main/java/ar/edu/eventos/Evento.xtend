@@ -39,8 +39,9 @@ abstract class Evento {
 		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
 	}
-
-	def void cancelarElEvento() {}
-	def void postergarElEvento(LocalDateTime NuevaFechaDeInicioDelEvento){}
+	def boolean esExitoso()
+	def boolean esUnFracaso()
+	def void cancelarElEvento()
+	def void postergarElEvento(LocalDateTime NuevaFechaDeInicioDelEvento)
 	
 }
