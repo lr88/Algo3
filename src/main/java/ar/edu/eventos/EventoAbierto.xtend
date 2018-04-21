@@ -12,72 +12,57 @@ class EventoAbierto extends Evento {
 
 	int ValorDeLaEntrada
 	Set<Entrada> entradas = new HashSet()
+	int edadMinima
 
-	new(String unNombre, Locacion unaLocacion, Usuario unOrganizador, int unValorDeLaEntrada,
-		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
-		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
-
-		ValorDeLaEntrada = unValorDeLaEntrada
-		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
-		print("se creo un evento Abierto\n")
-	}
-
-	def void adquirirEntrada(Usuario unUsuario) {
-		if (entradasDisponibles > 0 && !unUsuario.soyMenorDeEdad(fechaActual) && hayTiempoParaConfirmar(unUsuario))
-			agregarEntrada(new Entrada(unUsuario, ValorDeLaEntrada))
-			
+	def void adquirirEntrada(Usuario unUsuario,Entrada unaEntrada) {
+		if (entradasDisponibles > 0 && unUsuario.edad(LocalDateTime.now)< edadMinima && hayTiempoParaConfirmar(unUsuario))
+			agregarEntrada(unaEntrada)
 	}
 
 	def void agregarEntrada(Entrada unaEntrada) {
 		entradas.add(unaEntrada)
 	}
 
-	def LocalDateTime fechaMáximaConfirmación(){
-		fechaMaximaDeConfirmacion
+	def sePuedeDevolverLaEntrada(){
+		LocalDateTime.now.dayOfYear < fechaDeInicioDelEvento.dayOfYear
 	}
 
 	def double capacidadMaxima() {
 		locacion.capacidadMaxima()
 	}
 
-	def cantidadTotalDeEntradasDisponibles(){
-		capacidadMaxima
-	}
-
 	def boolean esExitoso() {
-		cantidadTotalDeEntradasDisponibles * 0.9 < cantidadDeEntradasVendidas && !fuePostergado && !fueCancelado
+		capacidadMaxima * 0.9 < cantidadDeEntradasVendidas && !fuePostergado && !fueCancelado
 	}
 
 	def boolean esUnFracaso() {
-		cantidadDeEntradasVendidas < cantidadTotalDeEntradasDisponibles * 0.5
+		cantidadDeEntradasVendidas < capacidadMaxima * 0.5
 	}
 
 	def boolean hayTiempoParaConfirmar(Usuario unUsuario) {
-		if((Duration.between(fechaActual,fechaMaximaDeConfirmacion).toHours()) > 0){
+		if((Duration.between(LocalDateTime.now,fechaMaximaDeConfirmacion).toHours()) > 0){
 			true
 		}
 		else{
-			print("Paso el tiempo de compra de entradas\n")
-			unUsuario.mensajes.add("Paso el tiempo de compra de entradas\n")
+			unUsuario.recibirMensaje("Paso el tiempo de compra de entradas\n")
 			false
 		}
 	}
 
 	def int entradasDisponibles() {
-		(cantidadTotalDeEntradasDisponibles - cantidadDeEntradasVendidas).intValue
+		(capacidadMaxima - cantidadDeEntradasVendidas).intValue
 	}
 
-	override cancelarElEvento(Evento unEvento) {
+	override cancelarElEvento() {
 		fueCancelado = true
-		entradas.forEach[entrada|entrada.usuario.mensajes.add("se cancelo el evento\n")]
+		entradas.forEach[entrada|entrada.cancelarEvento]
 		entradas.forEach[entrada|entrada.devolverEltotal()]
 		entradas.clear
 	}
 
-	override void postergarElEvento(Evento unEvento, LocalDateTime NuevaFechaDeInicioDelEvento) {
+	override void postergarElEvento(LocalDateTime NuevaFechaDeInicioDelEvento) {
 		fuePostergado = true
-		entradas.forEach[entrada|entrada.usuario.mensajes.add("se postergo el evento\n")]
-		organizador.indicarNuevaFechaDeEvento(this, NuevaFechaDeInicioDelEvento)
+		entradas.forEach[entrada|entrada.postergarEvento]
 	}
 
 	def int cantidadDeEntradasVendidas() {
@@ -88,10 +73,4 @@ class EventoAbierto extends Evento {
 		entradas.remove(unaEntrada)
 	}
 
-	override void cambiarFecha(LocalDateTime nuevaFecha) {
-		var aux = Duration.between(fechaDeInicioDelEvento, nuevaFecha)
-		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
-		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
-		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
-	}
 }

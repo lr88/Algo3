@@ -8,16 +8,9 @@ class Locacion {
 
 	Point ubicacion
 	String nombreDeLaLocacion
-	val double distribucionM2PorPersona = 0.8
-	val double superficieM2
-
-	new(Point lugar, String unNombre, double unaSuperficieM2) {
-		nombreDeLaLocacion = unNombre
-		ubicacion = lugar
-		superficieM2 = unaSuperficieM2
-
-	}
-
+	var double distribucionM2PorPersona = 0.8
+	var double superficieM2
+	
 	def distancia(Point punto) {
 		ubicacion.distance(punto)
 	}

@@ -11,38 +11,43 @@ class Entrada {
 	Usuario usuario
 	val veintePorCiento = 0.2
 	val diezPorCiento = 0.10
+	val EventoAbierto EventoAbierto
 
-	new(Usuario unUsuario, double unValorDeLaEntrada) {
-		usuario = unUsuario
-		valorDeLAEntrada = unValorDeLaEntrada
-		unUsuario.entregarEntradaAlusuario(this)
-		usuario.mensajes.add("Felicitaciones tu entrada fue comprada Con Exito")
-		print("Felicitaciones tu entrada fue comprada Con Exito\n")
-		usuario.plataQueTengo = usuario.plataQueTengo - valorDeLAEntrada
+	new(EventoAbierto unEventoAbierto) {
+		EventoAbierto = unEventoAbierto
 	}
 
-
-	def elEventoFuePostegadoOCancelado(EventoAbierto unEvento){
-		unEvento.fueCancelado || unEvento.fuePostergado
+	def elEventoFuePostegadoOCancelado() {
+		EventoAbierto.elEventoFuePostegadoOCancelado
 	}
 
-	def void devolverDinero(LocalDateTime unaFecha, EventoAbierto unEvento) {
-		if(elEventoFuePostegadoOCancelado(unEvento)){
-				devolverEltotal			
-		}
-		else{
-				if (0 < Duration.between(unaFecha, unEvento.fechaDeInicioDelEvento).toDays() && Duration.between(unaFecha, unEvento.fechaDeInicioDelEvento).toDays()  < 8) {
-					usuario.plataQueTengo = usuario.plataQueTengo + (Duration.between(unaFecha, unEvento.fechaDeInicioDelEvento).toDays() + 1) * diezPorCiento * valorDeLAEntrada
-					}
-		 		else {
-					usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLAEntrada
-				}
+	def diasFaltantes() {
+		Duration.between(LocalDateTime.now, EventoAbierto.fechaDeInicioDelEvento).toDays()
+	}
+
+	def void devolverDinero() {
+
+		if (elEventoFuePostegadoOCancelado) {
+			devolverEltotal
+		} else {
+			if (0 < diasFaltantes && diasFaltantes < 8) {
+				usuario.plataQueTengo = usuario.plataQueTengo + (diasFaltantes + 1) * diezPorCiento * valorDeLAEntrada
+			} else {
+				usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLAEntrada
+			}
 		}
 	}
 
 	def void devolverEltotal() {
 		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLAEntrada
-		print("Felicitaciones tu entrada fue devuelta con su 100 % de su valor con Exito\n")
+	}
+	
+	def postergarEvento() {
+		usuario.recibirMensaje("se postergo el evento\n")
+	}
+	
+	def cancelarEvento() {
+		usuario.recibirMensaje("se cancelo el evento\n")
 	}
 
 }

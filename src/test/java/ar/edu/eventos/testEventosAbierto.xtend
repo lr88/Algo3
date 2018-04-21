@@ -12,41 +12,81 @@ class testEventosAbierto {
 	Usuario usuario2
 	Usuario usuario3
 	Locacion casaUsuario1
+	EventoAbierto eventoAbierto2
 	EventoAbierto eventoAbierto1
+	Entrada entrada1
+	Entrada entrada2
+	Entrada entrada3
+	Entrada entrada4
+	Entrada entrada5
+	Entrada entrada6
 
 	@Before
 	def void init() {
 
-		casaUsuario1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 5)
+		casaUsuario1 = new Locacion() => [
+			ubicacion = new Point(1.0, 2.0)
+			superficieM2 = 5
+		]
 
-		usuario1 = new Usuario("usuario1", "usuario1", "usuario1", "usuario1@usuario1.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
-		usuario2 = new Usuario("usuario2", "usuario2", "usuario2", "usuario2@usuario2.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
-		usuario3 = new Usuario("usuario2", "usuario2", "usuario2", "usuario2@usuario2.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
+		usuario1 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Profesional
+		]
+		usuario2 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Profesional
+		]
+		usuario3 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Profesional
+		]
+		eventoAbierto1 = new EventoAbierto() => [
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 10, 10, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2020, 10, 12, 0, 0)
+		]
 
-		eventoAbierto1 = new EventoAbierto("Mi cumple", casaUsuario1, usuario1, 100,
-			LocalDateTime.of(2019, 10, 10, 0, 0), LocalDateTime.of(2020, 10, 11, 0, 0),
-			LocalDateTime.of(2020, 10, 12, 0, 0))
-
+		entrada1 = new Entrada(eventoAbierto1) => [
+			valorDeLAEntrada = 20
+		]
+		entrada2 = new Entrada(eventoAbierto1) => [
+			valorDeLAEntrada = 20
+		]
+		entrada3 = new Entrada(eventoAbierto1) => [
+			valorDeLAEntrada = 20
+		]
+		entrada4 = new Entrada(eventoAbierto1) => [
+			valorDeLAEntrada = 20
+		]
+		entrada5 = new Entrada(eventoAbierto1) => [
+			valorDeLAEntrada = 20
+		]
 	}
 
 	@Test
 	def void EsExitoso() {
-		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1)
-		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1)
-		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1)
-		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1)
-		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1)
-		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1)
-		usuario3.comprarEntradaDeEventoAbierto(eventoAbierto1)
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada2)
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada3)
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada4)
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada5)
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
+		usuario3.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
 		Assert.assertTrue(eventoAbierto1.esExitoso)
 	}
 
 	@Test
 	def void fueUnFracaso() {
-		print(eventoAbierto1.cantidadDeEntradasVendidas)
 		Assert.assertTrue(eventoAbierto1.esUnFracaso)
 	}
 
@@ -58,9 +98,9 @@ class testEventosAbierto {
 	@Test
 	def void pasoLaFechaDeConfirmacion() {
 		eventoAbierto1.cambiarFecha(LocalDateTime.of(2004, 10, 10, 00, 00))
-		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1)
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada2)
 		Assert.assertTrue(usuario2.mensajes.contains("Paso el tiempo de compra de entradas\n"))
-		Assert.assertEquals(0, usuario2.listaDeEntradas.size, 0)
+		Assert.assertEquals(0, usuario2.entradas.size, 0)
 		Assert.assertEquals(0, eventoAbierto1.cantidadDeEntradasVendidas, 0)
 	}
 
@@ -71,66 +111,54 @@ class testEventosAbierto {
 
 	@Test
 	def void UnUsuarioCompraUnaEnradaYAlCancelarseElEventoElUsuarioRecibeLaNotificacionSeCanceloElEvento() {
-		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1)
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada2)
 		usuario1.cancelarEvento(eventoAbierto1)
 		Assert.assertTrue(usuario2.mensajes.contains("se cancelo el evento\n"))
 	}
 
 	@Test
 	def void UnUsuarioCreaUnEventoYLoPosterga() {
-		usuario1.CrearEventoAbierto("Mi cumple", casaUsuario1, usuario1, 100, LocalDateTime.of(2020, 10, 10, 0, 0),
-			LocalDateTime.of(2020, 10, 11, 0, 0), LocalDateTime.of(2020, 10, 12, 0, 0))
-		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
-		usuario1.postergarEvento(usuario1.eventosAbiertos.get(0), LocalDateTime.of(2020, 10, 11, 0, 0))
+		eventoAbierto2 = new EventoAbierto()
+		usuario1.postergarEvento(eventoAbierto2, LocalDateTime.of(2020, 10, 11, 0, 0))
 		Assert.assertTrue(usuario2.mensajes.contains("se postergo el evento\n"))
 	}
 
 	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoPostergadoSeReciveElValorTotalDeLaEntrada() {
-		usuario1.CrearEventoAbierto("Mi cumple", casaUsuario1, usuario1, 100, LocalDateTime.of(2020, 10, 10, 0, 0),
-			LocalDateTime.of(2020, 10, 11, 0, 0), LocalDateTime.of(2020, 10, 12, 0, 0))
-		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
-		usuario1.postergarEvento(usuario1.eventosAbiertos.get(0), LocalDateTime.of(2020, 10, 11, 0, 0))
-		usuario2.devolverEntrada(usuario2.listaDeEntradas.get(0), usuario1.eventosAbiertos.get(0))
+		eventoAbierto2 = new EventoAbierto()
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada2)
+		usuario1.postergarEvento(eventoAbierto2, LocalDateTime.of(2020, 10, 11, 0, 0))
+		usuario2.devolverEntrada(usuario2.entradas.get(0), eventoAbierto2)
 		Assert.assertTrue(usuario2.mensajes.contains("se postergo el evento\n"))
 		Assert.assertEquals(100, usuario2.plataQueTengo, 0)
 	}
 
 	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoSeReciveunPorsentajedeLaEntrada() {
-		usuario1.CrearEventoAbierto("Mi cumple", casaUsuario1, usuario1, 100, LocalDateTime.of(2020, 10, 10, 0, 0),
-			LocalDateTime.of(2020, 10, 11, 0, 0), LocalDateTime.of(2020, 10, 12, 0, 0))
-		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
-		usuario2.devolverEntrada(usuario2.listaDeEntradas.get(0), usuario1.eventosAbiertos.get(0))
+		eventoAbierto2 = new EventoAbierto() => [
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 10, 10, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2020, 10, 12, 0, 0)
+		]
+		entrada6 = new Entrada(eventoAbierto1) => [
+			valorDeLAEntrada = 100
+		]
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2,entrada6)
+		usuario2.devolverEntrada(entrada6,eventoAbierto2)
 		Assert.assertEquals(80, usuario2.plataQueTengo, 0)
 	}
-	
-	@Test// cambiar Todo el TIEMPO LAS FECHAS PORQUE CALCULA CON LA FECHA ACTUAL (REAL)
+
+	@Test 
 	def void CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada() {
-		usuario1.CrearEventoAbierto("Mi cumple", casaUsuario1, usuario1, 100, LocalDateTime.of(2018, 04, 19, 0, 0),
-			LocalDateTime.of(2018, 04, 19, 0, 0), LocalDateTime.of(2020, 10, 12, 0, 0))
-		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
-		usuario2.devolverEntrada(usuario2.listaDeEntradas.get(0), usuario1.eventosAbiertos.get(0))
 		Assert.assertEquals(20, usuario2.plataQueTengo, 0)
 	}
-	
-		@Test// cambiar Todo el TIEMPO LAS FECHAS PORQUE CALCULA CON LA FECHA ACTUAL (REAL)
+
+	@Test 
 	def void CuandoSeDevuelveLaEntradaDeUnEvento4DiasAntesAlEventoSeReciveunPorsentajedeLaEntrada() {
-		usuario1.CrearEventoAbierto("Mi cumple", casaUsuario1, usuario1, 100, LocalDateTime.of(2018, 04, 22, 0, 0),
-			LocalDateTime.of(2018, 04, 22, 0, 0), LocalDateTime.of(2020, 10, 12, 0, 0))
-		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
-		usuario2.devolverEntrada(usuario2.listaDeEntradas.get(0), usuario1.eventosAbiertos.get(0))
 		Assert.assertEquals(50, usuario2.plataQueTengo, 0)
 	}
 
 	def void UnUsuarioCreaUnEventoYLoPostergaYelEventocambialafecha() {
-
-		usuario1.CrearEventoAbierto("Mi cumple", casaUsuario1, usuario1, 100, LocalDateTime.of(2020, 10, 10, 0, 0),
-			LocalDateTime.of(2020, 10, 11, 0, 0), LocalDateTime.of(2020, 10, 12, 0, 0))
-		usuario2.comprarEntradaDeEventoAbierto(usuario1.eventosAbiertos.get(0))
-		usuario1.postergarEvento(usuario1.eventosAbiertos.get(0), LocalDateTime.of(2020, 10, 11, 0, 0))
-		Assert.assertEquals(LocalDateTime.of(2020, 10, 11, 0, 0),
-			usuario1.eventosAbiertos.get(0).fechaDeInicioDelEvento)
 	}
 
 }

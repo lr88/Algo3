@@ -4,7 +4,6 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.time.LocalDateTime
 import java.util.Set
 import java.util.HashSet
-import java.time.Duration
 
 @Accessors
 class EventoCerrado extends Evento {
@@ -12,77 +11,68 @@ class EventoCerrado extends Evento {
 	int cantidadMaximaDeInvitados
 	Set<Invitacion> invitaciones = new HashSet()
 
-	new(String unNombre, Locacion unaLocacion, int unaCantidadMaximaDeInvitados, Usuario unOrganizador,
-		LocalDateTime unaFechaMaximaDeConfirmacion, LocalDateTime unInicioDelEvento, LocalDateTime unFinDelEvento) {
-		super(unNombre, unaLocacion, unOrganizador, unInicioDelEvento, unFinDelEvento)
-		fechaMaximaDeConfirmacion = unaFechaMaximaDeConfirmacion
-		cantidadMaximaDeInvitados = unaCantidadMaximaDeInvitados
-		print("se creo un evento Cerrado\n")
-	}
-	
 	def int capacidadMaxima() {
 		cantidadMaximaDeInvitados
 	}
 
-	def LocalDateTime fechaMáximaConfirmación(){
-		fechaMaximaDeConfirmacion
+	def boolean esExitoso() {
+		cantidadDeInvitacionesAceptadas > cantidadDeInvitaciones * 0.8 && fueCancelado == false
 	}
 
-	def boolean esExitoso() {
-		cantidadDeInvitacionesAceptadas > cantidadDeInvitaciones *0.8 && fueCancelado == false
-	}
-	
 	def boolean esUnFracaso() {
-		 cantidadMaximaDeInvitados * 0.5 > cantidadDeInvitadosAceptadosMasSusAsistentes
-		}
-    
-    def int cantidadDeInvitacionesAceptadas(){ 
-    	listaDeInvitacionesAceptadas.size()
-    }
-    
-    def  listaDeInvitacionesAceptadas(){ 
-    	invitaciones.filter[invitaciones|invitaciones.estadoAceptado]
-    }
-    
-    def int cantidadDeInvitadosAceptadosMasSusAsistentes() {
-    		listaDeInvitacionesAceptadas.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes + 1 ]) 
-		}
-    
-    def int cantidadDeInvitadosPendientesMasSusAsistentes() {
-    		listaDeInvitacionesPendientes.fold(0, [ acum, invitacion | acum + invitacion.cantidadDeAcompañantes + 1 ]) 
-		}
-     
-     def  listaDeInvitacionesPendientes(){ 
-    	invitaciones.filter[invitaciones|invitaciones.estadoPendiente]
-    }
-    
-    def int cantidaDePosiblesAsistentes(){ 
-		cantidadDeInvitadosPendientesMasSusAsistentes + cantidadDeInvitadosAceptadosMasSusAsistentes 
+		cantidadMaximaDeInvitados * 0.5 > cantidadDeInvitadosAceptadosMasSusAsistentes
 	}
-	
-   override void cancelarElEvento(Evento unEvento){ 
-	    fueCancelado = true
-		invitaciones.filter[invitacion | !invitacion.estadoRechazado].forEach[invitacion| invitacion.usuario.mensajes.add("El evento fue cancelado")]
+
+	def int cantidadDeInvitadosAceptadosMasSusAsistentes() {
+		listaDeInvitacionesAceptadas.fold(0, [acum, invitacion|acum + invitacion.cantidadDeAcompañantes + 1])
+	}
+
+	def int cantidadDeInvitadosPendientesMasElMaximoDeAsistentes() {
+		listaDeInvitacionesPendientes.fold(0, [acum, invitacion|acum + invitacion.cantidadDeAcompañantes + 1])
+	}
+
+	def cantidadDeInvitaciones() {
+		invitaciones.size()
+	}
+
+	def int cantidadDeInvitacionesAceptadas() {
+		listaDeInvitacionesAceptadas.size()
+	}
+
+	def listaDeInvitacionesAceptadas() {
+		invitaciones.filter[invitaciones|invitaciones.estadoAceptado]
+	}
+
+	def listaDeInvitacionesPendientes() {
+		invitaciones.filter[invitaciones|invitaciones.estadoPendiente]
+	}
+
+	def int cantidaDePosiblesAsistentes() {
+		cantidadDeInvitadosPendientesMasElMaximoDeAsistentes + cantidadDeInvitadosAceptadosMasSusAsistentes
+	}
+
+	override void cancelarElEvento() {
+		fueCancelado = true
+		invitaciones.forEach[invitacion|invitacion.cancelarEvento]
 		invitaciones.clear
 	}
 
-	override void postergarElEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
+	override void postergarElEvento(LocalDateTime NuevaFechaDeInicioDelEvento) {
 		fuePostergado = true
-		organizador.indicarNuevaFechaDeEvento(this,NuevaFechaDeInicioDelEvento) 
-		invitaciones.forEach[invitacion |invitacion.usuario.mensajes.add("se postergo el evento\n")]
-		print("se postergo el evento\n")
-		
+		invitaciones.forEach[invitacion|invitacion.postergarEvento()]
 	}
-
-    def cantidadDeInvitaciones(){
-    	invitaciones.size()
-    }
 	
-	override void cambiarFecha(LocalDateTime nuevaFecha){
-		var  aux =	Duration.between(fechaDeInicioDelEvento,nuevaFecha)
-		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
-		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
-		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
-	}
-
+	def invitarAUnUsiario(Usuario unUsuario,int unaCantidadMaximaDeAcompañantes) {
+			if (cantidaDePosiblesAsistentes < cantidadMaximaDeInvitados){
+				var Invitacion unaInvitacion = new Invitacion (unUsuario,unaCantidadMaximaDeAcompañantes)
+				unaInvitacion.invitarUsiario
+				invitaciones.add(unaInvitacion)
+				
+			}
+			else{
+				//throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
+				
+			}
+		}
+	
 }
