@@ -54,7 +54,10 @@ class testEventosAbierto {
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 10, 10, 20, 0)
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2019, 10, 10, 0, 0)
+			locacion = casaUsuario1
 		]
+		
+
 
 		entrada1 = new Entrada(eventoAbierto1) => [
 			valorDeLAEntrada = 100
@@ -71,6 +74,10 @@ class testEventosAbierto {
 		entrada5 = new Entrada(eventoAbierto1) => [
 			valorDeLAEntrada = 100
 		]
+	
+	
+	
+	
 	}
 
 	@Test
@@ -150,6 +157,7 @@ class testEventosAbierto {
 
 	@Test 
 	def void CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada() {
+		
 		Assert.assertEquals(20, usuario2.plataQueTengo, 0)
 	}
 
