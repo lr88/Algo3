@@ -3,6 +3,8 @@ package ar.edu.eventos
 import java.time.Duration
 import java.time.LocalDateTime
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.Set
+import java.util.HashSet
 
 @Accessors
 abstract class Evento {
@@ -10,12 +12,19 @@ abstract class Evento {
 	LocalDateTime fechaMaximaDeConfirmacion
 	LocalDateTime fechaDeInicioDelEvento
 	LocalDateTime fechaDeFinDelEvento
+	Set <Servicio> servicios = new HashSet()
 	String nombre
 	Locacion locacion
 	Usuario organizador
 	var Boolean fuePostergado = false
 	var Boolean fueCancelado = false
 	
+	def costoTotal(){
+		servicios.fold(0, [acum, servicios|acum + servicios.costoDelServicio(this)])
+	}
+	def contratarServicio(Servicio unServicio){
+		servicios.add(unServicio)
+	}
 	
 	def duracion() {
 		Duration.between(fechaDeInicioDelEvento, fechaDeFinDelEvento).toHours()
