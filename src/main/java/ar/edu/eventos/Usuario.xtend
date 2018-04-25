@@ -12,13 +12,11 @@ import org.uqbar.geodds.Point
 @Accessors
 class Usuario {
 	List <String> mensajes = newArrayList()
-	Set<Evento> eventos = new HashSet ()
-	//Set<EventoCerrado> eventosCerrados = new HashSet ()
-	//Set<EventoAbierto> eventosAbiertos = new HashSet ()
+	Set<EventoCerrado> eventosCerrados = new HashSet ()
+	Set<EventoAbierto> eventosAbiertos = new HashSet ()
 	Set<Usuario> amigos = new HashSet()	
 	Set <Invitacion> invitaciones = new HashSet ()
 	Set<Entrada> entradas = new HashSet()	
-
 	String nombreDeUsuario
 	String nombre
 	String apellido
@@ -26,7 +24,6 @@ class Usuario {
 	Point direccion
 	LocalDateTime fechaDeNacimiento
 	boolean esAntisocial
-	
 	var double plataQueTengo = 100
 	var double radioDeCercanía
 	TipoDeUsuario tipoDeUsuario
@@ -38,6 +35,7 @@ class Usuario {
 	}
 
 	def agregarEntrada(Entrada entrada) {
+		entrada.usuario = this
 		entradas.add(entrada)
 	}
 	
@@ -49,20 +47,20 @@ class Usuario {
 		amigos.add(unAmigo)
 	}
 	
-	/*def eventos(){
+	def eventos(){
 		eventosAbiertos + eventosCerrados
 	}
-	*/
+	
 	def eliminarAmigos(Usuario unUsuario) {
 		amigos.remove(unUsuario)
 	}
 
-	def edad(LocalDateTime fechaActual) {
-		Duration.between(fechaDeNacimiento, fechaActual).toDays() / 360
+	def edad() {
+		Duration.between(fechaDeNacimiento, LocalDateTime.now).toDays/360
 	}
 
-	def puedoOrganizarUnEventoEsteMes(LocalDateTime unInicioDelEvento,int unMaximoDeEventosMensuales){
-		eventos.filter[evento|evento.fechaDeInicioDelEvento.getMonth == unInicioDelEvento.getMonth && evento.fechaDeInicioDelEvento.getYear == unInicioDelEvento.getYear].size < unMaximoDeEventosMensuales
+	def cantidadDeEventosEnEsteMes(Evento unEvento){
+		eventos.filter[evento|evento.fechaDeInicioDelEvento.getMonth == unEvento.fechaDeInicioDelEvento.getMonth && evento.fechaDeInicioDelEvento.getYear == unEvento.fechaDeInicioDelEvento.getYear].size
 	}
 
 	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,int unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
@@ -70,11 +68,11 @@ class Usuario {
 	}
 
 	def crearEventoCerrado(EventoCerrado unEvento) {
-		tipoDeUsuario.organizarEventoCerrado(unEvento)
+		tipoDeUsuario.organizarEventoCerrado(unEvento,this)
 	}
 
 	def CrearEventoAbierto(EventoAbierto unEvento) {
-		tipoDeUsuario.organizarEventoAbierto(unEvento)
+		tipoDeUsuario.organizarEventoAbierto(unEvento,this)
 	}
 	
 	def devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
@@ -107,42 +105,42 @@ class Usuario {
 	}
 	
 	def rechazarInvitacion(Invitacion unaInvitacion){
-				unaInvitacion.estadoRechazado = true
+		unaInvitacion.estadoRechazado = true
 		}
 	
 	def void cancelarEvento(Evento unEvento){
-		tipoDeUsuario.cancelarElEvento(this, unEvento)
+		tipoDeUsuario.cancelarElEvento(unEvento)
 	}
 	
 	def void postergarEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
-		tipoDeUsuario.postergarElEvento(this,unEvento,NuevaFechaDeInicioDelEvento)
+		tipoDeUsuario.postergarElEvento(unEvento,NuevaFechaDeInicioDelEvento)
 	}
 	
 	def aceptacionMasiva(){
-		listaDeTodosMisInvitacionesPendientes.forEach[inv | if(esElOrganizadorMiAmigo(inv)  || asistenMasDeTantosAmigos(inv,4)  /*||!meQuedaSerca(inv)*/)
+		listaDeTodosMisInvitacionesPendientes.forEach[inv | if(esElOrganizadorMiAmigo(inv)  || asistenMasDeTantosAmigos(inv,4)  ||!meQuedaSerca(inv))
 				aceptarInvitacion(inv,inv.cantidadDeAcompañantes)]
-	
 	}
 	
 	def boolean esElOrganizadorMiAmigo(Invitacion unaInvitacion){
-		amigos.contains(unaInvitacion.evento.organizador)
+		amigos.contains(unaInvitacion.elOrganizadorDelEvento)
 	}
 	
 	def asistenMasDeTantosAmigos(Invitacion unaInvitacion,int cantidad){
 		this.invitaciones.filter[invi|invi.evento.nombre == (unaInvitacion.usuario.invitaciones.map[invita|invita.evento.nombre])].size()>cantidad
 	}
 	
+	
 	def meQuedaSerca(Invitacion invitacion) {
-		invitacion.evento.locacion.distancia(direccion) < radioDeCercanía 
+		invitacion.distanciaAmiCasa(direccion) < radioDeCercanía 
 	}
 	
 	def rechazoMasivo(){
 		if(esAntisocial){
-		listaDeTodosMisInvitacionesPendientes.forEach[inv | if((esElOrganizadorMiAmigo(inv) && asistenMasDeTantosAmigos(inv,1)) || !asistenMasDeTantosAmigos(inv,2)  /*||!meQuedaSerca(inv)*/)
-				aceptarInvitacion(inv,inv.cantidadDeAcompañantes)]
+		listaDeTodosMisInvitacionesPendientes.forEach[inv | if((esElOrganizadorMiAmigo(inv) && asistenMasDeTantosAmigos(inv,1)) || !asistenMasDeTantosAmigos(inv,2) || !meQuedaSerca(inv))
+			aceptarInvitacion(inv,inv.cantidadDeAcompañantes)]
 	}
 	else{
-		invitaciones.filter[invitacion | asistenMasDeTantosAmigos(invitacion, 0) == true/* && meQuedaSerca(invitacion) == false */]
+		invitaciones.filter[invitacion | asistenMasDeTantosAmigos(invitacion, 0) == true && !meQuedaSerca(invitacion) ]
 			.forEach[invitacion | this.rechazarInvitacion(invitacion)]
 		}
 	}
@@ -164,6 +162,20 @@ class Usuario {
 	def recibirMensaje(String string) {
 		mensajes.add(string)
 	}
-			
+	def cantidadDeAmigos(){
+		amigos.size()
+	}
+	
+	def eventosActivos(){
+		eventos.filter[evento | !evento.fueCancelado && !evento.fuePostergado].size()
+	}
+	
+	def AgregarEventoAbierto(EventoAbierto evento) {
+		eventosAbiertos.add(evento)
+	}
+	def AgregarEventoCerrado(EventoCerrado evento) {
+		eventosCerrados.add(evento)
+	}
+	
 }
 

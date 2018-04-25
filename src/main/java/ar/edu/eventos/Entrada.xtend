@@ -10,7 +10,7 @@ class Entrada {
 	var double valorDeLAEntrada
 	Usuario usuario
 	val veintePorCiento = 0.2
-	val diezPorCiento = 0.10
+	val diezPorCiento = 0.1
 	val EventoAbierto EventoAbierto
 
 	new(EventoAbierto unEventoAbierto) {
@@ -26,14 +26,17 @@ class Entrada {
 	}
 
 	def void devolverDinero() {
-
+	print(elEventoFuePostegadoOCancelado)
 		if (elEventoFuePostegadoOCancelado) {
 			devolverEltotal
-		} else {
+			} 
+		else {
+			print(diasFaltantes)
 			if (0 < diasFaltantes && diasFaltantes < 8) {
-				usuario.plataQueTengo = usuario.plataQueTengo + (diasFaltantes + 1) * diezPorCiento * valorDeLAEntrada
-			} else {
-				usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLAEntrada
+			usuario.plataQueTengo = usuario.plataQueTengo + (diasFaltantes + 1) * diezPorCiento * valorDeLAEntrada
+			}
+			else {
+			usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLAEntrada
 			}
 		}
 	}

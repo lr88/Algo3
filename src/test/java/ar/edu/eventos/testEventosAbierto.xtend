@@ -11,7 +11,7 @@ class testEventosAbierto {
 	Usuario usuario1
 	Usuario usuario2
 	Usuario usuario3
-	Locacion casaUsuario1
+	Locacion lugarDelEvento1
 	EventoAbierto eventoAbierto2
 	EventoAbierto eventoAbierto1
 	Entrada entrada1
@@ -20,11 +20,12 @@ class testEventosAbierto {
 	Entrada entrada4
 	Entrada entrada5
 	Entrada entrada6
+	Entrada entrada7
 
 	@Before
 	def void init() {
 
-		casaUsuario1 = new Locacion() => [
+		lugarDelEvento1 = new Locacion() => [
 			ubicacion = new Point(1.0, 2.0)
 			superficieM2 = 5
 		]
@@ -51,14 +52,20 @@ class testEventosAbierto {
 			tipoDeUsuario = new Profesional
 		]
 		eventoAbierto1 = new EventoAbierto() => [
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 10, 10, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2019, 10, 10, 0, 0)
-			locacion = casaUsuario1
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			locacion = lugarDelEvento1
+			edadMinima = 18
+		]
+
+		eventoAbierto2 = new EventoAbierto() => [
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 4, 27, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 4, 27, 23, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 4, 27, 0, 0)
+			edadMinima = 18
 		]
 		
-
-
 		entrada1 = new Entrada(eventoAbierto1) => [
 			valorDeLAEntrada = 100
 		]
@@ -74,10 +81,24 @@ class testEventosAbierto {
 		entrada5 = new Entrada(eventoAbierto1) => [
 			valorDeLAEntrada = 100
 		]
-	
-	
-	
-	
+		entrada6 = new Entrada(eventoAbierto1) => [
+			valorDeLAEntrada = 100
+		]
+		entrada7 = new Entrada(eventoAbierto1) => [
+			valorDeLAEntrada = 100
+		]
+
+	}
+
+	@Test
+	def void compraUnaEntrada() {
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
+		Assert.assertEquals(1, usuario1.entradas.size)
+	}
+
+	@Test
+	def void capacidadMAxima() {
+		Assert.assertEquals(6, eventoAbierto1.capacidadMaxima, 1)
 	}
 
 	@Test
@@ -87,8 +108,8 @@ class testEventosAbierto {
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada3)
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada4)
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada5)
-		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
-		usuario3.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada6)
+		usuario3.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada7)
 		Assert.assertTrue(eventoAbierto1.esExitoso)
 	}
 
@@ -125,8 +146,8 @@ class testEventosAbierto {
 
 	@Test
 	def void UnUsuarioCreaUnEventoYLoPosterga() {
-		eventoAbierto2 = new EventoAbierto()
-		usuario1.postergarEvento(eventoAbierto2, LocalDateTime.of(2020, 10, 11, 0, 0))
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada6)
+		usuario1.postergarEvento(eventoAbierto1, LocalDateTime.of(2018, 10, 11, 0, 0))
 		Assert.assertTrue(usuario2.mensajes.contains("se postergo el evento\n"))
 	}
 
@@ -142,31 +163,23 @@ class testEventosAbierto {
 
 	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoSeReciveunPorsentajedeLaEntrada() {
-		eventoAbierto2 = new EventoAbierto() => [
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 10, 10, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2020, 10, 12, 0, 0)
-		]
-		entrada6 = new Entrada(eventoAbierto1) => [
-			valorDeLAEntrada = 100
-		]
-		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2,entrada6)
-		usuario2.devolverEntrada(entrada6,eventoAbierto2)
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada6)
+		usuario2.devolverEntrada(entrada6, eventoAbierto2)
 		Assert.assertEquals(80, usuario2.plataQueTengo, 0)
 	}
 
-	@Test 
+	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada() {
-		
+		usuario2.devolverEntrada(entrada6, eventoAbierto2)
 		Assert.assertEquals(20, usuario2.plataQueTengo, 0)
 	}
-
-	@Test 
+/*
+	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEvento4DiasAntesAlEventoSeReciveunPorsentajedeLaEntrada() {
 		Assert.assertEquals(50, usuario2.plataQueTengo, 0)
 	}
 
 	def void UnUsuarioCreaUnEventoYLoPostergaYelEventocambialafecha() {
 	}
-
+ */
 }

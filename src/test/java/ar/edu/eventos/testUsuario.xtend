@@ -1,6 +1,7 @@
 package ar.edu.eventos
 
 import org.junit.Assert
+
 import org.junit.Test
 import org.junit.Before
 import org.uqbar.geodds.Point
@@ -8,7 +9,6 @@ import org.uqbar.geodds.Point
 import java.time.LocalDateTime
 
 class testUsuario {
-	LocalDateTime fechaActual = LocalDateTime.now()
 	Usuario carlos
 	Usuario pedro
 	Usuario lucas
@@ -24,36 +24,76 @@ class testUsuario {
 	@Before
 	def void init() {
 
-		/*------------CREAR Usuarios-------------- */
-		carlos = new Usuario("CP", "Carlos", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		pedro = new Usuario("CPA", "Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(2005, 01, 10, 0, 0), 3, new Profesional)
-		lucas = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(2005, 10, 10, 0, 0), 3, new Amateur)
-		juan = new Usuario("CD", "Pedro", "Perez", "pedroPerez@gmail.com", lugarGenerico, true,
-			LocalDateTime.of(2005, 10, 10, 0, 0), 3, new Free)
+		carlos = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			esAntisocial = false
+			radioDeCercanía = 3
+			tipoDeUsuario = new Free
+		]
+		pedro = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			fechaDeNacimiento = LocalDateTime.of(2005, 01, 10, 0, 0)
+			esAntisocial = false
+			radioDeCercanía = 3
+			tipoDeUsuario = new Profesional
+		]
+		lucas = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			fechaDeNacimiento = LocalDateTime.of(2005, 10, 10, 0, 0)
+			esAntisocial = false
+			radioDeCercanía = 3
+			tipoDeUsuario = new Amateur
+		]
+		juan = new Usuario() => [
+			direccion = lugarGenerico
+			fechaDeNacimiento = LocalDateTime.of(2005, 10, 10, 0, 0)
+			esAntisocial = false
+			radioDeCercanía = 3
+			tipoDeUsuario = new Free
+		]
 
-		/*------------CREAR LOCACIONES-------------- */
-		miCasa = new Locacion(new Point(1.0, 2.0), "Mi Casa", 800)
-		complejo1 = new Locacion(new Point(1.0, 2.0), "Complejo1", 2000)
+		miCasa = new Locacion() => [
+			ubicacion = new Point(10, 10)
+			superficieM2 = 800
+		]
+		complejo1 = new Locacion() => [
+			ubicacion = new Point(10, 10)
+			superficieM2 = 2000
+		]
 
-		/*------------CREAR EVENTOS-------------- */
-		casamiento = new EventoCerrado("Casaminto de Flor y leo", miCasa, 3, juan,
-			LocalDateTime.of(2007, 10, 10, 5, 00), LocalDateTime.of(2007, 10, 10, 5, 00),
-			LocalDateTime.of(2007, 10, 10, 9, 00))
-		casamiento1 = new EventoCerrado("Casaminto de Flor y leo", miCasa, 3, juan,
-			LocalDateTime.of(2007, 10, 10, 5, 00), LocalDateTime.of(2007, 10, 10, 5, 00),
-			LocalDateTime.of(2007, 10, 10, 9, 00))
-		casamiento2 = new EventoCerrado("Casaminto de Flor y leo", miCasa, 3, juan,
-			LocalDateTime.of(2007, 10, 10, 5, 00), LocalDateTime.of(2007, 10, 10, 5, 00),
-			LocalDateTime.of(2007, 10, 10, 9, 00))
-		casamiento3 = new EventoCerrado("Casaminto de Flor y leo", miCasa, 3, juan,
-			LocalDateTime.of(2007, 10, 10, 5, 00), LocalDateTime.of(2007, 10, 10, 5, 00),
-			LocalDateTime.of(2007, 10, 10, 9, 00))
-		pedro.CrearEventoAbierto("Fiesta", miCasa, pedro, 20, LocalDateTime.of(2007, 6, 10, 5, 00),
-			LocalDateTime.of(2007, 6, 10, 5, 00), LocalDateTime.of(2007, 6, 10, 5, 00))
-		/*------------INSTANCIAR OBJETOS-------------- */
+		casamiento = new EventoCerrado() => [
+			locacion = miCasa
+			organizador = juan
+			cantidadMaximaDeInvitados = 3
+			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
+			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 10, 5, 00)
+		]
+		casamiento1 = new EventoCerrado() => [
+			locacion = miCasa
+			organizador = juan
+			cantidadMaximaDeInvitados = 3
+			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
+			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 10, 5, 00)
+		]
+		casamiento2 = new EventoCerrado() => [
+			locacion = miCasa
+			organizador = juan
+			cantidadMaximaDeInvitados = 3
+			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
+			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 10, 5, 00)
+		]
+		casamiento3 = new EventoAbierto() => [
+			locacion = miCasa
+			organizador = juan
+			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
+			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 10, 5, 00)
+		]
+		pedro.CrearEventoAbierto(new EventoAbierto())
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
 		pedro.agregarAmigo(juan)
@@ -82,20 +122,19 @@ class testUsuario {
 
 	@Test
 	def void soyMenor() {
-		Assert.assertTrue(pedro.soyMenorDeEdad(fechaActual))
+		Assert.assertEquals(13, pedro.edad())
 	}
 
 	@Test
 	def void juanNoOrganizaMasDeTresEventosElMismoMes() {
-		Assert.assertTrue(juan.puedoOrganizarUnEventoEsteMes(LocalDateTime.of(2007, 8, 10, 5, 00), 3))
+		Assert.assertEquals(1,juan.cantidadDeEventosEnEsteMes(casamiento))
 
 	}
 
 	@Test
 	def void EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez() {
 		pedro.eventosAbiertos.get(0).terminoElEvento
-		Assert.assertTrue(
-			pedro.EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime.of(2007, 8, 10, 6, 00), 1))
+		Assert.assertTrue(pedro.EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime.of(2007, 8, 10, 6, 00), 1))
 	}
 
 	@Test
@@ -105,29 +144,19 @@ class testUsuario {
 		Assert.assertTrue(pedro.mensajes.contains("NO PODES CANCELAR UN EVENTOS "))
 	}
 
-	@Test
-	def void TipoDeUsuarioPedro() {
-		Assert.assertEquals(99, pedro.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
-		Assert.assertEquals(99, pedro.tipoDeUsuario.maximoDePersonasPorEvento)
-		Assert.assertEquals(20, pedro.tipoDeUsuario.maximoDeEventosMensuales)
-		Assert.assertEquals(99, pedro.tipoDeUsuario.maximoDeInvitacionesPorEvento)
-	}
-
+	
+/*
 	@Test
 	def void TipoDeUsuarioCarlos() {
 		Assert.assertEquals(1, carlos.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
 		Assert.assertEquals(50, carlos.tipoDeUsuario.maximoDePersonasPorEvento)
-		Assert.assertEquals(3, carlos.tipoDeUsuario.maximoDeEventosMensuales)
-		Assert.assertEquals(99, carlos.tipoDeUsuario.maximoDeInvitacionesPorEvento)
+		Assert.assertEquals(3, carlos.tipoDeUsuario.cantidadDeEventosEnEsteMes)
 	}
 
 	@Test
 	def void TipoDeUsuarioLucas() {
 		Assert.assertEquals(5, lucas.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
-		Assert.assertEquals(99, lucas.tipoDeUsuario.maximoDePersonasPorEvento)
-		Assert.assertEquals(99, lucas.tipoDeUsuario.maximoDeEventosMensuales)
 		Assert.assertEquals(50, lucas.tipoDeUsuario.maximoDeInvitacionesPorEvento)
 	}
-
-	
+ */
 }

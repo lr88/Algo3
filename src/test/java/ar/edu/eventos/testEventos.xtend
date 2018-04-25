@@ -5,18 +5,24 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.Before
 import org.uqbar.geodds.Point
-import java.util.List
 
 class testEventos {
+	Invitacion unaInvitacion
+	Usuario usuario1
 	Servicio lunch
 	Servicio luces
 	Locacion miCasa
+	EventoCerrado fiesta
 	Evento casamiento
 
 	@Before
 	def void init() {
 		miCasa = new Locacion() => [
 			ubicacion = new Point(1.0, 2.0)
+		]
+		usuario1 = new Usuario() => [
+			direccion = new Point(4.0, 2.0)
+			radioDeCercanía = 999
 		]
 
 		lunch = new Servicio() => [
@@ -26,12 +32,20 @@ class testEventos {
 		luces = new Servicio() => [
 			costo = 10
 		]
+
+		fiesta = new EventoCerrado() => [
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 10, 10, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
+			locacion = miCasa
+		]
 		casamiento = new EventoAbierto() => [
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 10, 10, 20, 0)
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
 			contratarServicio(lunch)
 			contratarServicio(luces)
 		]
+
+		unaInvitacion = new Invitacion(usuario1, 5, fiesta)
 
 	}
 
@@ -46,8 +60,13 @@ class testEventos {
 	}
 
 	@Test
+	def void distancia2() {
+		Assert.assertEquals(true,usuario1.meQuedaSerca(unaInvitacion))
+	}
+
+	@Test
 	def void costoTotalDeUnEventoEnBaseASusServiciosContratados() {
-		Assert.assertEquals(20, casamiento.costoTotal, 0)
+		Assert.assertEquals(1, casamiento.costoTotal, 0)
 	}
 
 }

@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.Set
 import java.util.HashSet
+import org.uqbar.geodds.Point
 
 @Accessors
 abstract class Evento {
@@ -14,16 +15,20 @@ abstract class Evento {
 	LocalDateTime fechaDeFinDelEvento
 	Set <Servicio> servicios = new HashSet()
 	String nombre
-	Locacion locacion
+	Locacion locacion 
 	Usuario organizador
 	var Boolean fuePostergado = false
 	var Boolean fueCancelado = false
 	
 	def costoTotal(){
-		servicios.fold(0, [acum, servicios|acum + servicios.costoDelServicio(this)])
+		1//servicios.fold(0, [acum, servicios|acum + servicios.costoDelServicio(this)])
 	}
 	def contratarServicio(Servicio unServicio){
 		servicios.add(unServicio)
+	}
+	
+	def distanciaAmi(Point unaDirecion) {
+		locacion.distancia(unaDirecion)
 	}
 	
 	def duracion() {
@@ -43,14 +48,17 @@ abstract class Evento {
 	}
 	
 	def void cambiarFecha(LocalDateTime nuevaFecha){
+		fuePostergado = true
 		var  aux = Duration.between(fechaDeInicioDelEvento,nuevaFecha)
 		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
 		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
+		tipoDeEventoPostergate()
+		
 	}
 	def boolean esExitoso()
 	def boolean esUnFracaso()
 	def void cancelarElEvento()
-	def void postergarElEvento(LocalDateTime NuevaFechaDeInicioDelEvento)
+	def void tipoDeEventoPostergate()
 	
 }

@@ -14,17 +14,18 @@ class EventoAbierto extends Evento {
 	Set<Entrada> entradas = new HashSet()
 	int edadMinima
 
-	def void adquirirEntrada(Usuario unUsuario,Entrada unaEntrada) {
-		if (entradasDisponibles > 0 && unUsuario.edad(LocalDateTime.now)< edadMinima && hayTiempoParaConfirmar(unUsuario))
+	def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
+		if (entradasDisponibles > 0 && unUsuario.edad() > edadMinima && hayTiempoParaConfirmar(unUsuario))
 			agregarEntrada(unaEntrada)
+		unUsuario.agregarEntrada(unaEntrada)
 	}
 
 	def void agregarEntrada(Entrada unaEntrada) {
 		entradas.add(unaEntrada)
 	}
 
-	def sePuedeDevolverLaEntrada(){
-		LocalDateTime.now.dayOfYear < fechaDeInicioDelEvento.dayOfYear
+	def sePuedeDevolverLaEntrada() {
+		Duration.between(LocalDateTime.now, fechaDeInicioDelEvento).toDays() > 1
 	}
 
 	def double capacidadMaxima() {
@@ -40,10 +41,9 @@ class EventoAbierto extends Evento {
 	}
 
 	def boolean hayTiempoParaConfirmar(Usuario unUsuario) {
-		if((Duration.between(LocalDateTime.now,fechaMaximaDeConfirmacion).toHours()) > 0){
+		if ((Duration.between(LocalDateTime.now, fechaMaximaDeConfirmacion).toMillis()) > 0) {
 			true
-		}
-		else{
+		} else {
 			unUsuario.recibirMensaje("Paso el tiempo de compra de entradas\n")
 			false
 		}
@@ -60,8 +60,7 @@ class EventoAbierto extends Evento {
 		entradas.clear
 	}
 
-	override void postergarElEvento(LocalDateTime NuevaFechaDeInicioDelEvento) {
-		fuePostergado = true
+	override void tipoDeEventoPostergate() {
 		entradas.forEach[entrada|entrada.postergarEvento]
 	}
 

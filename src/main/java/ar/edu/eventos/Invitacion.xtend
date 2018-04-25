@@ -1,6 +1,7 @@
 package ar.edu.eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.uqbar.geodds.Point
 
 @Accessors
 class Invitacion {
@@ -14,9 +15,10 @@ class Invitacion {
 	int cantidadMaximaDeAcompañantes
 	int cantidadDeAcompañantes
 
-	new (Usuario unUsuario,int unaCantidadMaximaDeAcompañantes){
+	new (Usuario unUsuario,int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento){
 		cantidadMaximaDeAcompañantes = unaCantidadMaximaDeAcompañantes
 		usuario = unUsuario
+		evento = unEvento
 	}
 
 	def estadoPendiente (){
@@ -36,6 +38,11 @@ class Invitacion {
 		usuario.recibirMensaje("Fuiste Invitado al Evento "+ evento)
 	}
 	
-
-
+	def elOrganizadorDelEvento() {
+		evento.organizador
+	}
+	 
+	def distanciaAmiCasa(Point unaDirecion) {
+		evento.distanciaAmi(unaDirecion)
+	}
 }

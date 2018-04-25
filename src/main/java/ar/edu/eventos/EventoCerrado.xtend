@@ -4,6 +4,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import java.time.LocalDateTime
 import java.util.Set
 import java.util.HashSet
+import org.uqbar.geodds.Point
 
 @Accessors
 class EventoCerrado extends Evento {
@@ -57,22 +58,22 @@ class EventoCerrado extends Evento {
 		invitaciones.clear
 	}
 
-	override void postergarElEvento(LocalDateTime NuevaFechaDeInicioDelEvento) {
-		fuePostergado = true
+	override void tipoDeEventoPostergate() {
 		invitaciones.forEach[invitacion|invitacion.postergarEvento()]
 	}
 	
 	def invitarAUnUsiario(Usuario unUsuario,int unaCantidadMaximaDeAcompañantes) {
 			if (cantidaDePosiblesAsistentes < cantidadMaximaDeInvitados){
-				var Invitacion unaInvitacion = new Invitacion (unUsuario,unaCantidadMaximaDeAcompañantes)
+				var Invitacion unaInvitacion = new Invitacion (unUsuario,unaCantidadMaximaDeAcompañantes,this)
 				unaInvitacion.invitarUsiario
 				invitaciones.add(unaInvitacion)
-				
 			}
 			else{
 				//throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
 				
 			}
 		}
+	
+	
 	
 }

@@ -2,39 +2,42 @@ package ar.edu.eventos
 
 import java.time.LocalDateTime
 
+import ar.edu.eventos.exceptions.BusinessException
+import org.eclipse.xtend.lib.annotations.Accessors
+
 interface TipoDeUsuario {
 
-	int infinito = 99
-	
-	def void cancelarElEvento(Usuario usuario, Evento evento)
-	
-	def void postergarElEvento(Usuario usuario, Evento evento, java.time.LocalDateTime time)
-	
-	def void organizarEventoAbierto(EventoAbierto unEvento)
-	
-	def void organizarEventoCerrado(EventoCerrado unEvento)
+	def void cancelarElEvento(Evento evento)
+
+	def void postergarElEvento(Evento evento, LocalDateTime NuevaFechaDeInicioDelEvento)
+
+	def void organizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario)
+
+	def void organizarEventoCerrado(EventoCerrado unEvento, Usuario unUsuario)
 
 }
 
+@Accessors
 class Free implements TipoDeUsuario {
-	int cantidadMaximaPermitidaDeSimultaneidadDeEventos = 1
 	int maximoDePersonasPorEvento = 50
 	int maximoDeEventosMensuales = 3
-	
-	override cancelarElEvento(Usuario usuario, Evento evento) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override cancelarElEvento(Evento evento) {
+		throw new BusinessException("No podes Cancelar Eventos")
 	}
-	
-	override postergarElEvento(Usuario usuario, Evento evento, LocalDateTime time) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override postergarElEvento(Evento evento, LocalDateTime NuevaFechaDeInicioDelEvento) {
+		throw new BusinessException("No podes postergar Eventos")
 	}
-	
-	override organizarEventoAbierto(EventoAbierto unEvento) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override organizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario) {
+		throw new BusinessException("No podes organizar Eventos Abiertos")
 	}
-	
-	override organizarEventoCerrado(EventoCerrado unEvento) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override organizarEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
+		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) > maximoDeEventosMensuales &&
+			unUsuario.eventosActivos() < 0 && unEvento.cantidadMaximaDeInvitados > maximoDePersonasPorEvento)
+			unUsuario.AgregarEventoCerrado(unEvento)
 	}
 
 }
@@ -42,21 +45,24 @@ class Free implements TipoDeUsuario {
 class Amateur implements TipoDeUsuario {
 	int maximoDeInvitacionesPorEvento = 50
 	int cantidadMaximaPermitidaDeSimultaneidadDeEventos = 5
-	
-	override cancelarElEvento(Usuario usuario, Evento evento) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override cancelarElEvento(Evento evento) {
+		evento.cancelarElEvento()
 	}
-	
-	override postergarElEvento(Usuario usuario, Evento evento, LocalDateTime time) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override postergarElEvento(Evento evento, LocalDateTime NuevaFechaDeInicioDelEvento) {
+		evento.cambiarFecha(NuevaFechaDeInicioDelEvento)
 	}
-	
-	override organizarEventoAbierto(EventoAbierto unEvento) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override organizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario) {
+		if (unUsuario.eventosActivos() < cantidadMaximaPermitidaDeSimultaneidadDeEventos)
+			unUsuario.AgregarEventoAbierto(unEvento)
 	}
-	
-	override organizarEventoCerrado(EventoCerrado unEvento) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override organizarEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
+		if (unUsuario.eventosActivos() < cantidadMaximaPermitidaDeSimultaneidadDeEventos &&
+			unEvento.cantidadDeInvitaciones() < maximoDeInvitacionesPorEvento)
+			unUsuario.AgregarEventoCerrado(unEvento)
 	}
 
 }
@@ -64,21 +70,24 @@ class Amateur implements TipoDeUsuario {
 class Profesional implements TipoDeUsuario {
 
 	int maximoDeEventosMensuales = 20
-	
-	override cancelarElEvento(Usuario usuario, Evento evento) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override cancelarElEvento(Evento evento) {
+		evento.cancelarElEvento()
 	}
-	
-	override postergarElEvento(Usuario usuario, Evento evento, LocalDateTime time) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override postergarElEvento(Evento evento, LocalDateTime NuevaFechaDeInicioDelEvento) {
+		evento.cambiarFecha(NuevaFechaDeInicioDelEvento)
 	}
-	
-	override organizarEventoAbierto(EventoAbierto unEvento) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override organizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario) {
+		
+		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) > maximoDeEventosMensuales)
+			unUsuario.AgregarEventoAbierto(unEvento)
 	}
-	
-	override organizarEventoCerrado(EventoCerrado unEvento) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+
+	override organizarEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
+		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) > maximoDeEventosMensuales)
+			unUsuario.AgregarEventoCerrado(unEvento)
 	}
 
 }
