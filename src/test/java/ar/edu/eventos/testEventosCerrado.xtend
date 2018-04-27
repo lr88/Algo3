@@ -27,7 +27,7 @@ class testEventosCerrado {
 	@Before
 	def void init() {
 
-		miCasa = new Locacion(new Point(10, 10), "Complejo1", 3)
+		/*miCasa = new Locacion(new Point(10, 10), "Complejo1", 3)*/
 
 		persona1 = new Usuario() =>{
 			
@@ -36,8 +36,8 @@ class testEventosCerrado {
 		persona3 = new Usuario()
 		persona4 = new Usuario()
 		persona5 = new Usuario()
-		persona6 = new Usuario("persona6", "S", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
+		/*persona6 = new Usuario("persona6", "S", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)*/
 
 		listaDeUsuariosDelTest.add(persona1)
 		listaDeUsuariosDelTest.add(persona2)
@@ -46,14 +46,14 @@ class testEventosCerrado {
 		listaDeUsuariosDelTest.add(persona5)
 		listaDeUsuariosDelTest.add(persona6)
 
-		Organizador1 = new Usuario("Organizador1", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
+		/*Organizador1 = new Usuario("Organizador1", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
 		Organizador2 = new Usuario("Organizador2", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), true,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Amateur)
 		Organizador3 = new Usuario("Organizador3", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
 			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
-
-		Organizador3.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador3,
+*/
+		/*Organizador3.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador3,
 			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
 			LocalDateTime.of(2020, 6, 11, 6, 00))
 
@@ -64,7 +64,7 @@ class testEventosCerrado {
 		Organizador1.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador1,
 			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
 			LocalDateTime.of(2020, 6, 11, 6, 00))
-
+*/
 		persona1.agregarAmigo(persona2)
 		persona1.agregarAmigo(persona3)
 

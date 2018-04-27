@@ -5,7 +5,7 @@ interface objetoT {
 	def boolean soyValido()
 	def int getId()
 	def void setId(int id)
-	def void modificarObjeto(T object)
+	def void modificarObjeto()
 }
 
 

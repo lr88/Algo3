@@ -1,15 +1,22 @@
 package ar.edu.eventos
 
 import org.uqbar.geodds.Point
+import ar.edu.eventos.exceptions.BusinessException
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
-class Locacion {
-
+class Locacion implements objetoT {
+    
+    var int id 
 	Point ubicacion =  new Point(1.0, 2.0)
 	String nombreDeLaLocacion
 	var double distribucionM2PorPersona = 0.8
 	var double superficieM2
+	
+	
+	new (){
+		soyValido() 
+	}
 	
 	def distancia(Point unaDirecion) {
 		ubicacion.distance(unaDirecion)
@@ -17,6 +24,37 @@ class Locacion {
 
 	def double capacidadMaxima() {
 		superficieM2 / distribucionM2PorPersona
+	}
+	
+	override soyValido() {
+		validarDescripcion ()
+		validarUbicacion()
+	}
+	
+	def validarUbicacion() {
+		if(ubicacion === null ){
+			throw new BusinessException("No podes crear una locacion sin una Ubicacion")
+		}
+		true
+	}
+	
+	def validarDescripcion() {
+		if(nombreDeLaLocacion === null || nombreDeLaLocacion.length==0){
+			throw new BusinessException("No podes crear una Locacion sin Descripcion")
+		}
+
+	}
+	
+	override getId() {
+		id
+	}
+	
+	override setId(int _id) {
+		id = _id
+	}
+	
+	override modificarObjeto() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 
 }

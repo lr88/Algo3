@@ -1,6 +1,7 @@
 package ar.edu.eventos
 
 import org.junit.Assert
+import ar.edu.eventos.exceptions.BusinessException
 
 import org.junit.Test
 import org.junit.Before
@@ -23,8 +24,12 @@ class testUsuario {
 
 	@Before
 	def void init() {
-
+         
 		carlos = new Usuario() => [
+			nombreDeUsuario= "cp"
+			email="carlos@carlos.com"
+			nombre= "carlos"
+			apellido = "perez"
 			direccion = new Point(1.0, 2.0)
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			esAntisocial = false
@@ -54,10 +59,12 @@ class testUsuario {
 		]
 
 		miCasa = new Locacion() => [
+			nombreDeLaLocacion = "miCasa"
 			ubicacion = new Point(10, 10)
 			superficieM2 = 800
 		]
 		complejo1 = new Locacion() => [
+			nombreDeLaLocacion = "complejo1"
 			ubicacion = new Point(10, 10)
 			superficieM2 = 2000
 		]
@@ -102,6 +109,7 @@ class testUsuario {
 
 	@Test
 	def void noEsSocial() {
+	
 		Assert.assertFalse(carlos.esAntisocial)
 	}
 

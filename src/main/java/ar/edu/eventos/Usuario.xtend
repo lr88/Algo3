@@ -1,6 +1,7 @@
 package ar.edu.eventos
 
 import ar.edu.eventos.exceptions.BusinessException
+
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.HashSet
@@ -10,7 +11,9 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.geodds.Point
 
 @Accessors
-class Usuario {
+class Usuario implements objetoT {
+	
+	var int id
 	List <String> mensajes = newArrayList()
 	Set<EventoCerrado> eventosCerrados = new HashSet ()
 	Set<EventoAbierto> eventosAbiertos = new HashSet ()
@@ -21,7 +24,7 @@ class Usuario {
 	String nombre
 	String apellido
 	String email
-	Point direccion
+	var Point direccion
 	LocalDateTime fechaDeNacimiento
 	boolean esAntisocial
 	var double plataQueTengo = 100
@@ -29,6 +32,9 @@ class Usuario {
 	TipoDeUsuario tipoDeUsuario
 	int cantidadDeAcompañantes
 	
+	new (){
+	  soyValido()
+	}
 
 	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
 		unEvento.adquirirEntrada(this,unaEntrada)
@@ -175,6 +181,64 @@ class Usuario {
 	}
 	def AgregarEventoCerrado(EventoCerrado evento) {
 		eventosCerrados.add(evento)
+	}
+	
+	override soyValido() {
+		 this.validarNombreDeUsuario()
+		this.validarNombre()
+		this.validarApellido()
+		 this.validarEmail()
+		 this.validarFechaDeNacimiento()
+		this.validarDireccion()
+	}
+	
+	def validarEmail() {
+		if(this.email === null || this.email.length==0){
+			throw new BusinessException("No podes crear un usuario sin email")
+		}
+	}
+	
+	def validarDireccion() {
+		if(this.direccion === null){
+			throw new BusinessException("No podes crear un usuario sin Direccion")
+		}
+		true
+	}
+	
+	def validarFechaDeNacimiento() {
+		if(this.fechaDeNacimiento === null){
+			throw new BusinessException("No podes crear un usuario sin Fecha de Nacimiento")
+		}
+	}
+	
+	def validarApellido() {
+		if(this.apellido === null || this.apellido.length==0){
+			throw new BusinessException("No podes crear un usuario sin apellido")
+		}
+	}
+	
+	def validarNombre() {
+		if(this.nombre === null || this.nombre.length==0){
+			throw new BusinessException("No podes crear un usuario sin Nombre")
+		}
+	}
+	
+	def validarNombreDeUsuario() {
+		if(this.nombreDeUsuario === null || this.nombreDeUsuario.length==0){
+			throw new BusinessException("No podes crear un usuario sin Nombre de Usuario")
+		}
+	}
+	
+	override getId() {
+		id
+	}
+	
+	override setId(int _id) {
+		id = _id
+	}
+	
+	override modificarObjeto() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }

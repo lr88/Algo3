@@ -36,11 +36,13 @@ abstract class RepoGenerico <T extends objetoT> {
 		elementos.remove(object)
 	}
 	
-	def void update (T object){
-		object.soyValido
+	 def void update (T object){
+	 	
+	 }
+		/*object.soyValido
 		validarExistencia(object)
-		modificarObjeto(object)
-	}
+		object.modificarObjeto()*/
+	
 	
 	def T searchById(int id){
 		elementos.get(id)
@@ -50,8 +52,7 @@ abstract class RepoGenerico <T extends objetoT> {
 		var T objetoNuestro = searchById(object.id)
 		objetoNuestro.modificarObjeto(object)
 	}*/
-	
-	
+		
 	
 /*  
 
@@ -60,7 +61,6 @@ abstract class RepoGenerico <T extends objetoT> {
 * De no existir el objeto buscado, es decir, un objeto con ese id, se debe lanzar una excepción. 
  Modifica el objeto dentro de la colección. 
  * 
-●	T searchById(int id): Retorna el objeto cuyo id sea el recibido como parámetro.
 
 ●	List<T> search(String value): Devuelve los objetos que coincidan con la búsqueda de acuerdo a los siguientes criterios: 
 
@@ -69,12 +69,11 @@ abstract class RepoGenerico <T extends objetoT> {
 ●	Usuario: El valor de búsqueda debe coincidir parcialmente con el nombre y/o apellido, o exactamente con el nombre de usuario. 
 
 ●	Servicio:  El valor de búsqueda debe coincidir con el inicio de la descripción.  
-
-
 	 
-	 */
-	
+	 */	
 	
 }
+
+
 
 
