@@ -11,10 +11,12 @@ class Servicio implements objetoT {
 	var int costo
 	TipoDeTarifa tarifaDelServicio 
 	Locacion ubicacion
-    
+    /*
     new (){
     	soyValido() 
     }
+    * 
+    */
 	def costoDelServicio(Evento unEvento) {
 		tarifaDelServicio.costo(unEvento)// + traslado
 	}
@@ -35,12 +37,14 @@ class Servicio implements objetoT {
 		if(tarifaDelServicio === null){
 			throw new BusinessException("No podes crear un servicio sin una Tarifa")
 		}
+		true
 	}
 	
 	def validarDescripcion(){
 		if(descripcion === null || descripcion.length==0){
 			throw new BusinessException("No podes crear un servicio sin una descripcion")
 		}
+		true
 	}
 	
 	override getId() {

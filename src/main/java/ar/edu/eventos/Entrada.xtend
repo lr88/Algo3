@@ -22,17 +22,16 @@ class Entrada {
 	}
 
 	def diasFaltantes() {
-		Duration.between(LocalDateTime.now, EventoAbierto.fechaDeInicioDelEvento).toDays()
-	}
+		Duration.between( LocalDateTime.now, EventoAbierto.fechaDeInicioDelEvento).toDays()
+		}
 
 	def void devolverDinero() {
-	print(elEventoFuePostegadoOCancelado)
 		if (elEventoFuePostegadoOCancelado) {
 			devolverEltotal
 			} 
 		else {
-			print(diasFaltantes)
 			if (0 < diasFaltantes && diasFaltantes < 8) {
+			
 			usuario.plataQueTengo = usuario.plataQueTengo + (diasFaltantes + 1) * diezPorCiento * valorDeLAEntrada
 			}
 			else {
@@ -44,7 +43,7 @@ class Entrada {
 	def void devolverEltotal() {
 		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLAEntrada
 	}
-	
+	 
 	def postergarEvento() {
 		usuario.recibirMensaje("se postergo el evento\n")
 	}

@@ -25,12 +25,14 @@ abstract class RepoGenerico <T extends objetoT> {
 		if (existeElid (object)){
 			throw new BusinessException("El elemento ya existe en el Repositorio")
 		}
+		true
 	}
 	
 	def validarLaNoExistencia (T object){
 		if (!existeElid (object)){
 			throw new BusinessException("El elemento no existe en el Repositorio")
 		}
+		true
 	}
 	def void delete(T object){
 		elementos.remove(object)

@@ -54,7 +54,6 @@ abstract class Evento {
 		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
 		tipoDeEventoPostergate()
-		
 	}
 	def boolean esExitoso()
 	def boolean esUnFracaso()

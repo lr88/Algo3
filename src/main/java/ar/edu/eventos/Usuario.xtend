@@ -32,10 +32,6 @@ class Usuario implements objetoT {
 	TipoDeUsuario tipoDeUsuario
 	int cantidadDeAcompañantes
 	
-	new (){
-	  soyValido()
-	}
-
 	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
 		unEvento.adquirirEntrada(this,unaEntrada)
 	}
@@ -43,6 +39,7 @@ class Usuario implements objetoT {
 	def agregarEntrada(Entrada entrada) {
 		entrada.usuario = this
 		entradas.add(entrada)
+		
 	}
 	
 	def cambiarTipoDeUsuario(TipoDeUsuario unTipoDeUsuario){
@@ -94,7 +91,7 @@ class Usuario implements objetoT {
 			unEvento.invitarAUnUsiario(unUsuario,unaCantidadMaximaDeAcompañantes)
 			}
 			else{
-			//throw new BusinessException("No se puede crear invitacion, no el organizador del evento")
+			throw new BusinessException("No se puede crear invitacion, no el organizador del evento")
 		}
 	}
 	
@@ -105,7 +102,7 @@ class Usuario implements objetoT {
 				unaInvitacion.cantidadDeAcompañantes = unaCantidadDeAcompañantes
 		}
 		else{
-			//throw new BusinessException("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes")
+			throw new BusinessException("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes")
 		}
 		
 	}
@@ -196,6 +193,7 @@ class Usuario implements objetoT {
 		if(this.email === null || this.email.length==0){
 			throw new BusinessException("No podes crear un usuario sin email")
 		}
+		true
 	}
 	
 	def validarDireccion() {
@@ -209,24 +207,28 @@ class Usuario implements objetoT {
 		if(this.fechaDeNacimiento === null){
 			throw new BusinessException("No podes crear un usuario sin Fecha de Nacimiento")
 		}
+		true
 	}
 	
 	def validarApellido() {
 		if(this.apellido === null || this.apellido.length==0){
 			throw new BusinessException("No podes crear un usuario sin apellido")
 		}
+		true
 	}
 	
 	def validarNombre() {
 		if(this.nombre === null || this.nombre.length==0){
 			throw new BusinessException("No podes crear un usuario sin Nombre")
 		}
+		true
 	}
 	
 	def validarNombreDeUsuario() {
 		if(this.nombreDeUsuario === null || this.nombreDeUsuario.length==0){
 			throw new BusinessException("No podes crear un usuario sin Nombre de Usuario")
 		}
+		true
 	}
 	
 	override getId() {
@@ -239,6 +241,11 @@ class Usuario implements objetoT {
 	
 	override modificarObjeto() {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def pagarEntrada(Entrada entrada) {
+		agregarEntrada(entrada)
+		plataQueTengo = plataQueTengo - entrada.valorDeLAEntrada
 	}
 	
 }

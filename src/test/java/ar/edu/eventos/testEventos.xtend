@@ -18,19 +18,31 @@ class testEventos {
 	@Before
 	def void init() {
 		miCasa = new Locacion() => [
+			nombreDeLaLocacion ="asd"
 			ubicacion = new Point(1.0, 2.0)
+			soyValido()
 		]
+		
 		usuario1 = new Usuario() => [
+			nombre = "asd"
+			apellido ="asd"
+			email = "asd"
+			fechaDeNacimiento = LocalDateTime.of(2000, 10, 10, 20, 0)
 			direccion = new Point(4.0, 2.0)
 			radioDeCercanía = 999
+			
 		]
 
 		lunch = new Servicio() => [
+			descripcion = "asd"
 			costo = 10
+			ubicacion = miCasa
 		]
 
 		luces = new Servicio() => [
+			descripcion = "asd"
 			costo = 10
+			ubicacion = miCasa
 		]
 
 		fiesta = new EventoCerrado() => [

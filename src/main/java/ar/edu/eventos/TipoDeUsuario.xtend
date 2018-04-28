@@ -35,8 +35,11 @@ class Free implements TipoDeUsuario {
 	}
 
 	override organizarEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
-		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) > maximoDeEventosMensuales &&
-			unUsuario.eventosActivos() < 0 && unEvento.cantidadMaximaDeInvitados > maximoDePersonasPorEvento)
+		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) 
+			> maximoDeEventosMensuales &&
+			unUsuario.eventosActivos() < 0 
+			&& unEvento.cantidadMaximaDeInvitados > 
+			maximoDePersonasPorEvento)
 			unUsuario.AgregarEventoCerrado(unEvento)
 	}
 

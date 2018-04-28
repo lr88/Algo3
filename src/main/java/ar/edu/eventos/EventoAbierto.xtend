@@ -15,9 +15,11 @@ class EventoAbierto extends Evento {
 	int edadMinima
 
 	def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
-		if (entradasDisponibles > 0 && unUsuario.edad() > edadMinima && hayTiempoParaConfirmar(unUsuario))
+		if (entradasDisponibles > 0 && unUsuario.edad() > edadMinima && hayTiempoParaConfirmar(unUsuario)){
+			print("adquierio")
+			unUsuario.pagarEntrada(unaEntrada)
 			agregarEntrada(unaEntrada)
-		unUsuario.agregarEntrada(unaEntrada)
+		}
 	}
 
 	def void agregarEntrada(Entrada unaEntrada) {
@@ -25,7 +27,7 @@ class EventoAbierto extends Evento {
 	}
 
 	def sePuedeDevolverLaEntrada() {
-		Duration.between(LocalDateTime.now, fechaDeInicioDelEvento).toDays() > 1
+		Duration.between(LocalDateTime.now, fechaDeInicioDelEvento).toDays() >= 1
 	}
 
 	def double capacidadMaxima() {
@@ -43,7 +45,8 @@ class EventoAbierto extends Evento {
 	def boolean hayTiempoParaConfirmar(Usuario unUsuario) {
 		if ((Duration.between(LocalDateTime.now, fechaMaximaDeConfirmacion).toMillis()) > 0) {
 			true
-		} else {
+		} 
+		else {
 			unUsuario.recibirMensaje("Paso el tiempo de compra de entradas\n")
 			false
 		}
@@ -61,7 +64,7 @@ class EventoAbierto extends Evento {
 	}
 
 	override void tipoDeEventoPostergate() {
-		entradas.forEach[entrada|entrada.postergarEvento]
+		entradas.forEach[entrada | entrada.postergarEvento]
 	}
 
 	def int cantidadDeEntradasVendidas() {

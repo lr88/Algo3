@@ -21,6 +21,7 @@ class testEventosAbierto {
 	Entrada entrada5
 	Entrada entrada6
 	Entrada entrada7
+	Entrada entrada8
 
 	@Before
 	def void init() {
@@ -33,6 +34,7 @@ class testEventosAbierto {
 		usuario1 = new Usuario() => [
 			direccion = new Point(1.0, 2.0)
 			esAntisocial = false
+			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
@@ -40,6 +42,7 @@ class testEventosAbierto {
 		usuario2 = new Usuario() => [
 			direccion = new Point(1.0, 2.0)
 			esAntisocial = false
+			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
@@ -47,6 +50,7 @@ class testEventosAbierto {
 		usuario3 = new Usuario() => [
 			direccion = new Point(1.0, 2.0)
 			esAntisocial = false
+			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
@@ -60,9 +64,10 @@ class testEventosAbierto {
 		]
 
 		eventoAbierto2 = new EventoAbierto() => [
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 4, 27, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 4, 27, 23, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 4, 27, 0, 0)
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 2, 27, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 2, 27, 23, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 2, 27, 0, 0)
+			locacion = lugarDelEvento1
 			edadMinima = 18
 		]
 		
@@ -84,9 +89,15 @@ class testEventosAbierto {
 		entrada6 = new Entrada(eventoAbierto1) => [
 			valorDeLAEntrada = 100
 		]
+		
 		entrada7 = new Entrada(eventoAbierto1) => [
 			valorDeLAEntrada = 100
 		]
+		
+		entrada8 = new Entrada(eventoAbierto2) => [
+			valorDeLAEntrada = 100
+		]
+		
 
 	}
 
@@ -120,7 +131,7 @@ class testEventosAbierto {
 
 	@Test
 	def void fechaDeConfirmacion() {
-		Assert.assertEquals(LocalDateTime.of(2019, 10, 10, 00, 00), eventoAbierto1.fechaMaximaDeConfirmacion)
+		Assert.assertEquals(LocalDateTime.of(2018, 7, 12, 0, 0), eventoAbierto1.fechaMaximaDeConfirmacion)
 	}
 
 	@Test
@@ -153,33 +164,27 @@ class testEventosAbierto {
 
 	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoPostergadoSeReciveElValorTotalDeLaEntrada() {
-		eventoAbierto2 = new EventoAbierto()
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada2)
-		usuario1.postergarEvento(eventoAbierto2, LocalDateTime.of(2020, 10, 11, 0, 0))
-		usuario2.devolverEntrada(usuario2.entradas.get(0), eventoAbierto2)
+		usuario1.postergarEvento(eventoAbierto1, LocalDateTime.of(2020, 10, 11, 0, 0))
+		usuario2.devolverEntrada(entrada2, eventoAbierto1)
 		Assert.assertTrue(usuario2.mensajes.contains("se postergo el evento\n"))
 		Assert.assertEquals(100, usuario2.plataQueTengo, 0)
 	}
 
 	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoSeReciveunPorsentajedeLaEntrada() {
-		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada6)
-		usuario2.devolverEntrada(entrada6, eventoAbierto2)
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada6)
+		usuario2.devolverEntrada(entrada6, eventoAbierto1)
 		Assert.assertEquals(80, usuario2.plataQueTengo, 0)
 	}
-
-	@Test
-	def void CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada() {
-		usuario2.devolverEntrada(entrada6, eventoAbierto2)
-		Assert.assertEquals(20, usuario2.plataQueTengo, 0)
+//----------------------------
+	@Test//CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada
+	def void asd () {
+		eventoAbierto2.cambiarFecha(LocalDateTime.of(2018, 4, 30, 0, 0))
+		eventoAbierto2.fuePostergado = false
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)
+		usuario2.devolverEntrada(entrada8, eventoAbierto2)
+		Assert.assertEquals(20, usuario2.plataQueTengo, 1)
 	}
-/*
-	@Test
-	def void CuandoSeDevuelveLaEntradaDeUnEvento4DiasAntesAlEventoSeReciveunPorsentajedeLaEntrada() {
-		Assert.assertEquals(50, usuario2.plataQueTengo, 0)
-	}
-
-	def void UnUsuarioCreaUnEventoYLoPostergaYelEventocambialafecha() {
-	}
- */
+//-------------------------------
 }
