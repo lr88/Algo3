@@ -50,6 +50,7 @@ abstract class Evento {
 	def void cambiarFecha(LocalDateTime nuevaFecha){
 		fuePostergado = true
 		var  aux = Duration.between(fechaDeInicioDelEvento,nuevaFecha)
+		print(aux)
 		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
 		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)

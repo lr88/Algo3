@@ -5,6 +5,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
+import java.time.Duration
 
 class testEventosAbierto {
 
@@ -70,7 +71,7 @@ class testEventosAbierto {
 			locacion = lugarDelEvento1
 			edadMinima = 18
 		]
-		
+
 		entrada1 = new Entrada(eventoAbierto1) => [
 			valorDeLAEntrada = 100
 		]
@@ -89,15 +90,14 @@ class testEventosAbierto {
 		entrada6 = new Entrada(eventoAbierto1) => [
 			valorDeLAEntrada = 100
 		]
-		
+
 		entrada7 = new Entrada(eventoAbierto1) => [
 			valorDeLAEntrada = 100
 		]
-		
+
 		entrada8 = new Entrada(eventoAbierto2) => [
 			valorDeLAEntrada = 100
 		]
-		
 
 	}
 
@@ -177,14 +177,46 @@ class testEventosAbierto {
 		usuario2.devolverEntrada(entrada6, eventoAbierto1)
 		Assert.assertEquals(80, usuario2.plataQueTengo, 0)
 	}
+
+	@Test //
+	def void CuandoSeDevuelveLaEntradaDeUnEvento10diasantesAlEventoSeReciveunPorsentajedeLaEntrada() {
+		var LocalDateTime dia1 = LocalDateTime.of(2018, 5, 1, 0, 0)
+		var LocalDateTime dia10 = LocalDateTime.of(2018, 5, 10, 0, 2)
+		var aux = Duration.between(dia1, dia10)
+		var LocalDateTime diezdiasdespues = LocalDateTime.now.plus(aux)
+
+		eventoAbierto2.cambiarFecha(diezdiasdespues)
+		eventoAbierto2.fuePostergado = false
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)
+		usuario2.devolverEntrada(entrada8, eventoAbierto2)
+		Assert.assertEquals(80, usuario2.plataQueTengo, 1)
+	}
+
 //----------------------------
-	@Test//CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada
-	def void asd () {
-		eventoAbierto2.cambiarFecha(LocalDateTime.of(2018, 4, 30, 0, 0))
+	@Test 
+	def void CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada() {
+		var LocalDateTime dia1 = LocalDateTime.of(2018, 5, 1, 0, 0)
+		var LocalDateTime dia2 = LocalDateTime.of(2018, 5, 2, 0, 2)
+		var aux = Duration.between(dia1, dia2)
+		var LocalDateTime undiadediferencia = LocalDateTime.now.plus(aux)
+
+		eventoAbierto2.cambiarFecha(undiadediferencia)
 		eventoAbierto2.fuePostergado = false
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)
 		usuario2.devolverEntrada(entrada8, eventoAbierto2)
 		Assert.assertEquals(20, usuario2.plataQueTengo, 1)
 	}
-//-------------------------------
+
+	@Test
+	def void CuandoSeDevuelveLaEntradaDeUnEvento3diasantesAlEventoSeReciveunPorsentajedeLaEntrada() {
+		var LocalDateTime dia1 = LocalDateTime.of(2018, 5, 1, 0, 0)
+		var LocalDateTime dia3 = LocalDateTime.of(2018, 5, 3, 0, 2)
+		var aux = Duration.between(dia1, dia3)
+		var LocalDateTime cincodiasdediferencia = LocalDateTime.now.plus(aux)
+		eventoAbierto2.cambiarFecha(cincodiasdediferencia)
+		eventoAbierto2.fuePostergado = false
+		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)
+		usuario2.devolverEntrada(entrada8, eventoAbierto2)
+		Assert.assertEquals(40, usuario2.plataQueTengo, 1)
+	}
 }

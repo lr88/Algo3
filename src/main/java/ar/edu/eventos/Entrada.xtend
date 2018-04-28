@@ -30,8 +30,7 @@ class Entrada {
 			devolverEltotal
 			} 
 		else {
-			if (0 < diasFaltantes && diasFaltantes < 8) {
-			
+			if (1 <= diasFaltantes && diasFaltantes <= 8) {
 			usuario.plataQueTengo = usuario.plataQueTengo + (diasFaltantes + 1) * diezPorCiento * valorDeLAEntrada
 			}
 			else {
