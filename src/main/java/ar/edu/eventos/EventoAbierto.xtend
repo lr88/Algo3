@@ -6,6 +6,7 @@ import java.time.Duration
 import java.time.LocalDateTime
 import java.util.Set
 import java.util.HashSet
+import ar.edu.eventos.exceptions.BusinessException
 
 @Accessors
 class EventoAbierto extends Evento {
@@ -15,19 +16,38 @@ class EventoAbierto extends Evento {
 	int edadMinima
 
 	def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
-		if (entradasDisponibles > 0 && unUsuario.edad() > edadMinima && hayTiempoParaConfirmar(unUsuario)){
-			print("adquierio")
+			validarLaAdquisicionDeUnaEntrada(unUsuario)
 			unUsuario.pagarEntrada(unaEntrada)
 			agregarEntrada(unaEntrada)
+	}
+
+	def validarLaAdquisicionDeUnaEntrada(Usuario unUsuario){
+			hayEntradasDisponibles
+			correspondeLaEdad(unUsuario)
+			hayTiempoParaConfirmar(unUsuario)
+	}
+
+
+	def hayEntradasDisponibles(){
+		if (entradasDisponibles > 0) {
+		} else {
+			throw new BusinessException("No hay Entradas disponibles")
+		}
+	}
+
+	def correspondeLaEdad(Usuario unUsuario){
+		if (unUsuario.edad() > edadMinima) {
+		} else {
+			throw new BusinessException("No corresponde la Edad")
 		}
 	}
 
 	def void agregarEntrada(Entrada unaEntrada) {
-		entradas.add(unaEntrada)
+		entradas.add(unaEntrada)///exception
 	}
 
 	def sePuedeDevolverLaEntrada() {
-		Duration.between(LocalDateTime.now, fechaDeInicioDelEvento).toDays() >= 1
+		Duration.between(LocalDateTime.now, fechaDeInicioDelEvento).toDays() >= 1///exception
 	}
 
 	def double capacidadMaxima() {
@@ -35,21 +55,41 @@ class EventoAbierto extends Evento {
 	}
 
 	override boolean esExitoso() {
-		capacidadMaxima * 0.9 < cantidadDeEntradasVendidas && !fuePostergado && !fueCancelado
+		validarCapacidadMaximaParaExitoso 
+		&& validarPostergacion
+		&& validarCancelacion
+	}
+
+	def validarCapacidadMaximaParaExitoso(){
+		capacidadMaxima * 0.9 < cantidadDeEntradasVendidas
+	}
+
+	def validarPostergacion(){
+		!fuePostergado
+	}
+	
+	def validarCancelacion(){
+		!fueCancelado
 	}
 
 	override boolean esUnFracaso() {
 		cantidadDeEntradasVendidas < capacidadMaxima * 0.5
 	}
 
-	def boolean hayTiempoParaConfirmar(Usuario unUsuario) {
-		if ((Duration.between(LocalDateTime.now, fechaMaximaDeConfirmacion).toMillis()) > 0) {
-			true
-		} 
-		else {
-			unUsuario.recibirMensaje("Paso el tiempo de compra de entradas\n")
-			false
-		}
+	def hayTiempoParaConfirmar(Usuario unUsuario) {
+	if (cuantoFaltaParaElEvento > 0) {
+		} else {
+			throw new BusinessException("Paso el tiempo de confirmacion")
+		}	
+
+
+}
+
+
+
+
+	def cuantoFaltaParaElEvento(){
+		Duration.between(LocalDateTime.now, fechaMaximaDeConfirmacion).toMillis()
 	}
 
 	def int entradasDisponibles() {
@@ -64,7 +104,7 @@ class EventoAbierto extends Evento {
 	}
 
 	override void tipoDeEventoPostergate() {
-		entradas.forEach[entrada | entrada.postergarEvento]
+		entradas.forEach[entrada | entrada.postergarEvento()]
 	}
 
 	def int cantidadDeEntradasVendidas() {
@@ -74,5 +114,4 @@ class EventoAbierto extends Evento {
 	def void usuarioDevuelveEntrada(Entrada unaEntrada) {
 		entradas.remove(unaEntrada)
 	}
-
 }

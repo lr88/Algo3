@@ -7,9 +7,8 @@ interface TipoDeTarifa {
 }
 
 class TarifaFija implements TipoDeTarifa {
-	//var tarifa 
-	
-		override costo(Evento unEvento) {
+	// var tarifa 
+	override costo(Evento unEvento) {
 		1
 	}
 
@@ -18,7 +17,7 @@ class TarifaFija implements TipoDeTarifa {
 class TarifaPorHora implements TipoDeTarifa {
 
 	override costo(Evento unEvento) {
-	   1//unEvento.duracion
+		1 // unEvento.duracion
 	}
 
 }

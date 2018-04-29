@@ -48,14 +48,24 @@ abstract class Evento {
 	}
 	
 	def void cambiarFecha(LocalDateTime nuevaFecha){
-		fuePostergado = true
 		var  aux = Duration.between(fechaDeInicioDelEvento,nuevaFecha)
-		print(aux)
-		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
-		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
-		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
+		cambiarFechaInicio(aux)
+		cambiarFechaFin(aux)
+		cambiarFechaConfirmacion(aux)
+		fuePostergado = true
 		tipoDeEventoPostergate()
 	}
+	
+	def cambiarFechaInicio(Duration aux){
+		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
+	}
+	def cambiarFechaFin(Duration aux){
+		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
+	}
+	def cambiarFechaConfirmacion(Duration aux){
+		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
+	}
+
 	def boolean esExitoso()
 	def boolean esUnFracaso()
 	def void cancelarElEvento()

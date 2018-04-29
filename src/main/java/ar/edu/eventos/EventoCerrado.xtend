@@ -1,10 +1,9 @@
 package ar.edu.eventos
 
-import org.eclipse.xtend.lib.annotations.Accessors
-import java.time.LocalDateTime
-import java.util.Set
+import ar.edu.eventos.exceptions.BusinessException
 import java.util.HashSet
-import org.uqbar.geodds.Point
+import java.util.Set
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 class EventoCerrado extends Evento {
@@ -61,19 +60,19 @@ class EventoCerrado extends Evento {
 	override void tipoDeEventoPostergate() {
 		invitaciones.forEach[invitacion|invitacion.postergarEvento()]
 	}
-	
-	def invitarAUnUsiario(Usuario unUsuario,int unaCantidadMaximaDeAcompañantes) {
-			if (cantidaDePosiblesAsistentes < cantidadMaximaDeInvitados){
-				var Invitacion unaInvitacion = new Invitacion (unUsuario,unaCantidadMaximaDeAcompañantes,this)
-				unaInvitacion.invitarUsiario
-				invitaciones.add(unaInvitacion)
-			}
-			else{
-				//throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
-				
-			}
+
+	def invitarAUnUsiario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes) {
+		validarAsistentesVSAcompañantes(unaCantidadMaximaDeAcompañantes)
+		var Invitacion unaInvitacion = new Invitacion(unUsuario, unaCantidadMaximaDeAcompañantes, this)
+		unaInvitacion.invitarUsiario
+		invitaciones.add(unaInvitacion)
+
+	}
+
+	def validarAsistentesVSAcompañantes(int unaCantidadMaximaDeAcompañantes) {
+		if (cantidaDePosiblesAsistentes < cantidadMaximaDeInvitados) {
+		} else {
+			throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
 		}
-	
-	
-	
+	}
 }
