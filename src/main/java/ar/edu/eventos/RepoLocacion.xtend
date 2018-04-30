@@ -1,14 +1,14 @@
 package ar.edu.eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.List
 
 @Accessors
 class RepoLocacion extends RepoGenerico<Locacion> {
 	int proximoId = 0
 	
-	/*El valor de búsqueda debe coincidir parcialmente con la descripción */
-	override search(String value) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override List<Locacion> search(String buscar) {
+		elementos.filter[locacion|locacion.nombreDeLaLocacion == locacion.nombreDeLaLocacion.indexOf(buscar)].toList
 	}
 	
 	override update(Locacion object) {

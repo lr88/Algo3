@@ -1,18 +1,17 @@
 package ar.edu.eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.List
 
 @Accessors
 class RepoUsuario extends RepoGenerico<Usuario>{
 	int proximoId = 0
 	
-	/*El valor de búsqueda debe coincidir 
-	 * parcialmente con el nombre y/o apellido, o exactamente con el nombre de usuario.
-	 */
-	override search(String value) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
+	override List<Usuario> search(String buscar) {
+	  elementos.filter[usuario|usuario.nombre == usuario.nombre.indexOf(buscar) || usuario.apellido == usuario.apellido.indexOf(buscar)|| usuario.nombreDeUsuario.equals(buscar) ].toList 
 	
+	}
+
 	override update(Usuario object) {
 		object.soyValido()
 		validarExistencia(object)

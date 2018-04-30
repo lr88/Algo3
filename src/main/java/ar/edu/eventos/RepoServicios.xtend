@@ -6,9 +6,9 @@ import java.util.List
 class RepoServicios extends RepoGenerico<Servicio>{
 	int proximoId = 0
 	
-	/* El valor de búsqueda debe coincidir con el inicio de la descripción.   */
+
 	override List<Servicio> search(String buscar) {
-		elementos.filter[elem |elem.descripcion.contains(buscar)].toList
+		elementos.filter[servicio |servicio.descripcion.startsWith(buscar)].toList
 	}
 	
 	override update(Servicio object) {
