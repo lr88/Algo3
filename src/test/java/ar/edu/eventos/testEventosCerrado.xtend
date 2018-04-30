@@ -8,7 +8,7 @@ import org.uqbar.geodds.Point
 import java.util.List
 
 class testEventosCerrado {
-
+	Locacion lugarDelEvento1
 	Usuario Organizador1
 	Usuario Organizador2
 	Usuario Organizador3
@@ -22,22 +22,61 @@ class testEventosCerrado {
 	Usuario persona6
 	List<Usuario> listaDeUsuariosDelTest = newArrayList()
 
-	Locacion miCasa
-
 	@Before
 	def void init() {
 
-		/*miCasa = new Locacion(new Point(10, 10), "Complejo1", 3)*/
-
-		persona1 = new Usuario() =>{
-			
-		}
-		persona2 = new Usuario()
-		persona3 = new Usuario()
-		persona4 = new Usuario()
-		persona5 = new Usuario()
-		/*persona6 = new Usuario("persona6", "S", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)*/
+		lugarDelEvento1 = new Locacion() => [
+			ubicacion = new Point(1.0, 2.0)
+			superficieM2 = 5
+		]
+		persona1 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			plataQueTengo = 100
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Free
+		]
+		persona2 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			plataQueTengo = 100
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Free
+		]
+		persona3 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			plataQueTengo = 100
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Free
+		]
+		persona4 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			plataQueTengo = 100
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Free
+		]
+		persona5 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			plataQueTengo = 100
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Free
+		]
+		persona6 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			plataQueTengo = 100
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Free
+		]
 
 		listaDeUsuariosDelTest.add(persona1)
 		listaDeUsuariosDelTest.add(persona2)
@@ -46,30 +85,50 @@ class testEventosCerrado {
 		listaDeUsuariosDelTest.add(persona5)
 		listaDeUsuariosDelTest.add(persona6)
 
-		/*Organizador1 = new Usuario("Organizador1", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Free)
-		Organizador2 = new Usuario("Organizador2", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), true,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Amateur)
-		Organizador3 = new Usuario("Organizador3", "W", "Perez", "carlosperez@gmail.com", new Point(1.0, 2.0), false,
-			LocalDateTime.of(1990, 10, 10, 0, 0), 3, new Profesional)
-*/
-		/*Organizador3.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador3,
-			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
-			LocalDateTime.of(2020, 6, 11, 6, 00))
+		Organizador1 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			plataQueTengo = 100
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Free
+		]
+		Organizador2 = new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			plataQueTengo = 100
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Amateur
+		]
+		Organizador3 =new Usuario() => [
+			direccion = new Point(1.0, 2.0)
+			esAntisocial = false
+			plataQueTengo = 100
+			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
+			radioDeCercanía = 3
+			tipoDeUsuario = new Profesional
+		]
 
-		Organizador3.CrearEventoAbierto("Fiesta de pedro y leo", miCasa, Organizador3, 20,
-			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
-			LocalDateTime.of(2020, 6, 11, 6, 00))
-
-		Organizador1.crearEventoCerrado("Fiesta de pedro y leo", miCasa, 20, Organizador1,
-			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 11, 5, 00),
-			LocalDateTime.of(2020, 6, 11, 6, 00))
-*/
+		evento1 = new EventoCerrado() =>[
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			locacion = lugarDelEvento1
+		]
+	
+		evento2 = new EventoCerrado() =>[
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			locacion = lugarDelEvento1
+		]
+			
 		persona1.agregarAmigo(persona2)
 		persona1.agregarAmigo(persona3)
 
-		evento1 = Organizador3.eventosCerrados.get(0)
-		evento2 = Organizador1.eventosCerrados.get(0)
+		Organizador3.crearEventoCerrado(evento1)
+		Organizador2.crearEventoCerrado(evento2)
 
 		Organizador3.invitarAUnUsuario(persona1, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona2, 5, evento1)
@@ -93,13 +152,13 @@ class testEventosCerrado {
 
 	@Test
 	def void EsExitoso() {
-		listaDeUsuariosDelTest.forEach[usuario|usuario.aceptarTodasLasInvitaciones(3)]
+		listaDeUsuariosDelTest.forEach[usuario|usuario.listaDeTodosMisInvitacionesPendientes.forEach[inv | usuario.aceptarInvitacion(inv,3)]]
 		Assert.assertTrue(evento1.esExitoso)
 	}
 
 	@Test
 	def void fueUnFracaso() {
-		listaDeUsuariosDelTest.forEach[usuario|usuario.rechazarTodasLasInvitaciones]
+		listaDeUsuariosDelTest.forEach[usuario|usuario.listaDeTodosMisInvitacionesPendientes.forEach[inv | usuario.rechazarInvitacion(inv)]]
 		Assert.assertTrue(evento1.esUnFracaso)
 	}
 
@@ -112,28 +171,19 @@ class testEventosCerrado {
 	}
 
 	@Test
-	def void capacidadMazimaEventoAbierto() {
-		Assert.assertEquals(20, evento1.capacidadMaxima, 0)
-	}
-
-	@Test
 	def void fechaDeConfirmacion() {
 		Assert.assertEquals(LocalDateTime.of(2020, 6, 10, 5, 00), evento1.fechaMaximaDeConfirmacion)
 	}
 
 	@Test
 	def void Organizador1crearUnEventoCerrado() {
-		Organizador1.crearEventoCerrado("Fiesta de Flor y leo", miCasa, 20, Organizador1,
-			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 10, 5, 00),
-			LocalDateTime.of(2020, 6, 10, 5, 00))
+		Organizador1.crearEventoCerrado(evento1)
 		Assert.assertEquals(1, Organizador1.eventos.size)
 	}
 
 	@Test
 	def void Organizador2crearUnEventosCerrado() {
-		Organizador2.crearEventoCerrado("Fiesta de Flor y leo", miCasa, 20, Organizador2,
-			LocalDateTime.of(2020, 6, 10, 5, 00), LocalDateTime.of(2020, 6, 10, 5, 00),
-			LocalDateTime.of(2020, 6, 10, 5, 00))
+		Organizador2.crearEventoCerrado(evento2)
 		Assert.assertEquals(1, Organizador2.eventos.size)
 	}
 
@@ -172,12 +222,4 @@ class testEventosCerrado {
 		Assert.assertEquals(0, persona1.listaDeTodosMisInvitacionesRechazadas.size)
 		Assert.assertEquals(0, persona1.listaDeTodosMisInvitacionesPendientes.size)
 	}
-
-	@Test
-	def listaDeTodasLasInvitacionesDeUnEveto() {
-		persona2.invitaciones.forEach[inv|persona2.aceptarInvitacion(inv, 2)]
-		persona3.invitaciones.forEach[inv|persona3.aceptarInvitacion(inv, 2)]
-		Assert.assertEquals(1, 1)
-	}
-
 }
