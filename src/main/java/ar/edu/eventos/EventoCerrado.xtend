@@ -8,7 +8,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 @Accessors
 class EventoCerrado extends Evento {
 
-	int cantidadMaximaDeInvitados
+	var int cantidadMaximaDeInvitados
 	Set<Invitacion> invitaciones = new HashSet()
 
 	def int capacidadMaxima() {
@@ -16,7 +16,11 @@ class EventoCerrado extends Evento {
 	}
 
 	override boolean esExitoso() {
-		cantidadDeInvitacionesAceptadas > cantidadDeInvitaciones * 0.8 && fueCancelado == false
+		invitacionesAceptadasVSInvitaciones && fueCancelado == false
+	}
+
+	def invitacionesAceptadasVSInvitaciones(){
+		cantidadDeInvitacionesAceptadas > cantidadDeInvitaciones * 0.8
 	}
 
 	override boolean esUnFracaso() {
@@ -53,6 +57,7 @@ class EventoCerrado extends Evento {
 
 	override void cancelarElEvento() {
 		fueCancelado = true
+		enProceso = false
 		invitaciones.forEach[invitacion|invitacion.cancelarEvento]
 		invitaciones.clear
 	}
@@ -65,8 +70,8 @@ class EventoCerrado extends Evento {
 		validarAsistentesVSAcompañantes(unaCantidadMaximaDeAcompañantes)
 		var Invitacion unaInvitacion = new Invitacion(unUsuario, unaCantidadMaximaDeAcompañantes, this)
 		unaInvitacion.invitarUsiario
+		unUsuario.agregarInvitacion(unaInvitacion)
 		invitaciones.add(unaInvitacion)
-
 	}
 
 	def validarAsistentesVSAcompañantes(int unaCantidadMaximaDeAcompañantes) {

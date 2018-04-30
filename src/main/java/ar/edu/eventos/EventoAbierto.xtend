@@ -81,12 +81,7 @@ class EventoAbierto extends Evento {
 		} else {
 			throw new BusinessException("Paso el tiempo de confirmacion")
 		}	
-
-
-}
-
-
-
+	}
 
 	def cuantoFaltaParaElEvento(){
 		Duration.between(LocalDateTime.now, fechaMaximaDeConfirmacion).toMillis()
@@ -98,6 +93,7 @@ class EventoAbierto extends Evento {
 
 	override cancelarElEvento() {
 		fueCancelado = true
+		enProceso = false
 		entradas.forEach[entrada|entrada.cancelarEvento]
 		entradas.forEach[entrada|entrada.devolverEltotal()]
 		entradas.clear

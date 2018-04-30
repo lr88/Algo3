@@ -6,14 +6,17 @@ import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
 import java.util.List
+import ar.edu.eventos.exceptions.BusinessException
 
 class testEventosCerrado {
 	Locacion lugarDelEvento1
 	Usuario Organizador1
 	Usuario Organizador2
 	Usuario Organizador3
+	EventoCerrado evento0
 	EventoCerrado evento1
 	EventoCerrado evento2
+	EventoCerrado evento3
 	Usuario persona1
 	Usuario persona2
 	Usuario persona3
@@ -110,11 +113,20 @@ class testEventosCerrado {
 			tipoDeUsuario = new Profesional
 		]
 
+		evento0 = new EventoCerrado() =>[
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			locacion = lugarDelEvento1
+			cantidadMaximaDeInvitados = 100
+		]
+		
 		evento1 = new EventoCerrado() =>[
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
+			cantidadMaximaDeInvitados = 100
 		]
 	
 		evento2 = new EventoCerrado() =>[
@@ -122,29 +134,36 @@ class testEventosCerrado {
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
+			cantidadMaximaDeInvitados = 100
+		]
+		evento3 = new EventoCerrado() =>[
+			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			locacion = lugarDelEvento1
+			cantidadMaximaDeInvitados = 100
 		]
 			
 		persona1.agregarAmigo(persona2)
 		persona1.agregarAmigo(persona3)
+		persona1.agregarAmigo(Organizador1)
+		
 
+		Organizador1.crearEventoCerrado(evento0)
 		Organizador3.crearEventoCerrado(evento1)
 		Organizador2.crearEventoCerrado(evento2)
 
+		Organizador1.invitarAUnUsuario(persona1, 5, evento0)
 		Organizador3.invitarAUnUsuario(persona1, 5, evento1)
-		Organizador3.invitarAUnUsuario(persona2, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona3, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona4, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona5, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona6, 5, evento1)
 
-		Organizador1.invitarAUnUsuario(persona1, 5, evento2)
-
-		persona1.agregarAmigo(persona2)
-		persona1.agregarAmigo(persona3)
 
 	}
 
-	@Test
+	@Test(expected = typeof(BusinessException))
 	def void  alQuererAceptarUnaInvitacionQueSuperaLaCantidadPermitidaDeAcompañantesEstaNoSepermiteAceptar() {
 		persona1.aceptarInvitacion(persona1.listaDeTodosMisInvitacionesPendientes.get(0),25)
 		Assert.assertEquals(0,persona1.listaDeTodosMisInvitacionesAceptadas.size,0)
@@ -165,19 +184,17 @@ class testEventosCerrado {
 	@Test
 	def void pasoLaFechaDeConfirmacion() {
 		evento1.cambiarFecha(LocalDateTime.of(2004, 10, 10, 00, 00))
-		Organizador1.invitarAUnUsuario(persona2, 5, evento2)
-		Assert.assertEquals(2, persona2.listaDeTodosMisInvitacionesPendientes.size, 0)
-		Assert.assertEquals(0, evento1.cantidadDeInvitacionesAceptadas, 0)
+		Organizador1.invitarAUnUsuario(persona2, 5, evento0)
+		persona2.aceptarInvitacion(persona2.invitaciones.get(0),1)
 	}
 
 	@Test
 	def void fechaDeConfirmacion() {
-		Assert.assertEquals(LocalDateTime.of(2020, 6, 10, 5, 00), evento1.fechaMaximaDeConfirmacion)
+		Assert.assertEquals(LocalDateTime.of(2018, 7, 12, 0, 00), evento1.fechaMaximaDeConfirmacion)
 	}
 
 	@Test
 	def void Organizador1crearUnEventoCerrado() {
-		Organizador1.crearEventoCerrado(evento1)
 		Assert.assertEquals(1, Organizador1.eventos.size)
 	}
 
@@ -189,17 +206,18 @@ class testEventosCerrado {
 
 	@Test
 	def void Organizador3crearDosEventosCerrado() {
-		Assert.assertEquals(1, Organizador3.eventos.size)
-	}
-
-	@Test
-	def void listaDeTodosMisEventos() {
+		Organizador3.crearEventoCerrado(evento3)
 		Assert.assertEquals(2, Organizador3.eventos.size)
 	}
 
 	@Test
+	def void listaDeTodosMisEventos() {
+		Assert.assertEquals(1, Organizador3.eventos.size)
+	}
+
+	@Test
 	def void cantidadDeTodasLasInvitacionesDeUnEveto() {
-		Assert.assertEquals(6, evento1.invitaciones.size)
+		Assert.assertEquals(5, evento1.invitaciones.size)
 	}
 
 	@Test
@@ -210,7 +228,7 @@ class testEventosCerrado {
 	@Test
 	def void aceptacionMasiva() {
 		persona1.aceptacionMasiva
-		Assert.assertEquals(0, persona1.listaDeTodosMisInvitacionesAceptadas.size)
+		Assert.assertEquals(1, persona1.listaDeTodosMisInvitacionesAceptadas.size)
 		Assert.assertEquals(0, persona1.listaDeTodosMisInvitacionesRechazadas.size)
 		Assert.assertEquals(2, persona1.listaDeTodosMisInvitacionesPendientes.size)
 	}
@@ -220,6 +238,6 @@ class testEventosCerrado {
 		persona1.rechazoMasivo
 		Assert.assertEquals(2, persona1.listaDeTodosMisInvitacionesAceptadas.size)
 		Assert.assertEquals(0, persona1.listaDeTodosMisInvitacionesRechazadas.size)
-		Assert.assertEquals(0, persona1.listaDeTodosMisInvitacionesPendientes.size)
+		Assert.assertEquals(2, persona1.listaDeTodosMisInvitacionesPendientes.size)
 	}
 }

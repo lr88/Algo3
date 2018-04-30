@@ -13,14 +13,14 @@ class testUsuario {
 	Usuario carlos
 	Usuario pedro
 	Usuario lucas
-	Usuario juan
+	Usuario juan 
 	Point lugarGenerico = new Point(20, 2.0)
 	Locacion miCasa
 	Locacion complejo1
-	Evento casamiento
-	Evento casamiento1
-	Evento casamiento2
-	Evento casamiento3
+	EventoCerrado casamiento
+	EventoCerrado casamiento1
+	EventoCerrado casamiento2
+	EventoAbierto casamiento3
 
 	@Before
 	def void init() {
@@ -55,7 +55,7 @@ class testUsuario {
 			fechaDeNacimiento = LocalDateTime.of(2005, 10, 10, 0, 0)
 			esAntisocial = false
 			radioDeCercanía = 3
-			tipoDeUsuario = new Free
+			tipoDeUsuario = new Profesional
 		]
 
 		miCasa = new Locacion() => [
@@ -71,7 +71,6 @@ class testUsuario {
 
 		casamiento = new EventoCerrado() => [
 			locacion = miCasa
-			organizador = juan
 			cantidadMaximaDeInvitados = 3
 			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
 			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
@@ -79,7 +78,6 @@ class testUsuario {
 		]
 		casamiento1 = new EventoCerrado() => [
 			locacion = miCasa
-			organizador = juan
 			cantidadMaximaDeInvitados = 3
 			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
 			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
@@ -87,7 +85,6 @@ class testUsuario {
 		]
 		casamiento2 = new EventoCerrado() => [
 			locacion = miCasa
-			organizador = juan
 			cantidadMaximaDeInvitados = 3
 			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
 			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
@@ -95,12 +92,16 @@ class testUsuario {
 		]
 		casamiento3 = new EventoAbierto() => [
 			locacion = miCasa
-			organizador = juan
 			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
 			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 10, 5, 00)
 		]
-		pedro.CrearEventoAbierto(new EventoAbierto())
+		
+		juan.crearEventoCerrado(casamiento)
+		juan.crearEventoCerrado(casamiento1)
+		juan.crearEventoCerrado(casamiento2)
+		
+		pedro.CrearEventoAbierto(casamiento3)
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
 		pedro.agregarAmigo(juan)
@@ -109,7 +110,6 @@ class testUsuario {
 
 	@Test
 	def void noEsSocial() {
-	
 		Assert.assertFalse(carlos.esAntisocial)
 	}
 
@@ -135,7 +135,7 @@ class testUsuario {
 
 	@Test
 	def void juanNoOrganizaMasDeTresEventosElMismoMes() {
-		Assert.assertEquals(1,juan.cantidadDeEventosEnEsteMes(casamiento))
+		Assert.assertEquals(3,juan.eventos.size)
 
 	}
 

@@ -20,6 +20,7 @@ abstract class Evento {
 	Usuario organizador
 	var Boolean fuePostergado = false
 	var Boolean fueCancelado = false
+	var Boolean enProceso = true
 	
 	def boolean coherenciaDeFechas(){
 		fechaMaximaDeConfirmacion < fechaDeInicioDelEvento && fechaDeFinDelEvento > fechaDeInicioDelEvento
@@ -36,6 +37,9 @@ abstract class Evento {
 		locacion.distancia(unaDirecion)
 	}
 	
+	def tuOrganizadorEs(Usuario unUsuario){
+		organizador = unUsuario
+	}
 	def duracion() {
 		Duration.between(fechaDeInicioDelEvento, fechaDeFinDelEvento).toHours()
 	}

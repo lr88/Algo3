@@ -11,9 +11,9 @@ interface TipoDeUsuario {
 
 	def void postergarElEvento(Evento evento, LocalDateTime NuevaFechaDeInicioDelEvento)
 
-	def void organizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario)
+	def void puedoOrganizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario)
 
-	def void organizarEventoCerrado(EventoCerrado unEvento, Usuario unUsuario)
+	def void puedoOrganizarelEventoCerrado(EventoCerrado unEvento, Usuario unUsuario)
 
 }
 
@@ -30,16 +30,37 @@ class Free implements TipoDeUsuario {
 		throw new BusinessException("No podes postergar Eventos")
 	}
 
-	override organizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario) {
+	override puedoOrganizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario) {
 		throw new BusinessException("No podes organizar Eventos Abiertos")
 	}
 
-	override organizarEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
-		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) > maximoDeEventosMensuales &&
-			unUsuario.eventosActivos() < 0 && unEvento.cantidadMaximaDeInvitados > maximoDePersonasPorEvento)
-			unUsuario.AgregarEventoCerrado(unEvento)
+	override puedoOrganizarelEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
+		validarEventosEsteMes(unEvento, unUsuario)
+		validarEventosactivos(unEvento, unUsuario)
+		validarcantidadDeInvitados(unEvento, unUsuario)
 	}
 
+	def validarEventosEsteMes(EventoCerrado unEvento, Usuario unUsuario) {
+		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) < maximoDeEventosMensuales) {
+		} else {
+			throw new BusinessException("Superas la cantidad permitida por mes")
+		}
+	}
+	def validarEventosactivos(EventoCerrado unEvento, Usuario unUsuario) {
+		if (unUsuario.eventosActivos() < 1 ) {
+		} else {
+			throw new BusinessException("Superas la cantidad permitida a la vez")
+		}
+	}
+	def validarcantidadDeInvitados(EventoCerrado unEvento, Usuario unUsuario) {
+		if (unEvento.cantidadMaximaDeInvitados > maximoDePersonasPorEvento) {
+		} else {
+			throw new BusinessException("Superas la cantidad maxima de invitados")
+		}
+	}
+	
+	
+	
 }
 
 class Amateur implements TipoDeUsuario {
@@ -54,16 +75,24 @@ class Amateur implements TipoDeUsuario {
 		evento.cambiarFecha(NuevaFechaDeInicioDelEvento)
 	}
 
-	override organizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario) {
-		if (unUsuario.eventosActivos() < cantidadMaximaPermitidaDeSimultaneidadDeEventos)
-			unUsuario.AgregarEventoAbierto(unEvento)
+	override puedoOrganizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario) {
+		if (unUsuario.eventosActivos() < cantidadMaximaPermitidaDeSimultaneidadDeEventos) {
+		} else {
+			throw new BusinessException("Por Ser de tipo Amateur no podes organizar este Evento")
+		}
+
 	}
 
-	override organizarEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
+	override puedoOrganizarelEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
 		if (unUsuario.eventosActivos() < cantidadMaximaPermitidaDeSimultaneidadDeEventos &&
-			unEvento.cantidadDeInvitaciones() < maximoDeInvitacionesPorEvento)
-			unUsuario.AgregarEventoCerrado(unEvento)
+			unEvento.cantidadDeInvitaciones() < maximoDeInvitacionesPorEvento) {
+		} else {
+			throw new BusinessException("Por Ser de tipo Amateur no podes organizar este Evento")
+		}
 	}
+
+	
+
 
 }
 
@@ -79,15 +108,18 @@ class Profesional implements TipoDeUsuario {
 		evento.cambiarFecha(NuevaFechaDeInicioDelEvento)
 	}
 
-	override organizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario) {
-
-		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) > maximoDeEventosMensuales)
-			unUsuario.AgregarEventoAbierto(unEvento)
+	override puedoOrganizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario) {
+		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) < maximoDeEventosMensuales) {
+		} else {
+			throw new BusinessException("Por Ser de tipo Profesional no podes organizar este Evento")
+		}
 	}
 
-	override organizarEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
-		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) > maximoDeEventosMensuales)
-			unUsuario.AgregarEventoCerrado(unEvento)
+	override puedoOrganizarelEventoCerrado(EventoCerrado unEvento, Usuario unUsuario) {
+		if (unUsuario.cantidadDeEventosEnEsteMes(unEvento) < maximoDeEventosMensuales) {
+		} else {
+			throw new BusinessException("Por Ser de tipo Profesional no podes organizar este Evento")
+		}
 	}
 
 }

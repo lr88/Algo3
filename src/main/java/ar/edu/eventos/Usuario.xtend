@@ -39,7 +39,6 @@ class Usuario implements objetoT {
 	def agregarEntrada(Entrada entrada) {
 		entrada.usuario = this
 		entradas.add(entrada)
-		
 	}
 	
 	def cambiarTipoDeUsuario(TipoDeUsuario unTipoDeUsuario){
@@ -71,11 +70,13 @@ class Usuario implements objetoT {
 	}
 
 	def crearEventoCerrado(EventoCerrado unEvento) {
-		tipoDeUsuario.organizarEventoCerrado(unEvento,this)
+		tipoDeUsuario.puedoOrganizarelEventoCerrado(unEvento,this)
+		AgregarEventoCerrado(unEvento)
 	}
 
 	def CrearEventoAbierto(EventoAbierto unEvento) {
-		tipoDeUsuario.organizarEventoAbierto(unEvento,this)
+		tipoDeUsuario.puedoOrganizarEventoAbierto(unEvento,this)
+		AgregarEventoAbierto(unEvento)
 	}
 	
 	def devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
@@ -91,22 +92,35 @@ class Usuario implements objetoT {
 			unEvento.invitarAUnUsiario(unUsuario,unaCantidadMaximaDeAcompañantes)
 			}
 			else{
-			throw new BusinessException("No se puede crear invitacion, no el organizador del evento")
+			throw new BusinessException("No se puede crear invitacion, no sos el organizador del evento")
 		}
 	}
 	
 
   	 def aceptarInvitacion(Invitacion unaInvitacion,int unaCantidadDeAcompañantes){
-		if(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes && LocalDateTime.now < unaInvitacion.evento.fechaMaximaDeConfirmacion){
-				unaInvitacion.estadoAceptado = true
-				unaInvitacion.cantidadDeAcompañantes = unaCantidadDeAcompañantes
-		}
-		else{
-			throw new BusinessException("No se puede aceptar la invitacion, verifique de no superar la fecha maxima de confirmacion o la cantidad de acompañantes")
-		}
+		hayTiempoParaConfirmar(unaInvitacion)
+		validarCantidadDeAcompañantes(unaInvitacion,unaCantidadDeAcompañantes)
+		unaInvitacion.estadoAceptado = true
+		unaInvitacion.cantidadDeAcompañantes = unaCantidadDeAcompañantes
+		
 		
 	}
+	def hayTiempoParaConfirmar(Invitacion unaInvitacion){
+		if(LocalDateTime.now < unaInvitacion.evento.fechaMaximaDeConfirmacion){
+			}
+		else{
+			throw new BusinessException("No se puede aceptar la invitacion, supera el tiempo de confirmacion")
+		}
+	}
 	
+	def validarCantidadDeAcompañantes(Invitacion unaInvitacion, int unaCantidadDeAcompañantes){
+		if(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes){
+			}
+		else{
+			throw new BusinessException("No se puede aceptar la invitacion, supera la cantidad de acompañantes")
+		}
+	}
+
 	def rechazarInvitacion(Invitacion unaInvitacion){
 		unaInvitacion.estadoRechazado = true
 		}
@@ -120,9 +134,15 @@ class Usuario implements objetoT {
 	}
 	
 	def aceptacionMasiva(){
-		listaDeTodosMisInvitacionesPendientes.forEach[inv | if(esElOrganizadorMiAmigo(inv)  || asistenMasDeTantosAmigos(inv,4)  ||!meQuedaSerca(inv))
-				aceptarInvitacion(inv,inv.cantidadDeAcompañantes)]
+		listaDeTodosMisInvitacionesPendientes.
+		forEach[inv | if(validarAceptacionMasiva(inv)){
+				aceptarInvitacion(inv,inv.cantidadDeAcompañantes)}]
 	}
+	
+	def validarAceptacionMasiva(Invitacion inv){
+		esElOrganizadorMiAmigo(inv)  || asistenMasDeTantosAmigos(inv,4)  ||!meQuedaSerca(inv)
+	}
+	
 	
 	def boolean esElOrganizadorMiAmigo(Invitacion unaInvitacion){
 		amigos.contains(unaInvitacion.elOrganizadorDelEvento)
@@ -138,14 +158,18 @@ class Usuario implements objetoT {
 	}
 	
 	def rechazoMasivo(){
-		if(esAntisocial){
-		listaDeTodosMisInvitacionesPendientes.forEach[inv | if((esElOrganizadorMiAmigo(inv) && asistenMasDeTantosAmigos(inv,1)) || !asistenMasDeTantosAmigos(inv,2) || !meQuedaSerca(inv))
-			aceptarInvitacion(inv,inv.cantidadDeAcompañantes)]
-	}
+		if(!esAntisocial){
+		listaDeTodosMisInvitacionesPendientes.forEach[inv | if(validacionRechazoMasivo(inv)== true){
+			aceptarInvitacion(inv,inv.cantidadDeAcompañantes)}]
+		}
 	else{
 		invitaciones.filter[invitacion | asistenMasDeTantosAmigos(invitacion, 0) == true && !meQuedaSerca(invitacion) ]
 			.forEach[invitacion | this.rechazarInvitacion(invitacion)]
 		}
+	}
+
+	def validacionRechazoMasivo(Invitacion inv){
+		(esElOrganizadorMiAmigo(inv) && asistenMasDeTantosAmigos(inv,1)) || !asistenMasDeTantosAmigos(inv,2) || !meQuedaSerca(inv)
 	}
 
 	def listaDeTodosMisInvitacionesRechazadas(){
@@ -170,13 +194,15 @@ class Usuario implements objetoT {
 	}
 	
 	def eventosActivos(){
-		eventos.filter[evento | !evento.fueCancelado && !evento.fuePostergado].size()
+		eventos.filter[evento | evento.enProceso == true].size()
 	}
 	
 	def AgregarEventoAbierto(EventoAbierto evento) {
+		evento.tuOrganizadorEs(this)
 		eventosAbiertos.add(evento)
 	}
 	def AgregarEventoCerrado(EventoCerrado evento) {
+		evento.tuOrganizadorEs(this)
 		eventosCerrados.add(evento)
 	}
 	
@@ -248,5 +274,8 @@ class Usuario implements objetoT {
 		plataQueTengo = plataQueTengo - entrada.valorDeLAEntrada
 	}
 	
+	def agregarInvitacion(Invitacion invitacion) {
+		invitaciones.add(invitacion)
+	}	
 }
 
