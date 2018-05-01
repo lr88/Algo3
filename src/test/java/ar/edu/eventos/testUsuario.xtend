@@ -136,35 +136,32 @@ class testUsuario {
 	@Test
 	def void juanNoOrganizaMasDeTresEventosElMismoMes() {
 		Assert.assertEquals(3,juan.eventos.size)
-
 	}
 
-	@Test
-	def void EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez() {
-		pedro.eventosAbiertos.get(0).terminoElEvento
-		Assert.assertTrue(pedro.EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime.of(2007, 8, 10, 6, 00), 1))
-	}
-
-	@Test
+	@Test(expected = typeof(BusinessException))
 	def void PedroCambiaElTipoDeUsuario() {
 		pedro.cambiarTipoDeUsuario(new Free)
 		pedro.cancelarEvento(casamiento)
 		Assert.assertTrue(pedro.mensajes.contains("NO PODES CANCELAR UN EVENTOS "))
 	}
 
-	
-/*
-	@Test
-	def void TipoDeUsuarioCarlos() {
-		Assert.assertEquals(1, carlos.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
-		Assert.assertEquals(50, carlos.tipoDeUsuario.maximoDePersonasPorEvento)
-		Assert.assertEquals(3, carlos.tipoDeUsuario.cantidadDeEventosEnEsteMes)
+	@Test(expected = typeof(BusinessException))
+	def void TipoDeUsuarioCarlosPostergarEvento() {
+		Assert.assertTrue(carlos.tipoDeUsuario.puedoPostergarElEvento(casamiento3))
 	}
-
+	@Test(expected = typeof(BusinessException))
+	def void TipoDeUsuarioCarlosCancelarElEvento() {
+		Assert.assertTrue(carlos.tipoDeUsuario.puedoCancelarElEvento(casamiento3))
+	}
+	
+	@Test
+	def void TipoDeUsuarioPedro() {
+		Assert.assertTrue(pedro.tipoDeUsuario.puedoCancelarElEvento(casamiento3))
+		Assert.assertTrue(pedro.tipoDeUsuario.puedoPostergarElEvento(casamiento3))
+	}
 	@Test
 	def void TipoDeUsuarioLucas() {
-		Assert.assertEquals(5, lucas.tipoDeUsuario.cantidadMaximaPermitidaDeSimultaneidadDeEventos)
-		Assert.assertEquals(50, lucas.tipoDeUsuario.maximoDeInvitacionesPorEvento)
+		Assert.assertTrue(lucas.tipoDeUsuario.puedoCancelarElEvento(casamiento3))
+		Assert.assertTrue(lucas.tipoDeUsuario.puedoPostergarElEvento(casamiento3))
 	}
- */
 }

@@ -65,10 +65,6 @@ class Usuario implements objetoT {
 		eventos.filter[evento|evento.fechaDeInicioDelEvento.getMonth == unEvento.fechaDeInicioDelEvento.getMonth && evento.fechaDeInicioDelEvento.getYear == unEvento.fechaDeInicioDelEvento.getYear].size
 	}
 
-	def EstoyOrganizandoMasDeLaCantidadPermitidaDeEventosALaVez(LocalDateTime unInicioDelEvento,int unaCantidadMaximaPermitidaDeSimultaneidadDeEventos) {
-		eventos.filter[evento | evento.terminoElEvento == false].size < unaCantidadMaximaPermitidaDeSimultaneidadDeEventos
-	}
-
 	def crearEventoCerrado(EventoCerrado unEvento) {
 		tipoDeUsuario.puedoOrganizarelEventoCerrado(unEvento,this)
 		AgregarEventoCerrado(unEvento)
@@ -124,13 +120,15 @@ class Usuario implements objetoT {
 	def rechazarInvitacion(Invitacion unaInvitacion){
 		unaInvitacion.estadoRechazado = true
 		}
-	
+
 	def void cancelarEvento(Evento unEvento){
-		tipoDeUsuario.cancelarElEvento(unEvento)
+		tipoDeUsuario.puedoCancelarElEvento(unEvento)
+		unEvento.cancelarElEvento()
+		
 	}
-	
 	def void postergarEvento(Evento unEvento,LocalDateTime NuevaFechaDeInicioDelEvento){
-		tipoDeUsuario.postergarElEvento(unEvento,NuevaFechaDeInicioDelEvento)
+		tipoDeUsuario.puedoPostergarElEvento(unEvento)
+		unEvento.cambiarFecha(NuevaFechaDeInicioDelEvento)
 	}
 	
 	def aceptacionMasiva(){
