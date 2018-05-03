@@ -1,5 +1,4 @@
 package ar.edu.eventos
-
 import ar.edu.eventos.exceptions.BusinessException
 
 import java.time.Duration

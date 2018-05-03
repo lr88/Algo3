@@ -25,16 +25,16 @@ class Invitacion {
 		!estadoAceptado || !estadoRechazado
 	}
 	
-	def cancelarEvento() {
+	def void cancelarEvento() {
 		usuario.eliminarInvitacion(this)
 		usuario.recibirMensaje("El evento fue cancelado")
 	}
 	
-	def postergarEvento() {
+	def void postergarEvento() {
 		usuario.recibirMensaje("se postergo el evento\n")
 	}
 	
-	def invitarUsiario() {
+	def void invitarUsiario() {
 		usuario.recibirMensaje("Fuiste Invitado al Evento "+ evento)
 	}
 	

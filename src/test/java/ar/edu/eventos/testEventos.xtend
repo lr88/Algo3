@@ -11,6 +11,7 @@ class testEventos {
 	Usuario usuario1
 	Servicio lunch
 	Servicio luces
+	Servicio robot
 	Locacion miCasa
 	EventoCerrado fiesta
 	Evento casamiento
@@ -35,14 +36,32 @@ class testEventos {
 
 		lunch = new Servicio() => [
 			descripcion = "asd"
-			costo = 10
 			ubicacion = miCasa
+			tarifaPorKilometro = 10.0
+			tarifaDelServicio = new TarifaPorHora()=>[
+				valor = 100
+				horasMinimas = 4
+			]
 		]
 
 		luces = new Servicio() => [
 			descripcion = "asd"
-			costo = 10
 			ubicacion = miCasa
+			tarifaDelServicio = new TarifaFija()=>[
+				valor = 100
+			]
+			tarifaPorKilometro = 10.0
+		]
+		
+		robot = new Servicio() => [
+			descripcion = "asd"
+			ubicacion = miCasa
+			tarifaDelServicio = new TarifaPorPersona()=>[
+				valor = 100
+				porcentajeMinimo = 70
+			]
+			tarifaPorKilometro = 10.0
+		
 		]
 
 		fiesta = new EventoCerrado() => [
@@ -78,7 +97,7 @@ class testEventos {
 
 	@Test
 	def void costoTotalDeUnEventoEnBaseASusServiciosContratados() {
-		Assert.assertEquals(1, casamiento.costoTotal, 0)
+		Assert.assertEquals(520, casamiento.costoTotal, 0)
 	}
 
 }

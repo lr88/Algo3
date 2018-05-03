@@ -36,14 +36,9 @@ abstract class RepoGenerico <T extends objetoT> {
 	}
 	
     abstract def void update (T object)
-		
+    abstract def T searchById(int id)
+    abstract def List<T> search(String value)
 	
-	abstract def T searchById(int id)
-	
-	
-	abstract def List<T> search(String value)
-	
-
 }
 
 

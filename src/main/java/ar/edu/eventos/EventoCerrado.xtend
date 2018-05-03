@@ -8,10 +8,10 @@ import org.eclipse.xtend.lib.annotations.Accessors
 @Accessors
 class EventoCerrado extends Evento {
 
-	var int cantidadMaximaDeInvitados
+	var double cantidadMaximaDeInvitados
 	Set<Invitacion> invitaciones = new HashSet()
 
-	def int capacidadMaxima() {
+	override double capacidadMaxima() {
 		cantidadMaximaDeInvitados
 	}
 

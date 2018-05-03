@@ -14,32 +14,48 @@ abstract class Evento {
 	LocalDateTime fechaMaximaDeConfirmacion
 	LocalDateTime fechaDeInicioDelEvento
 	LocalDateTime fechaDeFinDelEvento
-	Set <Servicio> servicios = new HashSet()
+	Set<Servicio> servicios = new HashSet()
 	String nombre
-	Locacion locacion 
+	Locacion locacion
 	Usuario organizador
 	var Boolean fuePostergado = false
 	var Boolean fueCancelado = false
 	var Boolean enProceso = true
-	
-	def boolean coherenciaDeFechas(){
+
+	def boolean coherenciaFechaDeConfirmacion() {
+		if (fechaMaximaDeConfirmacion < fechaDeInicioDelEvento)
+			true
+		else
+			throw new BusinessException("La fecha máxima de confirmación debe ser menor a la fecha de inicio")
+	}
+
+	def boolean coherenciaFechaDeEvento() {
+		if (fechaDeFinDelEvento > fechaDeInicioDelEvento)
+			true
+		else
+			throw new BusinessException(" La fecha/hora de fin debe ser mayor a la fecha/hora de inicio.")
+	}
+
+	def boolean coherenciaDeFechas() {
 		fechaMaximaDeConfirmacion < fechaDeInicioDelEvento && fechaDeFinDelEvento > fechaDeInicioDelEvento
 	}
-	
-	def costoTotal(){
-		1//servicios.fold(0, [acum, servicios|acum + servicios.costoDelServicio(this)])
+
+	def costoTotal() {
+		servicios.fold(0.0, [acum, servicios|acum + servicios.costoDelServicio(this)])
 	}
-	def contratarServicio(Servicio unServicio){
+
+	def contratarServicio(Servicio unServicio) {
 		servicios.add(unServicio)
 	}
-	
+
 	def distanciaAmi(Point unaDirecion) {
 		locacion.distancia(unaDirecion)
 	}
-	
-	def tuOrganizadorEs(Usuario unUsuario){
+
+	def tuOrganizadorEs(Usuario unUsuario) {
 		organizador = unUsuario
 	}
+
 	def duracion() {
 		Duration.between(fechaDeInicioDelEvento, fechaDeFinDelEvento).toHours()
 	}
@@ -47,73 +63,74 @@ abstract class Evento {
 	def terminoElEvento() {
 		Duration.between(fechaDeFinDelEvento, LocalDateTime.now).toMillis() < 0
 	}
-	
-	def LocalDateTime fechaMáximaConfirmación(){
+
+	def LocalDateTime fechaMáximaConfirmación() {
 		fechaMaximaDeConfirmacion
 	}
-	
+
 	def elEventoFuePostegadoOCancelado() {
 		fueCancelado || fuePostergado
 	}
-	
-	def void cambiarFecha(LocalDateTime nuevaFecha){
-		var  aux = Duration.between(fechaDeInicioDelEvento,nuevaFecha)
+
+	def void cambiarFecha(LocalDateTime nuevaFecha) {
+		var aux = Duration.between(fechaDeInicioDelEvento, nuevaFecha)
 		cambiarFechaInicio(aux)
 		cambiarFechaFin(aux)
 		cambiarFechaConfirmacion(aux)
 		fuePostergado = true
 		tipoDeEventoPostergate()
 	}
-	
-	def cambiarFechaInicio(Duration aux){
+
+	def cambiarFechaInicio(Duration aux) {
 		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
 	}
-	def cambiarFechaFin(Duration aux){
+
+	def cambiarFechaFin(Duration aux) {
 		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
 	}
-	def cambiarFechaConfirmacion(Duration aux){
+
+	def cambiarFechaConfirmacion(Duration aux) {
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
 	}
-	
+
 	def boolean soyValido() {
-		validarNombre ()
+		validarNombre()
 		validarFechaDeInicio()
 		validarFechaDeFin()
 		validarFechaConfirmacion()
 		validarLocacion()
 	}
-	
+
 	def validarFechaConfirmacion() {
-		if(fechaMaximaDeConfirmacion === null ){
+		if (fechaMaximaDeConfirmacion === null) {
 			throw new BusinessException("No podes crear una evento sin una fecha de confirmacion")
 		}
 		true
 	}
-	
-	def  validarLocacion(){
-		if(locacion === null ){
+
+	def validarLocacion() {
+		if (locacion === null) {
 			throw new BusinessException("No podes crear una evento sin una Ubicacion")
 		}
 		true
 	}
-	
-	
-	def  validarFechaDeFin(){
-		if(fechaDeInicioDelEvento === null ){
+
+	def validarFechaDeFin() {
+		if (fechaDeInicioDelEvento === null) {
 			throw new BusinessException("No podes crear una evento sin una fecha de inicio")
 		}
 		true
 	}
-	
-	def  validarFechaDeInicio(){
-		if(fechaDeFinDelEvento === null ){
-			throw new BusinessException("No podes crear una evento sin fecha de fin") 
+
+	def validarFechaDeInicio() {
+		if (fechaDeFinDelEvento === null) {
+			throw new BusinessException("No podes crear una evento sin fecha de fin")
 		}
 		true
 	}
-	
-	def  validarNombre(){
-		if(nombre === null || nombre.length == 0){
+
+	def validarNombre() {
+		if (nombre === null || nombre.length == 0) {
 			throw new BusinessException("No podes crear un evento sin un nombre")
 		}
 		true
@@ -123,5 +140,5 @@ abstract class Evento {
 	def boolean esUnFracaso()
 	def void cancelarElEvento()
 	def void tipoDeEventoPostergate()
-	
+	def double capacidadMaxima()
 }

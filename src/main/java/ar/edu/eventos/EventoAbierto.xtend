@@ -47,10 +47,11 @@ class EventoAbierto extends Evento {
 	}
 
 	def sePuedeDevolverLaEntrada() {
-		Duration.between(LocalDateTime.now, fechaDeInicioDelEvento).toDays() >= 1///exception
+		Duration.between(LocalDateTime.now, fechaDeInicioDelEvento).
+		toDays() >= 1///exception
 	}
 
-	def double capacidadMaxima() {
+	override double capacidadMaxima() {
 		locacion.capacidadMaxima()
 	}
 
