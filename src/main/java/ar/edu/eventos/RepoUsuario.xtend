@@ -9,7 +9,6 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 	
 	override List<Usuario> search(String buscar) {
 	  elementos.filter[usuario|usuario.nombre == usuario.nombre.indexOf(buscar) || usuario.apellido == usuario.apellido.indexOf(buscar)|| usuario.nombreDeUsuario.equals(buscar) ].toList 
-	
 	}
 
 	override update(Usuario object) {

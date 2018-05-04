@@ -1,8 +1,6 @@
 package ar.edu.eventos
-
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
-
 @Accessors
 class RepoLocacion extends RepoGenerico<Locacion> {
 	int proximoId = 0
@@ -19,7 +17,6 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 		locacion.ubicacion = object.ubicacion
 	}
 	
-	
 	override Locacion searchById(int id) {
 		elementos.findFirst[locacion|locacion.id == id]
 	}
@@ -30,7 +27,5 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 		elementos.add(object)
 		object.setId(proximoId)
 		proximoId ++
-		
 	}
-	
 }
