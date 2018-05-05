@@ -8,7 +8,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class Locacion implements objetoT {
     
     var int id 
-	Point ubicacion =  new Point(1.0, 2.0)
+	Point ubicacion 
 	String nombreDeLaLocacion
 	var double distribucionM2PorPersona = 0.8
 	var double superficieM2

@@ -23,7 +23,7 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 	
 	override create(Locacion object) {
 		object.soyValido()
-		validarLaNoExistencia(object)
+		validarExistencia(object)
 		elementos.add(object)
 		object.setId(proximoId)
 		proximoId ++

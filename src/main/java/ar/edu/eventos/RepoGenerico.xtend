@@ -15,7 +15,8 @@ abstract class RepoGenerico <T extends objetoT> {
 	
 
 	def boolean existeElid (T object){
-		elementos.exists[elemento|elemento.id==object.id]
+		print(elementos)
+		elementos.exists[elemento|elemento.id == object.id]
 	}
 	
 	def validarExistencia (T object){
