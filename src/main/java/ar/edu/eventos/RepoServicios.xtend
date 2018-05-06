@@ -12,7 +12,7 @@ class RepoServicios extends RepoGenerico<Servicio>{
 	
 	override update(Servicio object) {
 		object.soyValido()
-		validarExistencia(object)
+		validarLaNoExistencia(object)
 		var servicio = searchById(object.id)
 		servicio.descripcion = object.descripcion
 		servicio.tarifaDelServicio = object.tarifaDelServicio
@@ -25,10 +25,11 @@ class RepoServicios extends RepoGenerico<Servicio>{
 	
 	override create(Servicio object) {
 		object.soyValido()
-		validarLaNoExistencia(object)
+		validarExistencia(object)
 		elementos.add(object)
-		object.setId(proximoId)
 		proximoId ++
+		object.setId(proximoId)
+		
 	}
 	
 }

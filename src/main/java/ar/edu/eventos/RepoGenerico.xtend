@@ -6,16 +6,12 @@ import ar.edu.eventos.exceptions.BusinessException
 
 @Accessors
 abstract class RepoGenerico <T extends objetoT> {
-	
 	List <T> elementos = newArrayList() 
-	int proximoId = 0
- 	
 	
 	abstract def void create(T object)
-	
 
 	def boolean existeElid (T object){
-		print(elementos)
+		print(object.id)
 		elementos.exists[elemento|elemento.id == object.id]
 	}
 	

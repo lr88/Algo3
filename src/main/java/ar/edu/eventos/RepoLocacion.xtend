@@ -11,7 +11,7 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 	
 	override update(Locacion object) {
 		object.soyValido()
-		validarExistencia(object)
+		validarLaNoExistencia(object)
 		var locacion = searchById(object.id)
 		locacion.nombreDeLaLocacion = object.nombreDeLaLocacion
 		locacion.ubicacion = object.ubicacion
@@ -25,7 +25,9 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 		object.soyValido()
 		validarExistencia(object)
 		elementos.add(object)
+		proximoId +=1
 		object.setId(proximoId)
-		proximoId ++
+		
+		
 	}
 }
