@@ -11,7 +11,6 @@ abstract class RepoGenerico <T extends objetoT> {
 	abstract def void create(T object)
 
 	def boolean existeElid (T object){
-		print(object.id)
 		elementos.exists[elemento|elemento.id == object.id]
 	}
 	

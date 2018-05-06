@@ -13,7 +13,7 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 
 	override update(Usuario object) {
 		object.soyValido()
-		validarExistencia(object)
+		validarLaNoExistencia(object)
 		var usuario = searchById(object.id)
 		usuario.nombreDeUsuario = object.nombreDeUsuario
 		usuario.nombre = object.nombre
@@ -29,10 +29,10 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 	
 	override create(Usuario object) {
 		object.soyValido()
-		validarLaNoExistencia(object)
+		validarExistencia(object)
 		elementos.add(object)
-		object.setId(proximoId)
 		proximoId ++
+		object.setId(proximoId)
 	}
 	
 }
