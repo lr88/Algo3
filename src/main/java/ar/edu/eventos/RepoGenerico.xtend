@@ -8,6 +8,7 @@ import ar.edu.eventos.exceptions.BusinessException
 abstract class RepoGenerico <T extends objetoT> {
 	List <T> elementos = newArrayList() 
 	
+	
 	abstract def void create(T object)
 
 	def boolean existeElid (T object){

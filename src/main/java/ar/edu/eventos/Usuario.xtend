@@ -23,7 +23,8 @@ class Usuario implements objetoT {
 	String nombre
 	String apellido
 	String email
-	var Point direccion
+	Point direccion
+	var Direccion descripcionDeLaDireccion
 	LocalDateTime fechaDeNacimiento
 	boolean esAntisocial
 	var double plataQueTengo = 100

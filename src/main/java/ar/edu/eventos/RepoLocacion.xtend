@@ -4,6 +4,7 @@ import java.util.List
 @Accessors
 class RepoLocacion extends RepoGenerico<Locacion> {
 	int proximoId = 0
+	var ServicioExternoJson servJson = new ServicioExternoJson()
 	
 	override List<Locacion> search(String buscar) {
 		elementos.filter[locacion|locacion.nombreDeLaLocacion == locacion.nombreDeLaLocacion.indexOf(buscar)].toList

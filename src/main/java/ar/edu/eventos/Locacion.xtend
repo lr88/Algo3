@@ -49,3 +49,13 @@ class Locacion implements objetoT {
 	}
 
 }
+
+@Accessors
+class Direccion{
+	var String calle
+     var int numero
+     var String localidad
+     var String provincia
+     var int x
+     var int y
+}

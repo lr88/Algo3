@@ -6,6 +6,7 @@ import java.util.List
 @Accessors
 class RepoUsuario extends RepoGenerico<Usuario>{
 	int proximoId = 0
+	var ServicioExternoJson servJson  = new ServicioExternoJson()
 	
 	override List<Usuario> search(String buscar) {
 	  elementos.filter[usuario|usuario.nombre == usuario.nombre.indexOf(buscar) || usuario.apellido == usuario.apellido.indexOf(buscar)|| usuario.nombreDeUsuario.equals(buscar) ].toList 
