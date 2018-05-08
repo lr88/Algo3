@@ -15,76 +15,75 @@ class ServicioExternoJson {
 	var List <Servicio> Servicio = newArrayList
 
 	def JsonArray getValueArrayFromJsonResponse(String json) {
-		Json.parse(json).asArray
+		return Json.parse(json).asArray
 	}
 
 	def actualizarRepoUsuarios(JsonArray array) {
-		array.forEach[x|Usuarios.add(this.parsearUsuario(x.asObject))]
-		return Usuarios
+		array.forEach[arrays|Usuarios.add(this.parsearUsuario(arrays.asObject))]
+		
 	}
 
 	def actualizarRepoLocaciones(JsonArray array) {
-		array.forEach[x|Locaciones.add(this.parsearLocacion(x.asObject))]
-		return Locaciones
+		array.forEach[arrays|Locaciones.add(this.parsearLocacion(arrays.asObject))]
+		
 	}
 
 	def actualizarRepoServicio(JsonArray array) {
-		array.forEach[x|Servicio.add(this.parsearServicio(x.asObject))]
-		return Servicio
+		array.forEach[arrays|Servicio.add(this.parsearServicio(arrays.asObject))]
+		
 	}
 
 	def Usuario parsearUsuario(JsonObject json) {
-		var nuevoUsuario = new Usuario() => [
+		var Usuario nuevoUsuario = new Usuario() => [
 			nombreDeUsuario = (json.get("nombreUsuario").asString)
 			nombre = (json.get("nombre").asString)
 			apellido = (json.get("Apellido").asString)
 			email = (json.get("email").asString)
-			direccion = new Point((json.get("x").asInt), (json.get("y").asInt))
+			direccion = new Point((json.get("x").asDouble), (json.get("y").asDouble))
 			descripcionDeLaDireccion = new Direccion => [
-				calle = (json.get("calle").asString)
-				numero = (json.get("numero").asInt)
-				localidad = (json.get("localidad").asString)
-				provincia = (json.get("provincia").asString)
-			]
-		]
-		nuevoUsuario
+			calle = (json.get("calle").asString)
+			numero = (json.get("numero").asInt)
+			localidad = (json.get("localidad").asString)
+			provincia = (json.get("provincia").asString)
+			]]
+		return nuevoUsuario
 	}
 
 	def parsearLocacion(JsonObject json) {
-		var nuevaLocacion = new Locacion => [
-			ubicacion = new Point((json.get("x").asInt), (json.get("y").asInt))
+		var Locacion nuevaLocacion = new Locacion => [
+			ubicacion = new Point((json.get("x").asDouble), (json.get("y").asDouble))
 			nombreDeLaLocacion = (json.get("nombre").asString)
 		]
-		nuevaLocacion
+		return nuevaLocacion
 	}
 
 	def parsearServicio(JsonObject json) {
-		var nuevoServicio = new Servicio =>[
+		var Servicio nuevoServicio = new Servicio =>[
 			descripcion = (json.get("descripcion").asString)
 			tarifaDelServicio = queTipoDeTarifaEs(json)
-			tarifaPorKilometro = (json.get("tarifaTraslado").asInt)
+			tarifaPorKilometro = (json.get("tarifaTraslado").asDouble)
 			ubicacion = new Locacion =>[
-				ubicacion = new Point((json.get("x").asInt), (json.get("y").asInt))
+				ubicacion = new Point((json.get("x").asDouble), (json.get("y").asDouble))
 			]
 		]
-		nuevoServicio
+		return nuevoServicio
 	}
 	
 	def queTipoDeTarifaEs(JsonObject json) {
-			if(json.get("tarifaServicio").asString == "TF"){
+			if(json.get("tipo").asString == "TF"){
 			return new TarifaFija =>[
-					valor = json.get("valor").asInt
+					valor = json.get("valor").asDouble
 				]		
 			}
-			if(json.get("tarifaServicio").asString == "TPP"){
+			if(json.get("tipo").asString == "TPP"){
 			return new TarifaPorPersona =>[
-					valor = json.get("valor").asInt
+					valor = json.get("valor").asDouble
 					porcentajeMinimo = json.get("porcentajeParaMinimo").asInt
 				]		
 			}
-			if(json.get("tarifaServicio").asString == "TPH"){
+			if(json.get("tipo").asString == "TPH"){
 			return new TarifaPorHora =>[
-					valor = json.get("valor").asInt
+					valor = json.get("valor").asDouble
 					horasMinimas = json.get("minimo").asInt
 				]		
 			}

@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 
 class testRepoGenerico {
-	
+
 	ServicioExternoJson ServicioExternoJson
 	RepoUsuario RepoUsuario
 	RepoServicios RepoServicios
@@ -16,7 +16,7 @@ class testRepoGenerico {
 
 	@Before
 	def void init() {
-	
+
 		ServicioExternoJson = new ServicioExternoJson
 		RepoUsuario = new RepoUsuario
 		RepoServicios = new RepoServicios
@@ -28,28 +28,26 @@ class testRepoGenerico {
 		\"Apellido\":\"Lopez\",
 		\"email\":\"lucas_93@hotmail.com\",
 		\"fechaNacimiento\":\"15/01/1993\",
-		\"direccion\":{
 		\"calle\":\"25 de Mayo\",
 		\"numero\":3918,
 		\"localidad\":\"San Martín\",
 		\"provincia\":\"Buenos Aires\",
 		\"x\":-34.572224,
 		\"y\":58.535651
-		}},
-   		{  
+		},
+   		{
 		\"nombreUsuario\":\"martin1990\",
 		\"nombre\":\"Martín\",
 		\"Apellido\":\"Varela\",
 		\"email\":\"martinvarela90@yahoo.com\",
 		\"fechaNacimiento\":\"18/11/1990\",
-		\"direccion\":{
 		\"calle\":\"Av. Triunvirato\",
 		\"numero\":4065,
 		\"localidad\":\"CABA\",
 		\"provincia\":\"\",
 		\"x\":-33.582360,
 		\"y\":60.516598
-		}}]"
+		}]"
 
 		JSonLocaciones = "[{
 		\"x\":-34.603759,
@@ -64,26 +62,40 @@ class testRepoGenerico {
 
 		JSonServicios = "[{
 		\"descripcion\":\"Catering Food Party\",
-		\"tarifaServicio\":{ 
 		\"tipo\":\"TF\",
-		\"valor\":5000.00
-		},
+		\"valor\":5000.00,
 		\"tarifaTraslado\":30.00,
-		\"ubicacion\":{
 		\"x\":-34.572224,
 		\"y\":58.535651
-		}
 		}]"
 
 	}
 
 	@Test
-	def testearParserJson(){
-		var valueArray = ServicioExternoJson.getValueArrayFromJsonResponse(JSonUsuarios)
-		var listaDeUsuarios = ServicioExternoJson.actualizarRepoUsuarios(valueArray)
-		Assert.assertTrue(listaDeUsuarios.get(0).equals("lucas_capo"))
+	def testearUsuarioJson() {
+		var array = ServicioExternoJson.getValueArrayFromJsonResponse(JSonUsuarios)
+		ServicioExternoJson.actualizarRepoUsuarios(array)
+		Assert.assertEquals(2, ServicioExternoJson.usuarios.size)
+		Assert.assertTrue(ServicioExternoJson.usuarios.get(0).apellido == "Lopez")
+
 	}
 
+	@Test
+	def testearLocacionJson() {
+		var array = ServicioExternoJson.getValueArrayFromJsonResponse(JSonLocaciones)
+		ServicioExternoJson.actualizarRepoLocaciones(array)
+		Assert.assertEquals(2, ServicioExternoJson.locaciones.size)
+		Assert.assertTrue(ServicioExternoJson.locaciones.get(0).nombreDeLaLocacion == "Salón El Abierto")
 
-	
+	}
+
+	@Test
+	def testearServicioJson() {
+		var array = ServicioExternoJson.getValueArrayFromJsonResponse(JSonServicios)
+		ServicioExternoJson.actualizarRepoServicio(array)
+		Assert.assertEquals(1, ServicioExternoJson.servicio.size)
+		Assert.assertTrue(ServicioExternoJson.servicio.get(0).descripcion == "Catering Food Party")
+
+	}
+
 }

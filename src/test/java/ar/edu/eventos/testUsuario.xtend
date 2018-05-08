@@ -2,11 +2,9 @@ package ar.edu.eventos
 
 import org.junit.Assert
 import ar.edu.eventos.exceptions.BusinessException
-
 import org.junit.Test
 import org.junit.Before
 import org.uqbar.geodds.Point
-
 import java.time.LocalDateTime
 
 class testUsuario {
