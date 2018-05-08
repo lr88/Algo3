@@ -1,17 +1,28 @@
 package ar.edu.eventos
 
-import org.junit.Test
-import com.eclipsesource.json.JsonArray
-import com.eclipsesource.json.JsonObject
 import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
 
 class testRepoGenerico {
-	ServicioExternoJson ServicioExternoJson = new ServicioExternoJson
+	
+	ServicioExternoJson ServicioExternoJson
 	RepoUsuario RepoUsuario
 	RepoServicios RepoServicios
 	RepoLocacion RepoLocacion
+	String JSonUsuarios
+	String JSonLocaciones
+	String JSonServicios
 
-	var String JSonUsuarios = "[{
+	@Before
+	def void init() {
+	
+		ServicioExternoJson = new ServicioExternoJson
+		RepoUsuario = new RepoUsuario
+		RepoServicios = new RepoServicios
+		RepoLocacion = new RepoLocacion
+
+		JSonUsuarios = "[{
 		\"nombreUsuario\":\"lucas_capo\",
 		\"nombre\":\"Lucas\",
 		\"Apellido\":\"Lopez\",
@@ -40,7 +51,7 @@ class testRepoGenerico {
 		\"y\":60.516598
 		}}]"
 
-	var String JSonLocaciones = "[{
+		JSonLocaciones = "[{
 		\"x\":-34.603759,
 		\"y\":-58.381586,
 		\"nombre\":\"Salón El Abierto\"
@@ -51,7 +62,7 @@ class testRepoGenerico {
 		\"nombre\":\"Estadio Obras\"
 		}]"
 
-	var String JSonServicios = "[{
+		JSonServicios = "[{
 		\"descripcion\":\"Catering Food Party\",
 		\"tarifaServicio\":{ 
 		\"tipo\":\"TF\",
@@ -64,33 +75,15 @@ class testRepoGenerico {
 		}
 		}]"
 
-	@Test
-	def void JSonUsuarios() {
-		var JsonArray array = new JsonArray
-		array.add(JsonObject.readFrom(JSonUsuarios))
-		ServicioExternoJson.array = array
-		RepoUsuario.servJson = ServicioExternoJson
-		ServicioExternoJson.actualizarRepoLocaciones()
 	}
 
 	@Test
-	def void JSonLocaciones() {
-		var JsonArray array = new JsonArray
-		array.add(JsonObject.readFrom(JSonLocaciones))
-		ServicioExternoJson.array = array
-		RepoLocacion.servJson = ServicioExternoJson
-		ServicioExternoJson.actualizarRepoLocaciones()
-
+	def testearParserJson(){
+		var valueArray = ServicioExternoJson.getValueArrayFromJsonResponse(JSonUsuarios)
+		var listaDeUsuarios = ServicioExternoJson.actualizarRepoUsuarios(valueArray)
+		Assert.assertTrue(listaDeUsuarios.get(0).equals("lucas_capo"))
 	}
 
-	@Test
-	def void JSonServicios() {
-		var JsonArray array = new JsonArray
-		array.add(JsonObject.readFrom(JSonServicios))
-		ServicioExternoJson.array = array
-		RepoServicios.servJson = ServicioExternoJson 
-		ServicioExternoJson.actualizarRepoLocaciones()
 
-	}
-
+	
 }

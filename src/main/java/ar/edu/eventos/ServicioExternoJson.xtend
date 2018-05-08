@@ -1,70 +1,34 @@
 package ar.edu.eventos
 
-import org.json.JSONObject
-import org.json.JSONArray
-import com.eclipsesource.json.JsonArray
-import java.util.List
-import java.util.ArrayList
-import com.eclipsesource.json.JsonObject
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.util.List
+import com.eclipsesource.json.Json
+import com.eclipsesource.json.JsonArray
+import com.eclipsesource.json.JsonObject
 import org.uqbar.geodds.Point
-
-class ActualizacionRepoServicios {
-	var JSONObject jsonObj
-	var RepoServicios repositorio
-	var ServicioExternoActualizacion SEA
-
-	new(ServicioExternoActualizacion _SEA) {
-		SEA = _SEA
-	}
-
-	def servicioExterno() {
-		var String entero = SEA.Servicio()
-		repositorio = RepoServicios.getinstance()
-		var JSONArray arreglo = new JSONArray(entero)
-		for (var i = 0; i < arreglo.length; i++) {
-			jsonObj = arreglo.getJSONObject(i)
-			actualizarObjeto(jsonObj)
-		}
-	}
-
-	def actualizarObjeto(JSONObject obj) {
-		var Servicio serv = new Servicio()
-		var JSONArray jsonServicio = obj.getJSONArray("")
-		for (var i = 0; i < jsonServicio.length(); i++) {
-			/*serv.agregarItem(new Item(jsonServicio.getString(i),1d,1))*/
-		}
-	}
-}
-
-interface ServicioExternoActualizacion {
-//Esta interface solo sirve para mockear 
-	def String Usuario()
-
-	def String Servicio()
-
-	def String Locacion()
-
-}
 
 @Accessors
 class ServicioExternoJson {
 	var JsonArray array = new JsonArray
-	var List<Locacion> Locaciones = new ArrayList<Locacion>
-	var List<Usuario> Usuarios = new ArrayList<Usuario>
-	var List<Servicio> Servicio = new ArrayList<Servicio>
+	var List <Locacion> Locaciones = newArrayList
+	var List <Usuario> Usuarios = newArrayList
+	var List <Servicio> Servicio = newArrayList
 
-	def actualizarRepoUsuarios() {
+	def JsonArray getValueArrayFromJsonResponse(String json) {
+		Json.parse(json).asArray
+	}
+
+	def actualizarRepoUsuarios(JsonArray array) {
 		array.forEach[x|Usuarios.add(this.parsearUsuario(x.asObject))]
 		return Usuarios
 	}
 
-	def actualizarRepoLocaciones() {
+	def actualizarRepoLocaciones(JsonArray array) {
 		array.forEach[x|Locaciones.add(this.parsearLocacion(x.asObject))]
 		return Locaciones
 	}
 
-	def actualizarRepoServicio() {
+	def actualizarRepoServicio(JsonArray array) {
 		array.forEach[x|Servicio.add(this.parsearServicio(x.asObject))]
 		return Servicio
 	}
