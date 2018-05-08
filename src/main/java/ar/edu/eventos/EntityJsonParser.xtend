@@ -8,32 +8,40 @@ import com.eclipsesource.json.JsonObject
 import org.uqbar.geodds.Point
 
 @Accessors
-class ServicioExternoJson {
-	var JsonArray array = new JsonArray
-	var List <Locacion> Locaciones = newArrayList
-	var List <Usuario> Usuarios = newArrayList
-	var List <Servicio> Servicio = newArrayList
+class EntityJsonParser {
+	
+	var List <Locacion> locaciones = newArrayList
+	var List <Usuario> usuarios = newArrayList
+	var List <Servicio> servicio = newArrayList
 
 	def JsonArray getValueArrayFromJsonResponse(String json) {
 		return Json.parse(json).asArray
 	}
-
+	
+//  TODO: cambiar a esto: 
+//	def actualizarRepoUsuarios(String json) {
+//		val array = Json.parse(json).asArray
+//		array.forEach[arrays|usuarios.add(this.parsearUsuario(arrays.asObject))]
+//	}
+	
 	def actualizarRepoUsuarios(JsonArray array) {
-		array.forEach[arrays|Usuarios.add(this.parsearUsuario(arrays.asObject))]
-		
+		array.forEach[arrays|usuarios.add(this.parsearUsuario(arrays.asObject))]
 	}
 
 	def actualizarRepoLocaciones(JsonArray array) {
-		array.forEach[arrays|Locaciones.add(this.parsearLocacion(arrays.asObject))]
+		array.forEach[arrays|locaciones.add(this.parsearLocacion(arrays.asObject))]
 		
 	}
 
 	def actualizarRepoServicio(JsonArray array) {
-		array.forEach[arrays|Servicio.add(this.parsearServicio(arrays.asObject))]
+		array.forEach[arrays|servicio.add(this.parsearServicio(arrays.asObject))]
 		
 	}
 
 	def Usuario parsearUsuario(JsonObject json) {
+		
+		var x = json.get("direccion").asObject.get("x")
+		
 		var Usuario nuevoUsuario = new Usuario() => [
 			nombreDeUsuario = (json.get("nombreUsuario").asString)
 			nombre = (json.get("nombre").asString)
@@ -60,7 +68,7 @@ class ServicioExternoJson {
 	def parsearServicio(JsonObject json) {
 		var Servicio nuevoServicio = new Servicio =>[
 			descripcion = (json.get("descripcion").asString)
-			tarifaDelServicio = queTipoDeTarifaEs(json)
+			tarifaDelServicio = getTipoDeTarifa(json)
 			tarifaPorKilometro = (json.get("tarifaTraslado").asDouble)
 			ubicacion = new Locacion =>[
 				ubicacion = new Point((json.get("x").asDouble), (json.get("y").asDouble))
@@ -69,7 +77,7 @@ class ServicioExternoJson {
 		return nuevoServicio
 	}
 	
-	def queTipoDeTarifaEs(JsonObject json) {
+	def getTipoDeTarifa(JsonObject json) {
 			if(json.get("tipo").asString == "TF"){
 			return new TarifaFija =>[
 					valor = json.get("valor").asDouble

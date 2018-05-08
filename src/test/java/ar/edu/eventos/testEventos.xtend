@@ -21,7 +21,7 @@ class testEventos {
 		miCasa = new Locacion() => [
 			nombreDeLaLocacion ="asd"
 			ubicacion = new Point(1.0, 2.0)
-			soyValido()
+			validar()
 		]
 		
 		usuario1 = new Usuario() => [

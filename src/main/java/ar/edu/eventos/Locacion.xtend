@@ -5,7 +5,7 @@ import ar.edu.eventos.exceptions.BusinessException
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
-class Locacion implements objetoT {
+class Locacion implements Entidad {
     
 	var int id
 	Point ubicacion 
@@ -21,7 +21,7 @@ class Locacion implements objetoT {
 		superficieM2 / distribucionM2PorPersona
 	}
 	
-	override soyValido() {
+	override validar() {
 		validarDescripcion ()
 		validarUbicacion()
 	}

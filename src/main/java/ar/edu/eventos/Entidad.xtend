@@ -1,8 +1,8 @@
 package ar.edu.eventos
 
-interface objetoT {
+interface Entidad {
 	
-	def boolean soyValido()
+	def void validar()
 	def int getId()
 	def void setId(int id)
 }

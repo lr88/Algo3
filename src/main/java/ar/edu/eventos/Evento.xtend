@@ -35,7 +35,8 @@ abstract class Evento {
 		else
 			throw new BusinessException(" La fecha/hora de fin debe ser mayor a la fecha/hora de inicio.")
 	}
-
+	
+//	TODO: esta validación debe estar incluida en validar
 	def boolean coherenciaDeFechas() {
 		fechaMaximaDeConfirmacion < fechaDeInicioDelEvento && fechaDeFinDelEvento > fechaDeInicioDelEvento
 	}
@@ -93,7 +94,7 @@ abstract class Evento {
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
 	}
 
-	def boolean soyValido() {
+	def validar() {
 		validarNombre()
 		validarFechaDeInicio()
 		validarFechaDeFin()
@@ -105,35 +106,30 @@ abstract class Evento {
 		if (fechaMaximaDeConfirmacion === null) {
 			throw new BusinessException("No podes crear una evento sin una fecha de confirmacion")
 		}
-		true
 	}
 
 	def validarLocacion() {
 		if (locacion === null) {
 			throw new BusinessException("No podes crear una evento sin una Ubicacion")
 		}
-		true
 	}
 
 	def validarFechaDeFin() {
 		if (fechaDeInicioDelEvento === null) {
 			throw new BusinessException("No podes crear una evento sin una fecha de inicio")
 		}
-		true
 	}
 
 	def validarFechaDeInicio() {
 		if (fechaDeFinDelEvento === null) {
 			throw new BusinessException("No podes crear una evento sin fecha de fin")
 		}
-		true
 	}
 
 	def validarNombre() {
 		if (nombre === null || nombre.length == 0) {
 			throw new BusinessException("No podes crear un evento sin un nombre")
 		}
-		true
 	}
 
 	def boolean esExitoso()

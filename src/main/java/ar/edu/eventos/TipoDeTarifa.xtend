@@ -22,6 +22,7 @@ class TarifaPorHora implements TipoDeTarifa {
 	var double valor
 	var int horasMinimas
 
+	//TODO: El costo mínimo es un valor fijo
 	override costo(Evento unEvento) {
 		if (unEvento.duracion() > horasMinimas)
 			valor * unEvento.duracion()
@@ -39,6 +40,8 @@ class TarifaPorPersona implements TipoDeTarifa {
 	var double valor
 	var int porcentajeMinimo
 
+	//TODO: Está cobrando siempre el mínimo. Debería cobrar su tarifa por persona 
+	//o el costo mínimo del servicio (el máximo de esoso dos valores) 
 	override costo(Evento unEvento) {
 		costoMinimo(unEvento) * valor
 	}

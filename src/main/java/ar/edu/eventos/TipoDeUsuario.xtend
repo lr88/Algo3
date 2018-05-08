@@ -5,13 +5,13 @@ import ar.edu.eventos.exceptions.BusinessException
 import org.eclipse.xtend.lib.annotations.Accessors
 
 interface TipoDeUsuario {
-	def boolean puedoCancelarElEvento(ar.edu.eventos.Evento evento)
+	def boolean puedoCancelarElEvento(Evento evento)
 
-	def boolean puedoPostergarElEvento(ar.edu.eventos.Evento evento)
+	def boolean puedoPostergarElEvento(Evento evento)
 
-	def boolean puedoOrganizarEventoAbierto(ar.edu.eventos.EventoAbierto unEvento, ar.edu.eventos.Usuario unUsuario)
+	def boolean puedoOrganizarEventoAbierto(EventoAbierto unEvento, Usuario unUsuario)
 
-	def boolean puedoOrganizarelEventoCerrado(ar.edu.eventos.EventoCerrado unEvento, ar.edu.eventos.Usuario unUsuario)
+	def boolean puedoOrganizarelEventoCerrado(EventoCerrado unEvento, Usuario unUsuario)
 }
 
 @Accessors

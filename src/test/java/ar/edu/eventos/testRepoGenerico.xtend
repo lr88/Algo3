@@ -6,7 +6,7 @@ import org.junit.Test
 
 class testRepoGenerico {
 
-	ServicioExternoJson ServicioExternoJson
+	EntityJsonParser ServicioExternoJson
 	RepoUsuario RepoUsuario
 	RepoServicios RepoServicios
 	RepoLocacion RepoLocacion
@@ -17,37 +17,46 @@ class testRepoGenerico {
 	@Before
 	def void init() {
 
-		ServicioExternoJson = new ServicioExternoJson
+		ServicioExternoJson = new EntityJsonParser
 		RepoUsuario = new RepoUsuario
 		RepoServicios = new RepoServicios
 		RepoLocacion = new RepoLocacion
 
-		JSonUsuarios = "[{
-		\"nombreUsuario\":\"lucas_capo\",
-		\"nombre\":\"Lucas\",
-		\"Apellido\":\"Lopez\",
-		\"email\":\"lucas_93@hotmail.com\",
-		\"fechaNacimiento\":\"15/01/1993\",
-		\"calle\":\"25 de Mayo\",
-		\"numero\":3918,
-		\"localidad\":\"San Martín\",
-		\"provincia\":\"Buenos Aires\",
-		\"x\":-34.572224,
-		\"y\":58.535651
-		},
-   		{
-		\"nombreUsuario\":\"martin1990\",
-		\"nombre\":\"Martín\",
-		\"Apellido\":\"Varela\",
-		\"email\":\"martinvarela90@yahoo.com\",
-		\"fechaNacimiento\":\"18/11/1990\",
-		\"calle\":\"Av. Triunvirato\",
-		\"numero\":4065,
-		\"localidad\":\"CABA\",
-		\"provincia\":\"\",
-		\"x\":-33.582360,
-		\"y\":60.516598
-		}]"
+		JSonUsuarios = '[  
+   {  
+      "nombreUsuario":"lucas_capo",
+      "nombreApellido":"Lucas Lopez",
+      "email":"lucas_93@hotmail.com",
+      "fechaNacimiento":"15/01/1993",
+      "direccion":{  
+         "calle":"25 de Mayo",
+         "numero":3918,
+         "localidad":"San Martín",
+         "provincia":"Buenos Aires",
+         "coordenadas":{  
+            "x":-34.572224,
+            "y":58.535651
+         }
+      }
+   },
+   {  
+      "nombreUsuario":"martin1990",
+      "nombreApellido":"Martín Varela",
+      "email":"martinvarela90@yahoo.com",
+      "fechaNacimiento":"18/11/1990",
+      "direccion":{  
+         "calle":"Av. Triunvirato",
+         "numero":4065,
+         "localidad":"CABA",
+         "provincia":"",
+         "coordenadas":{  
+            "x":-33.582360,
+            "y":60.516598
+         }
+      }
+   }
+]'
+
 
 		JSonLocaciones = "[{
 		\"x\":-34.603759,
@@ -75,8 +84,8 @@ class testRepoGenerico {
 	def testearUsuarioJson() {
 		var array = ServicioExternoJson.getValueArrayFromJsonResponse(JSonUsuarios)
 		ServicioExternoJson.actualizarRepoUsuarios(array)
-		Assert.assertEquals(2, ServicioExternoJson.usuarios.size)
-		Assert.assertTrue(ServicioExternoJson.usuarios.get(0).apellido == "Lopez")
+		Assert.assertEquals(2, ServicioExternoJson.getUsuarios.size)
+		Assert.assertTrue(ServicioExternoJson.getUsuarios.get(0).apellido == "Lopez")
 
 	}
 
@@ -84,8 +93,8 @@ class testRepoGenerico {
 	def testearLocacionJson() {
 		var array = ServicioExternoJson.getValueArrayFromJsonResponse(JSonLocaciones)
 		ServicioExternoJson.actualizarRepoLocaciones(array)
-		Assert.assertEquals(2, ServicioExternoJson.locaciones.size)
-		Assert.assertTrue(ServicioExternoJson.locaciones.get(0).nombreDeLaLocacion == "Salón El Abierto")
+		Assert.assertEquals(2, ServicioExternoJson.getLocaciones.size)
+		Assert.assertTrue(ServicioExternoJson.getLocaciones.get(0).nombreDeLaLocacion == "Salón El Abierto")
 
 	}
 
@@ -93,8 +102,8 @@ class testRepoGenerico {
 	def testearServicioJson() {
 		var array = ServicioExternoJson.getValueArrayFromJsonResponse(JSonServicios)
 		ServicioExternoJson.actualizarRepoServicio(array)
-		Assert.assertEquals(1, ServicioExternoJson.servicio.size)
-		Assert.assertTrue(ServicioExternoJson.servicio.get(0).descripcion == "Catering Food Party")
+		Assert.assertEquals(1, ServicioExternoJson.getServicio.size)
+		Assert.assertTrue(ServicioExternoJson.getServicio.get(0).descripcion == "Catering Food Party")
 
 	}
 

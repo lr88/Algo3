@@ -10,7 +10,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.geodds.Point
 
 @Accessors
-class Usuario implements objetoT {
+class Usuario implements Entidad {
 	
 	var int id
 	List <String> mensajes = newArrayList()
@@ -64,15 +64,15 @@ class Usuario implements objetoT {
 	def cantidadDeEventosEnEsteMes(Evento unEvento){
 		eventos.filter[evento|evento.fechaDeInicioDelEvento.getMonth == unEvento.fechaDeInicioDelEvento.getMonth && evento.fechaDeInicioDelEvento.getYear == unEvento.fechaDeInicioDelEvento.getYear].size
 	}
-
+	
 	def crearEventoCerrado(EventoCerrado unEvento) {
 		tipoDeUsuario.puedoOrganizarelEventoCerrado(unEvento,this)
-		AgregarEventoCerrado(unEvento)
+		agregarEventoCerrado(unEvento)
 	}
 
-	def CrearEventoAbierto(EventoAbierto unEvento) {
+	def crearEventoAbierto(EventoAbierto unEvento) {
 		tipoDeUsuario.puedoOrganizarEventoAbierto(unEvento,this)
-		AgregarEventoAbierto(unEvento)
+		agregarEventoAbierto(unEvento)
 	}
 	
 	def devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
@@ -195,64 +195,66 @@ class Usuario implements objetoT {
 		eventos.filter[evento | evento.enProceso == true].size()
 	}
 	
-	def AgregarEventoAbierto(EventoAbierto evento) {
+	def agregarEventoAbierto(EventoAbierto evento) {
+		evento.validar
 		evento.tuOrganizadorEs(this)
 		eventosAbiertos.add(evento)
 	}
-	def AgregarEventoCerrado(EventoCerrado evento) {
+	
+	def agregarEventoCerrado(EventoCerrado evento) {
+		evento.validar()
 		evento.tuOrganizadorEs(this)
 		eventosCerrados.add(evento)
 	}
 	
-	override soyValido() {
-		 this.validarNombreDeUsuario()
+	override validar() {
+		this.validarNombreDeUsuario()
 		this.validarNombre()
 		this.validarApellido()
-		 this.validarEmail()
-		 this.validarFechaDeNacimiento()
+		this.validarEmail()
+		this.validarFechaDeNacimiento()
 		this.validarDireccion()
+	}
+	
+	//TODO: Usar este método para validar !null. Habría que sacarlo a otra clase. 
+	def validarNoNulo(Object objeto, String nombrePropiedad) {
+		if(objeto === null){
+			throw new BusinessException("No podes crear un usuario sin " + nombrePropiedad)
+		}
 	}
 	
 	def validarEmail() {
 		if(this.email === null || this.email.length==0){
 			throw new BusinessException("No podes crear un usuario sin email")
 		}
-		true
 	}
 	
 	def validarDireccion() {
-		if(this.direccion === null){
-			throw new BusinessException("No podes crear un usuario sin Direccion")
-		}
-		true
+		validarNoNulo(direccion, "dirección")
 	}
 	
 	def validarFechaDeNacimiento() {
 		if(this.fechaDeNacimiento === null){
 			throw new BusinessException("No podes crear un usuario sin Fecha de Nacimiento")
 		}
-		true
 	}
 	
 	def validarApellido() {
 		if(this.apellido === null || this.apellido.length==0){
 			throw new BusinessException("No podes crear un usuario sin apellido")
 		}
-		true
 	}
 	
 	def validarNombre() {
 		if(this.nombre === null || this.nombre.length==0){
 			throw new BusinessException("No podes crear un usuario sin Nombre")
 		}
-		true
 	}
 	
 	def validarNombreDeUsuario() {
 		if(this.nombreDeUsuario === null || this.nombreDeUsuario.length==0){
 			throw new BusinessException("No podes crear un usuario sin Nombre de Usuario")
 		}
-		true
 	}
 	
 	override getId() {

@@ -99,7 +99,7 @@ class testUsuario {
 		juan.crearEventoCerrado(casamiento1)
 		juan.crearEventoCerrado(casamiento2)
 		
-		pedro.CrearEventoAbierto(casamiento3)
+		pedro.crearEventoAbierto(casamiento3)
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
 		pedro.agregarAmigo(juan)
