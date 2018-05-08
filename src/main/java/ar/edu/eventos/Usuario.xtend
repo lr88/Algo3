@@ -262,10 +262,6 @@ class Usuario implements objetoT {
 		id = _id
 	}
 	
-	override modificarObjeto() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
 	def pagarEntrada(Entrada entrada) {
 		agregarEntrada(entrada)
 		plataQueTengo = plataQueTengo - entrada.valorDeLAEntrada

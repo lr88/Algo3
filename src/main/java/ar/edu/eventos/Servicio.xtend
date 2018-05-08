@@ -60,8 +60,4 @@ class Servicio implements objetoT {
 		id = unId
 	}
 
-	override modificarObjeto() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-
 }

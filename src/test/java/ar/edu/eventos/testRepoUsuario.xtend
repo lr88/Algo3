@@ -45,32 +45,32 @@ class testRepoUsuario {
 	}
 
 	@Test
-	def void SeCreaUnaLocacionYSeAgregaAlRepositorioCumpliendolasValidacionesCorrespondientes() {
+	def void SeCreaUnUsuarioYSeAgregaAlRepositorioCumpliendolasValidacionesCorrespondientes() {
 		repoUser.create(Us1)
 		Assert.assertEquals(1, repoUser.elementos.size)
 	}
 
 	@Test
-	def void SeCreaUnaLocacionYSeElimina() {
+	def void SeCreaUnUsuarioYSeElimina() {
 		repoUser.create(Us1)
 		repoUser.delete(Us1)
 		Assert.assertEquals(0, repoUser.elementos.size)
 	}
 
 	@Test(expected=typeof(BusinessException))
-	def void SeCreaUnServicioYSeAgregaAlRepositorioIncumpliendolasValidacionesCorrespondientes() {
+	def void SeCreaUnUsuarioYSeAgregaAlRepositorioIncumpliendolasValidacionesCorrespondientes() {
 		repoUser.create(Us3)
 		Assert.assertEquals(0, repoUser.elementos.size)
 	}
 
 	@Test
-	def void LaLocacionContieneUnID() {
+	def void ElUsuarioContieneUnID() {
 		repoUser.create(Us1)
 		Assert.assertEquals(1, Us1.id)
 	}
 
 	@Test
-	def void LaLocacionUs2ContieneUnIDDistinto() {
+	def void ElUsuarioUs2ContieneUnIDDistinto() {
 		repoUser.create(Us1)
 		repoUser.create(Us2)
 		Assert.assertEquals(1, Us1.id)
@@ -79,7 +79,7 @@ class testRepoUsuario {
 	}
 
 	@Test
-	def void alPedirUnaLocacionPorSuIDTeDevuelveLaLocacionCorrespondiente() {
+	def void alPedirUnUsuarioPorSuIDTeDevuelveElUsuarioCorrespondiente() {
 		repoUser.create(Us1)
 		repoUser.create(Us2)
 		Assert.assertEquals(Us1, repoUser.searchById(1))
@@ -87,7 +87,7 @@ class testRepoUsuario {
 	}
 
 	@Test
-	def void alPedirLosDatosDeUnObjetoDelRepoEstosCorrespondenCorrectamente() {
+	def void alPedirLosDatosDeUnUsuarioDelRepoEstosCorrespondenCorrectamente() {
 		repoUser.create(Us1)
 		var Usuario aux = repoUser.searchById(1)
 		Assert.assertEquals(lugarUsuario, aux.direccion)
@@ -95,7 +95,7 @@ class testRepoUsuario {
 	}
 
 	@Test
-	def void updateLocacion() {
+	def void updateUsuario() {
 		repoUser.create(Us1)
 		Us1.nombreDeUsuario = "coco"
 		Us1.direccion = lugargenerco

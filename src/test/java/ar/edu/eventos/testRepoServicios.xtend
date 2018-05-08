@@ -45,13 +45,13 @@ class testRepoServicios {
 	}
 
 	@Test
-	def void SeCreaUnaLocacionYSeAgregaAlRepositorioCumpliendolasValidacionesCorrespondientes() {
+	def void SeCreaUnServicioYSeAgregaAlRepositorioCumpliendolasValidacionesCorrespondientes() {
 		repoSERV.create(S1)
 		Assert.assertEquals(1, repoSERV.elementos.size)
 	}
 
 	@Test
-	def void SeCreaUnaLocacionYSeElimina() {
+	def void SeCreaUnServicioYSeElimina() {
 		repoSERV.create(S1)
 		repoSERV.delete(S1)
 		Assert.assertEquals(0, repoSERV.elementos.size)
@@ -64,13 +64,13 @@ class testRepoServicios {
 	}
 
 	@Test
-	def void LaLocacionContieneUnID() {
+	def void ElServicioContieneUnID() {
 		repoSERV.create(S1)
 		Assert.assertEquals(1, S1.id)
 	}
 
 	@Test
-	def void LaLocacionS2ContieneUnIDDistinto() {
+	def void ElServicioS2ContieneUnIDDistinto() {
 		repoSERV.create(S1)
 		repoSERV.create(S2)
 		Assert.assertEquals(1, S1.id)
@@ -79,7 +79,7 @@ class testRepoServicios {
 	}
 
 	@Test
-	def void alPedirUnaLocacionPorSuIDTeDevuelveLaLocacionCorrespondiente() {
+	def void alPedirUnServicioPorSuIDTeDevuelveLaServicioCorrespondiente() {
 		repoSERV.create(S1)
 		repoSERV.create(S2)
 		Assert.assertEquals(S1, repoSERV.searchById(1))
@@ -95,7 +95,7 @@ class testRepoServicios {
 	}
 
 	@Test
-	def void updateLocacion() {
+	def void updateServicio() {
 		repoSERV.create(S1)
 		S1.descripcion = "Magia"
 		S1.ubicacion = lugar1

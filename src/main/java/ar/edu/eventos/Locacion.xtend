@@ -47,9 +47,5 @@ class Locacion implements objetoT {
 	override setId(int _id) {
 		id = _id
 	}
-	
-	override modificarObjeto() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
 
 }
