@@ -14,6 +14,7 @@ class Servicio implements Entidad {
 	var double tarifaPorKilometro
 
 	def costoDelServicio(Evento unEvento) {
+		
 		tarifaDelServicio.costo(unEvento) + this.costoDetraslado(unEvento)
 	}
 

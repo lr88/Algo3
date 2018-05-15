@@ -74,6 +74,7 @@ class testEventos {
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
 			contratarServicio(lunch)
 			contratarServicio(luces)
+			locacion = miCasa
 		]
 
 		unaInvitacion = new Invitacion(usuario1, 5, fiesta)
@@ -97,7 +98,8 @@ class testEventos {
 
 	@Test
 	def void costoTotalDeUnEventoEnBaseASusServiciosContratados() {
-		Assert.assertEquals(520, casamiento.costoTotal, 0)
+		Assert.assertEquals(20100, casamiento.costoTotal, 0
+		)
 	}
 
 }

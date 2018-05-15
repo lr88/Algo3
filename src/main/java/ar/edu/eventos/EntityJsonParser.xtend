@@ -49,26 +49,13 @@ class EntityJsonParser {
 		return nuevaLocacion
 	}
 
-/*{  
-      
-      "tarifaServicio":{  
-         "tipo":"TF",
-         "valor":5000.00
-      },
-      "tarifaTraslado":30.00,
-      "ubicacion":{  
-         "x":-34.572224,
-         "y":58.535651
-      }
-   } */
-
 	def Servicio parsearServicio(JsonObject json) {
 		var Servicio nuevoServicio = new Servicio =>[
 			descripcion = (json.get("descripcion").asString)
 			tarifaDelServicio = getTipoDeTarifa(json)
 			tarifaPorKilometro = (json.get("tarifaTraslado").asDouble)
 			ubicacion = new Locacion =>[
-				ubicacion = new Point((json.get("x").asDouble), (json.get("y").asDouble))
+				ubicacion = new Point((json.get("ubicacion").asObject.get("x").asDouble), (json.get("ubicacion").asObject.get("y").asDouble))
 			]
 		]
 		repositorioServicios.loadServ(nuevoServicio)
@@ -84,13 +71,13 @@ class EntityJsonParser {
 			if(json.get("tarifaServicio").asObject.get("tipo").asString == "TPP"){
 			return new TarifaPorPersona =>[
 					valor = json.get("tarifaServicio").asObject.get("valor").asDouble
-					porcentajeMinimo = json.get("tarifaServicio").asObject.get("porcentajeParaMinimo").asInt
+					porcentajeMinimo = json.get("tarifaServicio").asObject.get("porcentajeParaMinimo").asDouble
 				]		
 			}
 			if(json.get("tarifaServicio").asObject.get("tipo").asString == "TPH"){
 			return new TarifaPorHora =>[
 					valor = json.get("tarifaServicio").asObject.get("valor").asDouble
-					costoMínimoFijo = json.get("tarifaServicio").asObject.get("minimo").asInt
+					costoMínimoFijo = json.get("tarifaServicio").asObject.get("minimo").asDouble
 				]
 			}
 	}

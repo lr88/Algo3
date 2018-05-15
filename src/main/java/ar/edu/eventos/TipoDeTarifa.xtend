@@ -20,7 +20,7 @@ class TarifaFija implements TipoDeTarifa {
 @Accessors
 class TarifaPorHora implements TipoDeTarifa {
 	var double valor
-	var int costoMínimoFijo
+	var double costoMínimoFijo
 
 	//TODO: El costo mínimo es un valor fijo
 	override costo(Evento unEvento) {
@@ -31,7 +31,7 @@ class TarifaPorHora implements TipoDeTarifa {
 @Accessors
 class TarifaPorPersona implements TipoDeTarifa {
 	var double valor
-	var int porcentajeMinimo
+	var double porcentajeMinimo
 
 	//TODO: Está cobrando siempre el mínimo. Debería cobrar su tarifa por persona 
 	//o el costo mínimo del servicio (el máximo de esos dos valores) 
