@@ -11,17 +11,17 @@ class EntityJsonParser {
 	var RepoLocacion repositorioLocacion
 	var RepoServicios repositorioServicios
 	
-	def actualizarRepoUsuarios(String json) {
+	public def actualizarRepoUsuarios(String json) {
 	Json.parse(json).asArray.forEach[arrays| parsearUsuario(arrays.asObject)]
 	}
-	def actualizarRepoLocacion(String json) {
+	public def actualizarRepoLocacion(String json) {
 	Json.parse(json).asArray.forEach[arrays| parsearLocacion(arrays.asObject)]
 	}
-	def actualizarRepoServicio(String json) {
+	public def actualizarRepoServicio(String json) {
 	Json.parse(json).asArray.forEach[arrays| parsearServicio(arrays.asObject)]
 	}
 	
-	def Usuario parsearUsuario(JsonObject json) {
+	private def Usuario parsearUsuario(JsonObject json) {
 			var Usuario nuevoUsuario = new Usuario() => [
 			nombreDeUsuario = (json.get("nombreUsuario").asString)
 			nombre = (json.get("nombre").asString)
@@ -40,7 +40,7 @@ class EntityJsonParser {
 		return nuevoUsuario
 	}
 
-	def Locacion parsearLocacion(JsonObject json) {
+	private def Locacion parsearLocacion(JsonObject json) {
 		var Locacion nuevaLocacion = new Locacion => [
 			ubicacion = new Point((json.get("x").asDouble), (json.get("y").asDouble))
 			nombreDeLaLocacion = (json.get("nombre").asString)
@@ -49,7 +49,7 @@ class EntityJsonParser {
 		return nuevaLocacion
 	}
 
-	def Servicio parsearServicio(JsonObject json) {
+	private def Servicio parsearServicio(JsonObject json) {
 		var Servicio nuevoServicio = new Servicio =>[
 			descripcion = (json.get("descripcion").asString)
 			tarifaDelServicio = getTipoDeTarifa(json)
@@ -62,7 +62,7 @@ class EntityJsonParser {
 		return nuevoServicio
 	}
 	
-	def getTipoDeTarifa(JsonObject json) {
+	private def getTipoDeTarifa(JsonObject json) {
 			if(json.get("tarifaServicio").asObject.get("tipo").asString == "TF"){
 			return new TarifaFija =>[
 					valor = json.get("tarifaServicio").asObject.get("valor").asDouble

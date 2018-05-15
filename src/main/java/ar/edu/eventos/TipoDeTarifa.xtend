@@ -33,9 +33,9 @@ class TarifaPorPersona implements TipoDeTarifa {
 	var double valor
 	var double porcentajeMinimo
 
-	//TODO: Está cobrando siempre el mínimo. Debería cobrar su tarifa por persona 
+	// TODO: Está cobrando siempre el mínimo. Debería cobrar su tarifa por persona 
 	//o el costo mínimo del servicio (el máximo de esos dos valores) 
 	override costo(Evento unEvento) {
-	return Math.max(unEvento.cantidadDePersonasQueAsisten()*valor,unEvento.capacidadMaxima()*porcentajeMinimo*valor)
+		return Math.max(unEvento.cantidadDePersonasQueAsisten() * valor, unEvento.capacidadMaxima() * porcentajeMinimo*valor)
 	}
 }

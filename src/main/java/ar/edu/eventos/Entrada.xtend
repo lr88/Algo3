@@ -17,23 +17,23 @@ class Entrada {
 		EventoAbierto = unEventoAbierto
 	}
 
-	def void postergarEvento() {
+	public def void postergarEvento() {
 		usuario.recibirMensaje("se postergo el evento\n")
 	}
 
-	def void cancelarEvento() {
+	public def void cancelarEvento() {
 		usuario.recibirMensaje("se cancelo el evento\n")
 	}
 
-	def elEventoFuePostegadoOCancelado() {
+	private def elEventoFuePostegadoOCancelado() {
 		EventoAbierto.elEventoFuePostegadoOCancelado
 	}
 
-	def diasFaltantes() {
+	private def diasFaltantes() {
 		Duration.between(LocalDateTime.now, EventoAbierto.fechaDeInicioDelEvento).toDays()
 	}
 
-	def void devolverDinero() {
+	public def void devolverDinero() {
 		if (elEventoFuePostegadoOCancelado) {
 			devolverEltotal
 		} else {
@@ -45,15 +45,15 @@ class Entrada {
 		}
 	}
 
-	def devolverDineroCorrespondienteALosDiasFaltantes() {
+	private def devolverDineroCorrespondienteALosDiasFaltantes() {
 		usuario.plataQueTengo = usuario.plataQueTengo + (diasFaltantes + 1) * diezPorCiento * valorDeLAEntrada
 	}
 
-	def devolverElPorsentajeMaximo() {
+	private def devolverElPorsentajeMaximo() {
 		usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLAEntrada
 	}
 
-	def void devolverEltotal() {
+	public def void devolverEltotal() {
 		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLAEntrada
 	}
 

@@ -2,9 +2,9 @@ package ar.edu.eventos
 
 interface Entidad {
 	
-	def void validar()
-	def int getId()
-	def void setId(int id)
+	public def void validar()
+	public def int getId()
+	public def void setId(int id)
 }
 
 

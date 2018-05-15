@@ -22,14 +22,13 @@ abstract class Evento {
 	var Boolean fueCancelado = false
 	var Boolean enProceso = true
 
-	def boolean coherenciaFechaDeConfirmacion() {
-		if (fechaMaximaDeConfirmacion < fechaDeInicioDelEvento)
-			true
-		else
+	private def coherenciaFechaDeConfirmacion() {
+		if (!(fechaMaximaDeConfirmacion < fechaDeInicioDelEvento)) {
 			throw new BusinessException("La fecha máxima de confirmación debe ser menor a la fecha de inicio")
+		}
 	}
 
-	def boolean coherenciaFechaDeEvento() {
+	private def boolean coherenciaFechaDeEvento() {
 		if (fechaDeFinDelEvento > fechaDeInicioDelEvento)
 			true
 		else
@@ -37,43 +36,39 @@ abstract class Evento {
 	}
 	
 //	TODO: esta validación debe estar incluida en validar
-	def boolean coherenciaDeFechas() {
+	private def boolean coherenciaDeFechas() {
 		fechaMaximaDeConfirmacion < fechaDeInicioDelEvento && fechaDeFinDelEvento > fechaDeInicioDelEvento
 	}
 
-	def costoTotal() {
+	public def costoTotal() {
 		servicios.fold(0.0, [acum, servicios|acum + servicios.costoDelServicio(this)])
 	}
 
-	def contratarServicio(Servicio unServicio) {
+	public def contratarServicio(Servicio unServicio) {
 		servicios.add(unServicio)
 	}
 
-	def distanciaAmi(Point unaDirecion) {
+	public def distanciaAmi(Point unaDirecion) {
 		locacion.distancia(unaDirecion)
 	}
 
-	def tuOrganizadorEs(Usuario unUsuario) {
+	public def tuOrganizadorEs(Usuario unUsuario) {
 		organizador = unUsuario
 	}
 
-	def duracion() {
+	public def duracion() {
 		Duration.between(fechaDeInicioDelEvento, fechaDeFinDelEvento).toHours()
 	}
 
-	def terminoElEvento() {
+	public def terminoElEvento() {
 		Duration.between(fechaDeFinDelEvento, LocalDateTime.now).toMillis() < 0
 	}
 
-	def LocalDateTime fechaMáximaConfirmación() {
-		fechaMaximaDeConfirmacion
-	}
-
-	def elEventoFuePostegadoOCancelado() {
+	public def elEventoFuePostegadoOCancelado() {
 		fueCancelado || fuePostergado
 	}
 
-	def void cambiarFecha(LocalDateTime nuevaFecha) {
+	public def void cambiarFecha(LocalDateTime nuevaFecha) {
 		var aux = Duration.between(fechaDeInicioDelEvento, nuevaFecha)
 		cambiarFechaInicio(aux)
 		cambiarFechaFin(aux)
