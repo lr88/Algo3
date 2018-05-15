@@ -114,6 +114,7 @@ class testEventosCerrado {
 		]
 
 		evento0 = new EventoCerrado() =>[
+			nombre = "asdasd"
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
@@ -122,6 +123,7 @@ class testEventosCerrado {
 		]
 		
 		evento1 = new EventoCerrado() =>[
+			nombre = "asdasd"
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
@@ -130,6 +132,7 @@ class testEventosCerrado {
 		]
 	
 		evento2 = new EventoCerrado() =>[
+			nombre = "asdasd"
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
@@ -137,6 +140,7 @@ class testEventosCerrado {
 			cantidadMaximaDeInvitados = 100
 		]
 		evento3 = new EventoCerrado() =>[
+			nombre = "asdasd"
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)

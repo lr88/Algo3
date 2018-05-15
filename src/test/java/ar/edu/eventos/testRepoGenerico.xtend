@@ -7,29 +7,34 @@ import org.junit.Test
 class testRepoGenerico {
 
 	EntityJsonParser ServicioExternoJson
-	RepoUsuario RepoUsuario
-	RepoServicios RepoServicios
-	RepoLocacion RepoLocacion
-	String JSonUsuarios
-	String JSonLocaciones
-	String JSonServicios
+	
+	var RepoUsuario RepoUsuario
+	var RepoServicios RepoServicios
+	var RepoLocacion RepoLocacion
+	var String JSonUsuarios
+	var String JSonLocaciones
+	var String JSonServicios
 
 	@Before
 	def void init() {
-
-		ServicioExternoJson = new EntityJsonParser
-		RepoUsuario = new RepoUsuario
-		RepoServicios = new RepoServicios
-		RepoLocacion = new RepoLocacion
-
-		JSonUsuarios = '[  
+	ServicioExternoJson = new EntityJsonParser
+	ServicioExternoJson.repositorioUsuarios = new RepoUsuario
+	ServicioExternoJson.repositorioServicios = new RepoServicios
+	ServicioExternoJson.repositorioLocacion = new RepoLocacion
+	RepoUsuario = ServicioExternoJson.repositorioUsuarios
+	RepoServicios = ServicioExternoJson.repositorioServicios
+	RepoLocacion= ServicioExternoJson.repositorioLocacion
+	
+			JSonUsuarios = '[  
    {  
       "nombreUsuario":"lucas_capo",
-      "nombreApellido":"Lucas Lopez",
+      "nombre":"Lucas",
+	  "apellido":"Lopez",
       "email":"lucas_93@hotmail.com",
       "fechaNacimiento":"15/01/1993",
       "direccion":{  
-         "calle":"25 de Mayo",
+         
+		 "calle":"25 de Mayo",
          "numero":3918,
          "localidad":"San Martín",
          "provincia":"Buenos Aires",
@@ -41,7 +46,8 @@ class testRepoGenerico {
    },
    {  
       "nombreUsuario":"martin1990",
-      "nombreApellido":"Martín Varela",
+      "nombre":"Martín",
+	  "apellido":"Varela",
       "email":"martinvarela90@yahoo.com",
       "fechaNacimiento":"18/11/1990",
       "direccion":{  
@@ -57,8 +63,7 @@ class testRepoGenerico {
    }
 ]'
 
-
-		JSonLocaciones = "[{
+		JSonLocaciones = '[{
 		\"x\":-34.603759,
 		\"y\":-58.381586,
 		\"nombre\":\"Salón El Abierto\"
@@ -67,43 +72,47 @@ class testRepoGenerico {
 		\"x\":-34.572224,
 		\"y\":-58.535651,
 		\"nombre\":\"Estadio Obras\"
-		}]"
+		}]'
 
-		JSonServicios = "[{
-		\"descripcion\":\"Catering Food Party\",
-		\"tipo\":\"TF\",
-		\"valor\":5000.00,
-		\"tarifaTraslado\":30.00,
-		\"x\":-34.572224,
-		\"y\":58.535651
-		}]"
+		JSonServicios = '[  
+   {  
+      "descripcion":"Catering Food Party",
+      "tarifaServicio":{  
+         "tipo":"TF",
+         "valor":5000.00
+      },
+      "tarifaTraslado":30.00,
+      "ubicacion":{  
+         "x":-34.572224,
+         "y":58.535651
+      }
+   }
+]
+'
 
 	}
 
 	@Test
 	def testearUsuarioJson() {
-		var array = ServicioExternoJson.getValueArrayFromJsonResponse(JSonUsuarios)
-		ServicioExternoJson.actualizarRepoUsuarios(array)
-		Assert.assertEquals(2, ServicioExternoJson.getUsuarios.size)
-		Assert.assertTrue(ServicioExternoJson.getUsuarios.get(0).apellido == "Lopez")
+		ServicioExternoJson.actualizarRepoUsuarios(JSonUsuarios)
+		Assert.assertEquals(2, RepoUsuario.elementos.size)
+		Assert.assertTrue(RepoUsuario.elementos.get(0).apellido == "Lopez")
 
 	}
 
 	@Test
 	def testearLocacionJson() {
-		var array = ServicioExternoJson.getValueArrayFromJsonResponse(JSonLocaciones)
-		ServicioExternoJson.actualizarRepoLocaciones(array)
-		Assert.assertEquals(2, ServicioExternoJson.getLocaciones.size)
-		Assert.assertTrue(ServicioExternoJson.getLocaciones.get(0).nombreDeLaLocacion == "Salón El Abierto")
+		ServicioExternoJson.actualizarRepoLocacion(JSonLocaciones)
+		Assert.assertEquals(2, RepoLocacion.elementos.size)
+		Assert.assertTrue(RepoLocacion.elementos.get(0).nombreDeLaLocacion == "Salón El Abierto")
 
 	}
 
 	@Test
 	def testearServicioJson() {
-		var array = ServicioExternoJson.getValueArrayFromJsonResponse(JSonServicios)
-		ServicioExternoJson.actualizarRepoServicio(array)
-		Assert.assertEquals(1, ServicioExternoJson.getServicio.size)
-		Assert.assertTrue(ServicioExternoJson.getServicio.get(0).descripcion == "Catering Food Party")
+		ServicioExternoJson.actualizarRepoServicio(JSonServicios)
+		Assert.assertEquals(1, RepoServicios.elementos.size)
+		Assert.assertTrue(RepoServicios.elementos.get(0).descripcion == "Catering Food Party")
 
 	}
 

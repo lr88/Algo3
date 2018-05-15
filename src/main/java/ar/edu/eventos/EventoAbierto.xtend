@@ -111,4 +111,9 @@ class EventoAbierto extends Evento {
 	def void usuarioDevuelveEntrada(Entrada unaEntrada) {
 		entradas.remove(unaEntrada)
 	}
+	
+	override cantidadDePersonasQueAsisten() {
+		cantidadDeEntradasVendidas()
+	}
+	
 }

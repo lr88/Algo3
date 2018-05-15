@@ -21,5 +21,13 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 		usuario.email = object.email
 		usuario.direccion = object.direccion
 	}
-
+	
+	def void loadUser(Usuario usuario) {
+		if(elementos.map(elem | elem.apellido+elem.nombre).contains(usuario.apellido+usuario.nombre)){
+			update(usuario)
+		}
+		else{
+			create(usuario)
+		}
+	}
 }

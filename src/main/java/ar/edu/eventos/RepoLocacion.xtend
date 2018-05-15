@@ -16,4 +16,13 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 		locacion.ubicacion = object.ubicacion
 	}
 	
+	def void loadLocac(Locacion object) {
+		if(elementos.map(elem | elem.nombreDeLaLocacion).contains(object.nombreDeLaLocacion)){
+			update(object)
+		}
+		else{
+			create(object)
+		}
+	}
+
 }

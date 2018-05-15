@@ -9,7 +9,7 @@ class Locacion implements Entidad {
     
 	var int id
 	Point ubicacion 
-	String nombreDeLaLocacion
+	var String nombreDeLaLocacion
 	var double distribucionM2PorPersona = 0.8
 	var double superficieM2
 		

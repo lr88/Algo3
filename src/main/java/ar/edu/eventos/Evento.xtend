@@ -100,6 +100,13 @@ abstract class Evento {
 		validarFechaDeFin()
 		validarFechaConfirmacion()
 		validarLocacion()
+		validarCoherenciaFechas()
+	}
+	
+	def void validarCoherenciaFechas(){
+		coherenciaFechaDeConfirmacion()
+		coherenciaFechaDeEvento()
+		coherenciaDeFechas()
 	}
 
 	def validarFechaConfirmacion() {
@@ -137,4 +144,5 @@ abstract class Evento {
 	def void cancelarElEvento()
 	def void tipoDeEventoPostergate()
 	def double capacidadMaxima()
+	def double cantidadDePersonasQueAsisten()
 }

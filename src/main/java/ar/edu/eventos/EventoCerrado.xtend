@@ -80,4 +80,9 @@ class EventoCerrado extends Evento {
 			throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
 		}
 	}
+	
+	override cantidadDePersonasQueAsisten() {
+		cantidadDeInvitadosAceptadosMasSusAsistentes()
+	}
+	
 }

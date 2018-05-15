@@ -11,7 +11,7 @@ class testUsuario {
 	Usuario carlos
 	Usuario pedro
 	Usuario lucas
-	Usuario juan 
+	Usuario juan
 	Point lugarGenerico = new Point(20, 2.0)
 	Locacion miCasa
 	Locacion complejo1
@@ -22,11 +22,11 @@ class testUsuario {
 
 	@Before
 	def void init() {
-         
+
 		carlos = new Usuario() => [
-			nombreDeUsuario= "cp"
-			email="carlos@carlos.com"
-			nombre= "carlos"
+			nombreDeUsuario = "cp"
+			email = "carlos@carlos.com"
+			nombre = "carlos"
 			apellido = "perez"
 			direccion = new Point(1.0, 2.0)
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -68,37 +68,41 @@ class testUsuario {
 		]
 
 		casamiento = new EventoCerrado() => [
+			nombre = "asdasd"
 			locacion = miCasa
 			cantidadMaximaDeInvitados = 3
-			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
-			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 10, 5, 00)
+			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 9, 5, 00)
+			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 10, 00)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 8, 5, 00)
 		]
 		casamiento1 = new EventoCerrado() => [
+			nombre = "asdasd"
 			locacion = miCasa
 			cantidadMaximaDeInvitados = 3
-			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
-			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 10, 5, 00)
+			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 9, 5, 00)
+			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 10, 00)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 8, 5, 00)
 		]
 		casamiento2 = new EventoCerrado() => [
+			nombre = "asdasd"
 			locacion = miCasa
 			cantidadMaximaDeInvitados = 3
-			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
-			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 10, 5, 00)
+			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 9, 5, 00)
+			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 10, 00)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 8, 5, 00)
 		]
 		casamiento3 = new EventoAbierto() => [
+			nombre = "asdasd"
 			locacion = miCasa
-			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 10, 5, 00)
-			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 9, 00)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 10, 5, 00)
+			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 9, 5, 00)
+			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 10, 00)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 8, 5, 00)
 		]
-		
+
 		juan.crearEventoCerrado(casamiento)
 		juan.crearEventoCerrado(casamiento1)
 		juan.crearEventoCerrado(casamiento2)
-		
+
 		pedro.crearEventoAbierto(casamiento3)
 		pedro.agregarAmigo(carlos)
 		pedro.agregarAmigo(lucas)
@@ -133,30 +137,32 @@ class testUsuario {
 
 	@Test
 	def void juanNoOrganizaMasDeTresEventosElMismoMes() {
-		Assert.assertEquals(3,juan.eventos.size)
+		Assert.assertEquals(3, juan.eventos.size)
 	}
 
-	@Test(expected = typeof(BusinessException))
+	@Test(expected=typeof(BusinessException))
 	def void PedroCambiaElTipoDeUsuario() {
 		pedro.cambiarTipoDeUsuario(new Free)
 		pedro.cancelarEvento(casamiento)
 		Assert.assertTrue(pedro.mensajes.contains("NO PODES CANCELAR UN EVENTOS "))
 	}
 
-	@Test(expected = typeof(BusinessException))
+	@Test(expected=typeof(BusinessException))
 	def void TipoDeUsuarioCarlosPostergarEvento() {
 		Assert.assertTrue(carlos.tipoDeUsuario.puedoPostergarElEvento(casamiento3))
 	}
-	@Test(expected = typeof(BusinessException))
+
+	@Test(expected=typeof(BusinessException))
 	def void TipoDeUsuarioCarlosCancelarElEvento() {
 		Assert.assertTrue(carlos.tipoDeUsuario.puedoCancelarElEvento(casamiento3))
 	}
-	
+
 	@Test
 	def void TipoDeUsuarioPedro() {
 		Assert.assertTrue(pedro.tipoDeUsuario.puedoCancelarElEvento(casamiento3))
 		Assert.assertTrue(pedro.tipoDeUsuario.puedoPostergarElEvento(casamiento3))
 	}
+
 	@Test
 	def void TipoDeUsuarioLucas() {
 		Assert.assertTrue(lucas.tipoDeUsuario.puedoCancelarElEvento(casamiento3))

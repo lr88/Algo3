@@ -40,7 +40,7 @@ class testEventos {
 			tarifaPorKilometro = 10.0
 			tarifaDelServicio = new TarifaPorHora()=>[
 				valor = 100
-				horasMinimas = 4
+				costoMínimoFijo = 20000
 			]
 		]
 

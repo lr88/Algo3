@@ -212,7 +212,7 @@ class Usuario implements Entidad {
 		this.validarNombre()
 		this.validarApellido()
 		this.validarEmail()
-		this.validarFechaDeNacimiento()
+		//this.validarFechaDeNacimiento()
 		this.validarDireccion()
 	}
 	

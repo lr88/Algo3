@@ -18,5 +18,13 @@ class RepoServicios extends RepoGenerico<Servicio> {
 		servicio.tarifaDelServicio = object.tarifaDelServicio
 		servicio.ubicacion = object.ubicacion
 	}
-
+	
+	def void loadServ(Servicio object) {
+		if(elementos.map(elem | elem.descripcion).contains(object.descripcion)){
+			update(object)
+		}
+		else{
+			create(object)
+		}
+	}
 }

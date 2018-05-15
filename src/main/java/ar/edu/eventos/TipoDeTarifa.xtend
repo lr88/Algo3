@@ -15,24 +15,17 @@ class TarifaFija implements TipoDeTarifa {
 	}
 }
 /* El costo se calcula en función de la
- *  duración del evento. Pueden tener un costo mínimo fijo. 
+ *  duración del evento. Pueden tener un costo mínimo fijo.
  */
 @Accessors
 class TarifaPorHora implements TipoDeTarifa {
 	var double valor
-	var int horasMinimas
+	var int costoMínimoFijo
 
 	//TODO: El costo mínimo es un valor fijo
 	override costo(Evento unEvento) {
-		if (unEvento.duracion() > horasMinimas)
-			valor * unEvento.duracion()
-		else
-			costoMinimoFijo()
-	}
-
-	def costoMinimoFijo() {
-		valor * horasMinimas
-	}
+		return Math.max(valor*unEvento.duracion().intValue,costoMínimoFijo)
+		}
 }
 
 @Accessors
@@ -41,13 +34,8 @@ class TarifaPorPersona implements TipoDeTarifa {
 	var int porcentajeMinimo
 
 	//TODO: Está cobrando siempre el mínimo. Debería cobrar su tarifa por persona 
-	//o el costo mínimo del servicio (el máximo de esoso dos valores) 
+	//o el costo mínimo del servicio (el máximo de esos dos valores) 
 	override costo(Evento unEvento) {
-		costoMinimo(unEvento) * valor
+	return Math.max(unEvento.cantidadDePersonasQueAsisten()*valor,unEvento.capacidadMaxima()*porcentajeMinimo*valor)
 	}
-
-	def costoMinimo(Evento unEvento) {
-		unEvento.capacidadMaxima * (porcentajeMinimo / 100)
-	}
-
 }
