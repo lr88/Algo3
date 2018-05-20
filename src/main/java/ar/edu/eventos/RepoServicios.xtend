@@ -10,15 +10,6 @@ class RepoServicios extends RepoGenerico<Servicio> {
 		elementos.filter[servicio|servicio.descripcion.startsWith(buscar)].toList
 	}
 
-	override update(Servicio object) {
-		object.validar()
-		validarLaNoExistencia(object)
-		var servicio = searchById(object.id)
-		servicio.descripcion = object.descripcion
-		servicio.tarifaDelServicio = object.tarifaDelServicio
-		servicio.ubicacion = object.ubicacion
-	}
-	
 	def void loadServ(Servicio object) {
 		if(elementos.map(elem | elem.descripcion).contains(object.descripcion)){
 			update(object)
@@ -27,4 +18,17 @@ class RepoServicios extends RepoGenerico<Servicio> {
 			create(object)
 		}
 	}
+	
+	override updateAll() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	override actualizarDatos(Servicio serViejo, Servicio serNuevo) {
+		serViejo => [
+		descripcion = serNuevo.descripcion
+		tarifaDelServicio = serNuevo.tarifaDelServicio
+		ubicacion = serNuevo.ubicacion
+		]
+	}
+	
 }

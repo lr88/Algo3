@@ -10,8 +10,14 @@ abstract class RepoGenerico<T extends Entidad> {
 	List<T> elementos = newArrayList()
 	var EntityJsonParser servJson = new EntityJsonParser()
 	int proximoId = 0
-
-	abstract def void update(T object)
+	
+	abstract def void actualizarDatos(T t, T t2)
+	
+	 def void update(T object){
+		    object.validar()
+			validarLaNoExistencia(object)
+			this.actualizarDatos(searchById(object.id), object)	
+	}
 
 	abstract def List<T> search(String value)
 
@@ -46,5 +52,7 @@ abstract class RepoGenerico<T extends Entidad> {
 			throw new BusinessException("El elemento no existe en el Repositorio")
 		}
 	}
+	
+	abstract def void updateAll()
 
 }

@@ -8,14 +8,6 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 		elementos.filter[locacion|locacion.nombreDeLaLocacion == locacion.nombreDeLaLocacion.indexOf(buscar)].toList
 	}
 	
-	override update(Locacion object) {
-		object.validar()
-		validarLaNoExistencia(object)
-		var locacion = searchById(object.id)
-		locacion.nombreDeLaLocacion = object.nombreDeLaLocacion
-		locacion.ubicacion = object.ubicacion
-	}
-	
 	def void loadLocac(Locacion object) {
 		if(elementos.map(elem | elem.nombreDeLaLocacion).contains(object.nombreDeLaLocacion)){
 			update(object)
@@ -24,5 +16,17 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 			create(object)
 		}
 	}
+	
+	override updateAll() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	override actualizarDatos(Locacion locacionVieja, Locacion locacionNueva) {
+		locacionVieja => [
+			nombreDeLaLocacion = locacionNueva.nombreDeLaLocacion
+			ubicacion = locacionNueva.ubicacion
+		]
+	}
+	
 
 }

@@ -30,14 +30,12 @@ class Locacion implements Entidad {
 		if(ubicacion === null ){
 			throw new BusinessException("No podes crear una locacion sin una Ubicacion")
 		}
-		true
 	}
 	
 	def validarDescripcion() {
 		if(nombreDeLaLocacion === null || nombreDeLaLocacion.length == 0){
 			throw new BusinessException("No podes crear una Locacion sin Descripcion")
 		}
-		true
 	}
 	
 	override getId() {
