@@ -7,15 +7,14 @@ import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.uqbar.geodds.Point
+import ar.edu.eventos.exceptions.Validar
 
 @Accessors
 class Usuario implements Entidad {
-	
+	Validar validarcion = new Validar
 	var int id
 	List <String> mensajes = newArrayList()
-	Set<EventoCerrado> eventosCerrados = new HashSet ()
-	Set<EventoAbierto> eventosAbiertos = new HashSet ()
+	Set<Evento> eventos = new HashSet ()
 	Set<Usuario> amigos = new HashSet()	
 	Set <Invitacion> invitaciones = new HashSet ()
 	Set<Entrada> entradas = new HashSet()	
@@ -23,8 +22,7 @@ class Usuario implements Entidad {
 	String nombre
 	String apellido
 	String email
-	Point direccion
-	var Direccion descripcionDeLaDireccion
+	Locacion direccion
 	LocalDateTime fechaDeNacimiento
 	boolean esAntisocial
 	var double plataQueTengo = 100
@@ -49,10 +47,6 @@ class Usuario implements Entidad {
 		amigos.add(unAmigo)
 	}
 	
-	def eventos(){
-		eventosAbiertos + eventosCerrados
-	}
-	
 	def eliminarAmigos(Usuario unUsuario) {
 		amigos.remove(unUsuario)
 	}
@@ -65,22 +59,21 @@ class Usuario implements Entidad {
 		eventos.filter[evento|evento.fechaDeInicioDelEvento.getMonth == unEvento.fechaDeInicioDelEvento.getMonth && evento.fechaDeInicioDelEvento.getYear == unEvento.fechaDeInicioDelEvento.getYear].size
 	}
 	
-	def crearEventoCerrado(EventoCerrado unEvento) {
+	def crearEventoCerrado(Evento unEvento) {
 		tipoDeUsuario.puedoOrganizarelEventoCerrado(unEvento,this)
-		agregarEventoCerrado(unEvento)
+		agregarEvento(unEvento)
 	}
 
 	def crearEventoAbierto(EventoAbierto unEvento) {
 		tipoDeUsuario.puedoOrganizarEventoAbierto(unEvento,this)
-		agregarEventoAbierto(unEvento)
+		agregarEvento(unEvento)
 	}
 	
 	def devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
-		if(unEvento.sePuedeDevolverLaEntrada){
-			unaEntrada.devolverDinero()
-			unEvento.usuarioDevuelveEntrada(unaEntrada)
-			entradas.remove(unaEntrada)
-		}
+		unEvento.validarDevolverLaEntrada
+		unaEntrada.devolverDinero()
+		unEvento.usuarioDevuelveEntrada(unaEntrada)
+		entradas.remove(unaEntrada)
 	}
     
 	def invitarAUnUsuario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) { 
@@ -94,26 +87,22 @@ class Usuario implements Entidad {
 	
 
   	 def aceptarInvitacion(Invitacion unaInvitacion,int unaCantidadDeAcompañantes){
-		hayTiempoParaConfirmar(unaInvitacion)
+		validarTiempoParaConfirmar(unaInvitacion)
 		validarCantidadDeAcompañantes(unaInvitacion,unaCantidadDeAcompañantes)
 		unaInvitacion.estadoAceptado = true
 		unaInvitacion.cantidadDeAcompañantes = unaCantidadDeAcompañantes
 		
 		
 	}
-	def hayTiempoParaConfirmar(Invitacion unaInvitacion){
-		if(LocalDateTime.now < unaInvitacion.evento.fechaMaximaDeConfirmacion){
-			}
-		else{
+	def validarTiempoParaConfirmar(Invitacion unaInvitacion){
+		if(!(LocalDateTime.now < unaInvitacion.evento.fechaMaximaDeConfirmacion)){
 			throw new BusinessException("No se puede aceptar la invitacion, supera el tiempo de confirmacion")
 		}
 	}
 	
 	def validarCantidadDeAcompañantes(Invitacion unaInvitacion, int unaCantidadDeAcompañantes){
-		if(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes){
-			}
-		else{
-			throw new BusinessException("No se puede aceptar la invitacion, supera la cantidad de acompañantes")
+		if(!(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes)){
+		throw new BusinessException("No se puede aceptar la invitacion, supera la cantidad de acompañantes")
 		}
 	}
 
@@ -133,8 +122,7 @@ class Usuario implements Entidad {
 	
 	def aceptacionMasiva(){
 		listaDeTodosMisInvitacionesPendientes.
-		forEach[inv | if(validarAceptacionMasiva(inv)){
-				aceptarInvitacion(inv,inv.cantidadDeAcompañantes)}]
+		forEach[inv | if(validarAceptacionMasiva(inv)){aceptarInvitacion(inv,inv.cantidadDeAcompañantes)}]
 	}
 	
 	def validarAceptacionMasiva(Invitacion inv){
@@ -152,7 +140,7 @@ class Usuario implements Entidad {
 	
 	
 	def meQuedaSerca(Invitacion invitacion) {
-		invitacion.distanciaAmiCasa(direccion) < radioDeCercanía 
+		invitacion.distanciaAmiCasa(direccion.ubicacion) < radioDeCercanía 
 	}
 	
 	def rechazoMasivo(){
@@ -195,16 +183,10 @@ class Usuario implements Entidad {
 		eventos.filter[evento | evento.enProceso == true].size()
 	}
 	
-	def agregarEventoAbierto(EventoAbierto evento) {
+	def agregarEvento(Evento evento) {
 		evento.validar
-		evento.tuOrganizadorEs(this)
-		eventosAbiertos.add(evento)
-	}
-	
-	def agregarEventoCerrado(EventoCerrado evento) {
-		evento.validar()
-		evento.tuOrganizadorEs(this)
-		eventosCerrados.add(evento)
+		evento.organizador = this
+		eventos.add(evento)
 	}
 	
 	override validar() {
@@ -216,55 +198,25 @@ class Usuario implements Entidad {
 		this.validarDireccion()
 	}
 	
-	//TODO: Usar este método para validar !null. Habría que sacarlo a otra clase. 
-	def validarNoNulo(Object objeto, String nombrePropiedad) {
-		if(objeto === null){
-			throw new BusinessException("No podes crear un usuario sin " + nombrePropiedad)
-		}
-	}
-	
-	def validarEmail() {
-		if(this.email === null || this.email.length==0){
-			throw new BusinessException("No podes crear un usuario sin email")
-		}
-	}
-	
-	def validarDireccion() {
-		validarNoNulo(direccion, "dirección")
-	}
-	
-	def validarFechaDeNacimiento() {
-		if(this.fechaDeNacimiento === null){
-			throw new BusinessException("No podes crear un usuario sin Fecha de Nacimiento")
-		}
-	}
-	
-	def validarApellido() {
-		if(this.apellido === null || this.apellido.length==0){
-			throw new BusinessException("No podes crear un usuario sin apellido")
-		}
-	}
-	
-	def validarNombre() {
-		if(this.nombre === null || this.nombre.length==0){
-			throw new BusinessException("No podes crear un usuario sin Nombre")
-		}
-	}
-	
 	def validarNombreDeUsuario() {
-		if(this.nombreDeUsuario === null || this.nombreDeUsuario.length==0){
-			throw new BusinessException("No podes crear un usuario sin Nombre de Usuario")
-		}
+		validarcion.validarStringNoNulo(nombreDeUsuario,"Nombre De Usuario")
 	}
-	
-	override getId() {
-		id
+	def validarNombre() {
+		validarcion.validarStringNoNulo(nombre,"nombre")
 	}
-	
-	override setId(int _id) {
-		id = _id
+	def validarApellido() {
+		validarcion.validarStringNoNulo(apellido,"Apellido")
 	}
-	
+	def validarEmail() {
+		validarcion.validarStringNoNulo(email,"email")
+	}
+	def validarFechaDeNacimiento() {
+		validarcion.validarObjetoNoNulo(fechaDeNacimiento, "Fecha de Nacimiento")
+	}
+	def validarDireccion() {
+		validarcion.validarStringYObjetoNoNulo(direccion,direccion.nombreDeLaLocacion, "dirección")
+	}
+
 	def pagarEntrada(Entrada entrada) {
 		agregarEntrada(entrada)
 		plataQueTengo = plataQueTengo - entrada.valorDeLAEntrada

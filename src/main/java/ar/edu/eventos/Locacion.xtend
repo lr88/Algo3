@@ -12,6 +12,10 @@ class Locacion implements Entidad {
 	var String nombreDeLaLocacion
 	var double distribucionM2PorPersona = 0.8
 	var double superficieM2
+	var String calle 
+	var int numero
+	var String localidad
+	var String provincia 
 		
 	def distancia(Point unaDirecion) {
 		ubicacion.distance(unaDirecion)
@@ -38,20 +42,4 @@ class Locacion implements Entidad {
 		}
 	}
 	
-	override getId() {
-		id
-	}
-	
-	override setId(int _id) {
-		id = _id
-	}
-
-}
-
-@Accessors
-class Direccion{
-	var String calle
-	var int numero
-	var String localidad
-	var String provincia
 }

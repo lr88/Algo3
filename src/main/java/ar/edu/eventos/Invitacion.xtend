@@ -43,6 +43,6 @@ class Invitacion {
 	}
 	 
 	def distanciaAmiCasa(Point unaDirecion) {
-		evento.distanciaAmi(unaDirecion)
+		evento.distancia(unaDirecion)
 	}
 }

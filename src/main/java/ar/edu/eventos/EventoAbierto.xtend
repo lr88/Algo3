@@ -11,109 +11,86 @@ import ar.edu.eventos.exceptions.BusinessException
 @Accessors
 class EventoAbierto extends Evento {
 
-	int ValorDeLaEntrada
-	Set<Entrada> entradas = new HashSet()
-	int edadMinima
+	public int ValorDeLaEntrada
+	private Set<Entrada> entradas = new HashSet()
+	private int edadMinima
 
-	def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
+	public def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
 			validarLaAdquisicionDeUnaEntrada(unUsuario)
 			unUsuario.pagarEntrada(unaEntrada)
 			agregarEntrada(unaEntrada)
 	}
-
-	def validarLaAdquisicionDeUnaEntrada(Usuario unUsuario){
-			hayEntradasDisponibles
-			correspondeLaEdad(unUsuario)
-			hayTiempoParaConfirmar(unUsuario)
+	private def void validarLaAdquisicionDeUnaEntrada(Usuario unUsuario){
+			validarEntradasDisponibles
+			validarLaEdad(unUsuario)
+			validarTiempoParaConfirmar(unUsuario)
 	}
-
-
-	def hayEntradasDisponibles(){
-		if (entradasDisponibles > 0) {
-		} else {
+	private def void validarEntradasDisponibles(){
+		if (!(entradasDisponibles > 0)) {
 			throw new BusinessException("No hay Entradas disponibles")
 		}
 	}
-
-	def correspondeLaEdad(Usuario unUsuario){
-		if (unUsuario.edad() > edadMinima) {
-		} else {
+	private def void validarLaEdad(Usuario unUsuario){
+		if (!(unUsuario.edad() > edadMinima)) {
 			throw new BusinessException("No corresponde la Edad")
 		}
 	}
-
-	def void agregarEntrada(Entrada unaEntrada) {
-		entradas.add(unaEntrada)///exception
+	public def void agregarEntrada(Entrada unaEntrada) {
+		entradas.add(unaEntrada)
 	}
-
-	def sePuedeDevolverLaEntrada() {
-		Duration.between(LocalDateTime.now, fechaDeInicioDelEvento).
-		toDays() >= 1///exception
+	public def void validarDevolverLaEntrada() {
+		if(!(Duration.between(LocalDateTime.now, fechaDeInicioDelEvento).toDays() >= 1)){
+			throw new BusinessException("No hay tiempo para devolver la entrada")
+		}
 	}
-
-	override double capacidadMaxima() {
+	public override double capacidadMaxima() {
 		locacion.capacidadMaxima()
 	}
-
-	override boolean esExitoso() {
+	public override boolean esExitoso() {
 		validarCapacidadMaximaParaExitoso 
 		&& validarPostergacion
 		&& validarCancelacion
 	}
-
-	def validarCapacidadMaximaParaExitoso(){
+	private def boolean validarCapacidadMaximaParaExitoso(){
 		capacidadMaxima * 0.9 < cantidadDeEntradasVendidas
 	}
-
-	def validarPostergacion(){
+	private def boolean validarPostergacion(){
 		!fuePostergado
 	}
-	
-	def validarCancelacion(){
+	public def boolean validarCancelacion(){
 		!fueCancelado
 	}
-
-	override boolean esUnFracaso() {
+	public override boolean esUnFracaso() {
 		cantidadDeEntradasVendidas < capacidadMaxima * 0.5
 	}
-
-	def hayTiempoParaConfirmar(Usuario unUsuario) {
-	if (cuantoFaltaParaElEvento > 0) {
-		} else {
-			throw new BusinessException("Paso el tiempo de confirmacion")
+	private def validarTiempoParaConfirmar(Usuario unUsuario) {
+	if (!(tiempoDeConfirmacion > 0)) {
+		throw new BusinessException("Paso el tiempo de confirmacion")
 		}	
 	}
-
-	def cuantoFaltaParaElEvento(){
+	private def tiempoDeConfirmacion(){
 		Duration.between(LocalDateTime.now, fechaMaximaDeConfirmacion).toMillis()
 	}
-
-	def int entradasDisponibles() {
+	private def int entradasDisponibles() {
 		(capacidadMaxima - cantidadDeEntradasVendidas).intValue
 	}
-
-	override cancelarElEvento() {
+	public override cancelarElEvento() {
 		fueCancelado = true
 		enProceso = false
 		entradas.forEach[entrada|entrada.cancelarEvento]
 		entradas.forEach[entrada|entrada.devolverEltotal()]
 		entradas.clear
 	}
-
-	override void tipoDeEventoPostergate() {
+	public override void tipoDeEventoPostergate() {
 		entradas.forEach[entrada | entrada.postergarEvento()]
 	}
-
-	def int cantidadDeEntradasVendidas() {
+	private def int cantidadDeEntradasVendidas() {
 		entradas.size
 	}
-
-	def void usuarioDevuelveEntrada(Entrada unaEntrada) {
+	public def void usuarioDevuelveEntrada(Entrada unaEntrada) {
 		entradas.remove(unaEntrada)
 	}
-	
-	override cantidadDePersonasQueAsisten() {
+	public override double cantidadDePersonasQueAsisten() {
 		cantidadDeEntradasVendidas()
 	}
-	
 }

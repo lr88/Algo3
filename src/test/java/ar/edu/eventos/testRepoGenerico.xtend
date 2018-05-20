@@ -60,22 +60,6 @@ class testRepoGenerico {
             "y":60.516598
          }
       }
-   },{  
-      "nombreUsuario":"martin1990",
-      "nombre":"Martín",
-	  "apellido":"Varela",
-      "email":"martinvarela90@yahoo.com",
-      "fechaNacimiento":"18/11/1990",
-      "direccion":{  
-         "calle":"Av. Triunvirato",
-         "numero":4065,
-         "localidad":"CABA",
-         "provincia":"",
-         "coordenadas":{  
-            "x":-33.582360,
-            "y":60.516598
-         }
-      }
    }
 ]'
 

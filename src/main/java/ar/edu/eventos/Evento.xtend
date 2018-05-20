@@ -22,52 +22,36 @@ abstract class Evento {
 	var Boolean fueCancelado = false
 	var Boolean enProceso = true
 
-	private def coherenciaFechaDeConfirmacion() {
+	private def void coherenciaFechaDeConfirmacion() {
 		if (!(fechaMaximaDeConfirmacion < fechaDeInicioDelEvento)) {
 			throw new BusinessException("La fecha máxima de confirmación debe ser menor a la fecha de inicio")
 		}
 	}
-
-	private def boolean coherenciaFechaDeEvento() {
-		if (fechaDeFinDelEvento > fechaDeInicioDelEvento)
-			true
-		else
+	private def void coherenciaFechaDeEvento() {
+		if (!(fechaDeFinDelEvento > fechaDeInicioDelEvento)){
 			throw new BusinessException(" La fecha/hora de fin debe ser mayor a la fecha/hora de inicio.")
-	}
-	
-//	TODO: esta validación debe estar incluida en validar
+	}}
 	private def boolean coherenciaDeFechas() {
 		fechaMaximaDeConfirmacion < fechaDeInicioDelEvento && fechaDeFinDelEvento > fechaDeInicioDelEvento
 	}
-
-	public def costoTotal() {
+	public def double costoTotal() {
 		servicios.fold(0.0, [acum, servicios|acum + servicios.costoDelServicio(this)])
 	}
-
-	public def contratarServicio(Servicio unServicio) {
+	public def void contratarServicio(Servicio unServicio) {
 		servicios.add(unServicio)
 	}
-
-	public def distanciaAmi(Point unaDirecion) {
+	public def double distancia(Point unaDirecion) {
 		locacion.distancia(unaDirecion)
 	}
-
-	public def tuOrganizadorEs(Usuario unUsuario) {
-		organizador = unUsuario
-	}
-
-	public def duracion() {
+	public def double duracion() {
 		Duration.between(fechaDeInicioDelEvento, fechaDeFinDelEvento).toHours()
 	}
-
-	public def terminoElEvento() {
+	public def boolean terminoElEvento() {
 		Duration.between(fechaDeFinDelEvento, LocalDateTime.now).toMillis() < 0
 	}
-
-	public def elEventoFuePostegadoOCancelado() {
+	public def boolean elEventoFuePostegadoOCancelado() {
 		fueCancelado || fuePostergado
 	}
-
 	public def void cambiarFecha(LocalDateTime nuevaFecha) {
 		var aux = Duration.between(fechaDeInicioDelEvento, nuevaFecha)
 		cambiarFechaInicio(aux)
@@ -76,20 +60,16 @@ abstract class Evento {
 		fuePostergado = true
 		tipoDeEventoPostergate()
 	}
-
-	def cambiarFechaInicio(Duration aux) {
+	private def void cambiarFechaInicio(Duration aux) {
 		fechaDeInicioDelEvento = fechaDeInicioDelEvento.plus(aux)
 	}
-
-	def cambiarFechaFin(Duration aux) {
+	private def void cambiarFechaFin(Duration aux) {
 		fechaDeFinDelEvento = fechaDeFinDelEvento.plus(aux)
 	}
-
-	def cambiarFechaConfirmacion(Duration aux) {
+	private def void cambiarFechaConfirmacion(Duration aux) {
 		fechaMaximaDeConfirmacion = fechaMaximaDeConfirmacion.plus(aux)
 	}
-
-	def validar() {
+	public def void validar() {
 		validarNombre()
 		validarFechaDeInicio()
 		validarFechaDeFin()
@@ -97,47 +77,40 @@ abstract class Evento {
 		validarLocacion()
 		validarCoherenciaFechas()
 	}
-	
-	def void validarCoherenciaFechas(){
+	private def void validarCoherenciaFechas(){
 		coherenciaFechaDeConfirmacion()
 		coherenciaFechaDeEvento()
 		coherenciaDeFechas()
 	}
-
-	def validarFechaConfirmacion() {
+	private def void validarFechaConfirmacion() {
 		if (fechaMaximaDeConfirmacion === null) {
 			throw new BusinessException("No podes crear una evento sin una fecha de confirmacion")
 		}
 	}
-
-	def validarLocacion() {
+	private def void validarLocacion() {
 		if (locacion === null) {
 			throw new BusinessException("No podes crear una evento sin una Ubicacion")
 		}
 	}
-
-	def validarFechaDeFin() {
+	private def void validarFechaDeFin() {
 		if (fechaDeInicioDelEvento === null) {
 			throw new BusinessException("No podes crear una evento sin una fecha de inicio")
 		}
 	}
-
-	def validarFechaDeInicio() {
+	private def void validarFechaDeInicio() {
 		if (fechaDeFinDelEvento === null) {
 			throw new BusinessException("No podes crear una evento sin fecha de fin")
 		}
 	}
-
-	def validarNombre() {
+	private def void validarNombre() {
 		if (nombre === null || nombre.length == 0) {
 			throw new BusinessException("No podes crear un evento sin un nombre")
 		}
 	}
-
-	def boolean esExitoso()
-	def boolean esUnFracaso()
-	def void cancelarElEvento()
-	def void tipoDeEventoPostergate()
-	def double capacidadMaxima()
-	def double cantidadDePersonasQueAsisten()
+	public def boolean esExitoso()
+	public def boolean esUnFracaso()
+	public def void cancelarElEvento()
+	protected def void tipoDeEventoPostergate()
+	public def double capacidadMaxima()
+	public def double cantidadDePersonasQueAsisten()
 }

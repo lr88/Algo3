@@ -11,10 +11,10 @@ class Entrada {
 	var Usuario usuario
 	val veintePorCiento = 0.2
 	val diezPorCiento = 0.1
-	val EventoAbierto EventoAbierto
+	val Evento evento
 
-	new(EventoAbierto unEventoAbierto) {
-		EventoAbierto = unEventoAbierto
+	new(Evento unEventoAbierto) {
+		evento = unEventoAbierto
 	}
 
 	public def void postergarEvento() {
@@ -26,11 +26,11 @@ class Entrada {
 	}
 
 	private def elEventoFuePostegadoOCancelado() {
-		EventoAbierto.elEventoFuePostegadoOCancelado
+		evento.elEventoFuePostegadoOCancelado
 	}
 
 	private def diasFaltantes() {
-		Duration.between(LocalDateTime.now, EventoAbierto.fechaDeInicioDelEvento).toDays()
+		Duration.between(LocalDateTime.now, evento.fechaDeInicioDelEvento).toDays()
 	}
 
 	public def void devolverDinero() {

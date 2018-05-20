@@ -27,15 +27,15 @@ class EntityJsonParser {
 			nombre = (json.get("nombre").asString)
 			apellido = (json.get("apellido").asString)
 			email = (json.get("email").asString)
-			direccion = new Point((json.get("direccion").asObject.get("coordenadas").asObject.get("x").asDouble), 
-				(json.get("direccion").asObject.get("coordenadas").asObject.get("y").asDouble)
-			)
-			descripcionDeLaDireccion = new Direccion => [
+			direccion = new Locacion => [
+			ubicacion = new Point((json.get("direccion").asObject.get("coordenadas").asObject.get("x").asDouble), 
+			(json.get("direccion").asObject.get("coordenadas").asObject.get("y").asDouble))
 			calle = (json.get("direccion").asObject.get("calle").asString)
 			numero = (json.get("direccion").asObject.get("numero").asInt)
 			localidad = (json.get("direccion").asObject.get("localidad").asString)
 			provincia = (json.get("direccion").asObject.get("provincia").asString)
-			]]
+			]
+			]
 			repositorioUsuarios.loadUser(nuevoUsuario)
 		return nuevoUsuario
 	}

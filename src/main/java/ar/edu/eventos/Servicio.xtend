@@ -19,7 +19,7 @@ class Servicio implements Entidad {
 	}
 
 	def double costoDetraslado(Evento unEvento) {
-		tarifaPorKilometro * unEvento.distanciaAmi(ubicacion.ubicacion)
+		tarifaPorKilometro * unEvento.distancia(ubicacion.ubicacion)
 	}
 
 	override validar() {

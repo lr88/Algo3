@@ -8,80 +8,64 @@ import org.eclipse.xtend.lib.annotations.Accessors
 @Accessors
 class EventoCerrado extends Evento {
 
-	var double cantidadMaximaDeInvitados
+	private var double cantidadMaximaDeInvitados
 	Set<Invitacion> invitaciones = new HashSet()
 
-	override double capacidadMaxima() {
+	public override double capacidadMaxima() {
 		cantidadMaximaDeInvitados
 	}
-
-	override boolean esExitoso() {
+	public override boolean esExitoso() {
 		invitacionesAceptadasVSInvitaciones && fueCancelado == false
 	}
-
-	def invitacionesAceptadasVSInvitaciones(){
+	private def invitacionesAceptadasVSInvitaciones(){
 		cantidadDeInvitacionesAceptadas > cantidadDeInvitaciones * 0.8
 	}
-
-	override boolean esUnFracaso() {
+	public override boolean esUnFracaso() {
 		cantidadMaximaDeInvitados * 0.5 > cantidadDeInvitadosAceptadosMasSusAsistentes
 	}
-
-	def int cantidadDeInvitadosAceptadosMasSusAsistentes() {
+	private def int cantidadDeInvitadosAceptadosMasSusAsistentes() {
 		listaDeInvitacionesAceptadas.fold(0, [acum, invitacion|acum + invitacion.cantidadDeAcompañantes + 1])
 	}
-
-	def int cantidadDeInvitadosPendientesMasElMaximoDeAsistentes() {
+	private def int cantidadDeInvitadosPendientesMasElMaximoDeAsistentes() {
 		listaDeInvitacionesPendientes.fold(0, [acum, invitacion|acum + invitacion.cantidadDeAcompañantes + 1])
 	}
-
-	def cantidadDeInvitaciones() {
+	private def cantidadDeInvitaciones() {
 		invitaciones.size()
 	}
-
-	def int cantidadDeInvitacionesAceptadas() {
+	private def int cantidadDeInvitacionesAceptadas() {
 		listaDeInvitacionesAceptadas.size()
 	}
-
-	def listaDeInvitacionesAceptadas() {
+	private def listaDeInvitacionesAceptadas() {
 		invitaciones.filter[invitaciones|invitaciones.estadoAceptado]
 	}
-
-	def listaDeInvitacionesPendientes() {
+	private def listaDeInvitacionesPendientes() {
 		invitaciones.filter[invitaciones|invitaciones.estadoPendiente]
 	}
-
-	def int cantidaDePosiblesAsistentes() {
+	private def int cantidaDePosiblesAsistentes() {
 		cantidadDeInvitadosPendientesMasElMaximoDeAsistentes + cantidadDeInvitadosAceptadosMasSusAsistentes
 	}
-
-	override void cancelarElEvento() {
+	public override void cancelarElEvento() {
 		fueCancelado = true
 		enProceso = false
 		invitaciones.forEach[invitacion|invitacion.cancelarEvento]
 		invitaciones.clear
 	}
-
-	override void tipoDeEventoPostergate() {
+	public override void tipoDeEventoPostergate() {
 		invitaciones.forEach[invitacion|invitacion.postergarEvento()]
 	}
-
-	def invitarAUnUsiario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes) {
-		validarAsistentesVSAcompañantes(unaCantidadMaximaDeAcompañantes)
+	public def invitarAUnUsiario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes) {
+		validarAsistentesVSAcompañantesParaInvitarAAlguien(unaCantidadMaximaDeAcompañantes)
 		var Invitacion unaInvitacion = new Invitacion(unUsuario, unaCantidadMaximaDeAcompañantes, this)
 		unaInvitacion.invitarUsiario
 		unUsuario.agregarInvitacion(unaInvitacion)
 		invitaciones.add(unaInvitacion)
 	}
-
-	def validarAsistentesVSAcompañantes(int unaCantidadMaximaDeAcompañantes) {
-		if (cantidaDePosiblesAsistentes < cantidadMaximaDeInvitados) {
-		} else {
-			throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
+	private def validarAsistentesVSAcompañantesParaInvitarAAlguien(int unaCantidadMaximaDeAcompañantes) {
+		if (!(cantidaDePosiblesAsistentes+unaCantidadMaximaDeAcompañantes < cantidadMaximaDeInvitados)) {
+		throw new BusinessException("No se puede crear invitacion, supera la cantidad maxima del evento")
 		}
 	}
-	
-	override cantidadDePersonasQueAsisten() {
+	public override cantidadDePersonasQueAsisten() {
 		cantidadDeInvitadosAceptadosMasSusAsistentes()
 	}
 	
