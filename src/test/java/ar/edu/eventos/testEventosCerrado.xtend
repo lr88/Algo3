@@ -10,6 +10,7 @@ import ar.edu.eventos.exceptions.BusinessException
 
 class testEventosCerrado {
 	Locacion lugarDelEvento1
+	Locacion lugar1
 	Usuario Organizador1
 	Usuario Organizador2
 	Usuario Organizador3
@@ -32,8 +33,15 @@ class testEventosCerrado {
 			ubicacion = new Point(1.0, 2.0)
 			superficieM2 = 5
 		]
+		
+		lugar1 = new Locacion() => [
+			nombreDeLaLocacion ="asd"
+			ubicacion = new Point(1.0, 2.0)
+			validar()
+		]
+		
 		persona1 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -41,7 +49,7 @@ class testEventosCerrado {
 			tipoDeUsuario = new Free
 		]
 		persona2 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -49,7 +57,7 @@ class testEventosCerrado {
 			tipoDeUsuario = new Free
 		]
 		persona3 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -57,7 +65,7 @@ class testEventosCerrado {
 			tipoDeUsuario = new Free
 		]
 		persona4 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -65,7 +73,7 @@ class testEventosCerrado {
 			tipoDeUsuario = new Free
 		]
 		persona5 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -73,7 +81,7 @@ class testEventosCerrado {
 			tipoDeUsuario = new Free
 		]
 		persona6 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -89,7 +97,7 @@ class testEventosCerrado {
 		listaDeUsuariosDelTest.add(persona6)
 
 		Organizador1 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -97,7 +105,7 @@ class testEventosCerrado {
 			tipoDeUsuario = new Free
 		]
 		Organizador2 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -105,7 +113,7 @@ class testEventosCerrado {
 			tipoDeUsuario = new Amateur
 		]
 		Organizador3 =new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)

@@ -14,6 +14,7 @@ class testEventosAbierto {
 	Usuario usuario2
 	Usuario usuario3
 	Locacion lugarDelEvento1
+	Locacion lugar1
 	EventoAbierto eventoAbierto2
 	EventoAbierto eventoAbierto1
 	Entrada entrada1
@@ -33,8 +34,14 @@ class testEventosAbierto {
 			superficieM2 = 5
 		]
 
+		lugar1 = new Locacion() => [
+			nombreDeLaLocacion ="asd"
+			ubicacion = new Point(1.0, 2.0)
+			validar()
+		]
+
 		usuario1 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -42,7 +49,7 @@ class testEventosAbierto {
 			tipoDeUsuario = new Profesional
 		]
 		usuario2 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
@@ -50,7 +57,7 @@ class testEventosAbierto {
 			tipoDeUsuario = new Profesional
 		]
 		usuario3 = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			esAntisocial = false
 			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)

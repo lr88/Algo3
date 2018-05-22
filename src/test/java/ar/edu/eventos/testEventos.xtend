@@ -13,6 +13,7 @@ class testEventos {
 	Servicio luces
 	Servicio robot
 	Locacion miCasa
+	Locacion lugar1
 	EventoCerrado fiesta
 	Evento casamiento
 
@@ -24,12 +25,18 @@ class testEventos {
 			validar()
 		]
 		
+		lugar1 = new Locacion() => [
+			nombreDeLaLocacion ="asd"
+			ubicacion = new Point(4.0, 2.0)
+			validar()
+		]
+		
 		usuario1 = new Usuario() => [
 			nombre = "asd"
 			apellido ="asd"
 			email = "asd"
 			fechaDeNacimiento = LocalDateTime.of(2000, 10, 10, 20, 0)
-			direccion = new Point(4.0, 2.0)
+			direccion = lugar1
 			radioDeCercanía = 999
 			
 		]

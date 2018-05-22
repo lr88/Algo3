@@ -12,6 +12,7 @@ class testUsuario {
 	Usuario pedro
 	Usuario lucas
 	Usuario juan
+	Locacion lugar1
 	Point lugarGenerico = new Point(20, 2.0)
 	Locacion miCasa
 	Locacion complejo1
@@ -23,33 +24,39 @@ class testUsuario {
 	@Before
 	def void init() {
 
+		lugar1 = new Locacion() => [
+			nombreDeLaLocacion = "asd"
+			ubicacion = new Point(4.0, 2.0)
+			validar()
+		]
+
 		carlos = new Usuario() => [
 			nombreDeUsuario = "cp"
 			email = "carlos@carlos.com"
 			nombre = "carlos"
 			apellido = "perez"
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			esAntisocial = false
 			radioDeCercanía = 3
 			tipoDeUsuario = new Free
 		]
 		pedro = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			fechaDeNacimiento = LocalDateTime.of(2005, 01, 10, 0, 0)
 			esAntisocial = false
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
 		]
 		lucas = new Usuario() => [
-			direccion = new Point(1.0, 2.0)
+			direccion = lugar1
 			fechaDeNacimiento = LocalDateTime.of(2005, 10, 10, 0, 0)
 			esAntisocial = false
 			radioDeCercanía = 3
 			tipoDeUsuario = new Amateur
 		]
 		juan = new Usuario() => [
-			direccion = lugarGenerico
+			direccion = lugar1
 			fechaDeNacimiento = LocalDateTime.of(2005, 10, 10, 0, 0)
 			esAntisocial = false
 			radioDeCercanía = 3
@@ -149,23 +156,29 @@ class testUsuario {
 
 	@Test(expected=typeof(BusinessException))
 	def void TipoDeUsuarioCarlosPostergarEvento() {
-		Assert.assertTrue(carlos.tipoDeUsuario.puedoPostergarElEvento(casamiento3))
+		carlos.postergarEvento(casamiento3,LocalDateTime.of(2007, 10, 10, 10, 00))
+		Assert.assertTrue(casamiento3.fuePostergado)
 	}
 
 	@Test(expected=typeof(BusinessException))
 	def void TipoDeUsuarioCarlosCancelarElEvento() {
-		Assert.assertTrue(carlos.tipoDeUsuario.puedoCancelarElEvento(casamiento3))
+		carlos.cancelarEvento(casamiento3)
+		Assert.assertTrue(casamiento3.fueCancelado)
 	}
 
 	@Test
 	def void TipoDeUsuarioPedro() {
-		Assert.assertTrue(pedro.tipoDeUsuario.puedoCancelarElEvento(casamiento3))
-		Assert.assertTrue(pedro.tipoDeUsuario.puedoPostergarElEvento(casamiento3))
+		pedro.postergarEvento(casamiento3,LocalDateTime.of(2007, 10, 10, 10, 00))
+		Assert.assertTrue(casamiento3.fuePostergado)
+		pedro.cancelarEvento(casamiento3)
+		Assert.assertTrue(casamiento3.fueCancelado)
 	}
 
 	@Test
 	def void TipoDeUsuarioLucas() {
-		Assert.assertTrue(lucas.tipoDeUsuario.puedoCancelarElEvento(casamiento3))
-		Assert.assertTrue(lucas.tipoDeUsuario.puedoPostergarElEvento(casamiento3))
-	}
+		lucas.postergarEvento(casamiento3,LocalDateTime.of(2007, 10, 10, 10, 00))
+		Assert.assertTrue(casamiento3.fuePostergado)
+		lucas.cancelarEvento(casamiento3)
+		Assert.assertTrue(casamiento3.fueCancelado)
+		}
 }

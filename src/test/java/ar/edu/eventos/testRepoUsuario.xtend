@@ -10,6 +10,7 @@ import java.time.LocalDateTime
 class testRepoUsuario {
 	RepoUsuario repoUser
 	Point lugarUsuario = new Point(1.0, 2.0)
+	Locacion lugar1
 	Usuario Us1
 	Usuario Us2
 	Usuario Us3
@@ -18,13 +19,19 @@ class testRepoUsuario {
 	@Before
 	def void init() {
 	
+		lugar1 = new Locacion() => [
+			nombreDeLaLocacion ="asd"
+			ubicacion = new Point(4.0, 2.0)
+			validar()
+		]
+	
 		Us1 = new Usuario => [
 			nombreDeUsuario = "pepito"
 			nombre = "pepe"
 			apellido = "Pin"
 			email = "pepepin@gmail.com"
 			fechaDeNacimiento = LocalDateTime.of(2000,08,07,22,00)
-			direccion = lugarUsuario
+			direccion = lugar1
 			]
 		Us2 = new Usuario => [
 			nombreDeUsuario = "pepito"
@@ -32,14 +39,14 @@ class testRepoUsuario {
 			apellido = "Pin"
 			email = "pepepin@gmail.com"
 			fechaDeNacimiento = LocalDateTime.of(2000,08,07,22,00)
-			direccion = lugarUsuario
+			direccion = lugar1
 			]
 		Us3 = new Usuario => [ // no cumple aproposito con la validacion
 			nombreDeUsuario = "pepito"
 			apellido = "Pin"
 			email = "pepepin@gmail.com"
 			fechaDeNacimiento = LocalDateTime.of(2000,08,07,22,00)
-			direccion = lugarUsuario
+			direccion = lugar1
 			]
 		repoUser = new RepoUsuario
 	}
@@ -98,7 +105,7 @@ class testRepoUsuario {
 	def void updateUsuario() {
 		repoUser.create(Us1)
 		Us1.nombreDeUsuario = "coco"
-		Us1.direccion = lugargenerco
+		Us1.direccion = lugar1
 		repoUser.update(Us1)
 		Assert.assertEquals(lugargenerco, Us1.direccion)
 		Assert.assertEquals("coco", Us1.nombreDeUsuario)

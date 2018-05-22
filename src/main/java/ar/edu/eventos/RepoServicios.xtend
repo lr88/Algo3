@@ -1,22 +1,15 @@
 package ar.edu.eventos
-
+import org.uqbar.updateService.UpdateService
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 
 @Accessors
 class RepoServicios extends RepoGenerico<Servicio> {
 
+	UpdateService UpdateService
+	
 	override List<Servicio> search(String buscar) {
 		elementos.filter[servicio|servicio.descripcion.startsWith(buscar)].toList
-	}
-
-	override update(Servicio object) {
-		object.validar()
-		validarLaNoExistencia(object)
-		var servicio = searchById(object.id)
-		servicio.descripcion = object.descripcion
-		servicio.tarifaDelServicio = object.tarifaDelServicio
-		servicio.ubicacion = object.ubicacion
 	}
 	
 	def void loadServ(Servicio object) {
@@ -27,4 +20,17 @@ class RepoServicios extends RepoGenerico<Servicio> {
 			create(object)
 		}
 	}
+	
+	override updateAll() {
+		servJson.actualizarRepoServicio(UpdateService.getServiceUpdates())
+	}
+	
+	override actualizarDatos(Servicio serViejo, Servicio serNuevo) {
+		serViejo => [
+		descripcion = serNuevo.descripcion
+		tarifaDelServicio = serNuevo.tarifaDelServicio
+		ubicacion = serNuevo.ubicacion
+		]
+	}
+	
 }

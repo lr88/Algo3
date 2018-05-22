@@ -1,20 +1,29 @@
 package ar.edu.eventos
 
+import ar.edu.eventos.exceptions.BusinessException
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
-import ar.edu.eventos.exceptions.BusinessException
 
 @Accessors
 abstract class RepoGenerico<T extends Entidad> {
-
+	
 	List<T> elementos = newArrayList()
 	var EntityJsonParser servJson = new EntityJsonParser()
 	int proximoId = 0
-
-	abstract def void update(T object)
+	String stringUser
 
 	abstract def List<T> search(String value)
 
+	abstract def void updateAll()
+	
+    abstract def void actualizarDatos(T t, T t2)
+    
+    def void update(T object){
+    		object.validar()
+			validarLaNoExistencia(object)
+			this.actualizarDatos(searchById(object.id), object)	
+	}
+	
 	def create(T object) {
 		object.validar()
 		validarExistencia(object)
