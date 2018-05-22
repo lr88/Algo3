@@ -3,11 +3,23 @@ package ar.edu.eventos
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.uqbar.geodds.Point
 
-class testRepoGenerico { 
+import static org.mockito.Mockito.*
+
+class Asd {
+
+	def hola() {
+		"asdasdasdasdsad"
+	}
+}
+
+class testRepoGenerico {
 
 	EntityJsonParser ServicioExternoJson
-	
+
+	var String coco = "coco estya feliz"
+	var Locacion miCasa
 	var RepoUsuario RepoUsuario
 	var RepoServicios RepoServicios
 	var RepoLocacion RepoLocacion
@@ -17,15 +29,22 @@ class testRepoGenerico {
 
 	@Before
 	def void init() {
-	ServicioExternoJson = new EntityJsonParser
-	ServicioExternoJson.repositorioUsuarios = new RepoUsuario
-	ServicioExternoJson.repositorioServicios = new RepoServicios
-	ServicioExternoJson.repositorioLocacion = new RepoLocacion
-	RepoUsuario = ServicioExternoJson.repositorioUsuarios
-	RepoServicios = ServicioExternoJson.repositorioServicios
-	RepoLocacion= ServicioExternoJson.repositorioLocacion
-	
-			JSonUsuarios = '[  
+		
+		ServicioExternoJson = new EntityJsonParser
+		ServicioExternoJson.repositorioUsuarios = new RepoUsuario
+		ServicioExternoJson.repositorioServicios = new RepoServicios
+		ServicioExternoJson.repositorioLocacion = new RepoLocacion
+		RepoUsuario = ServicioExternoJson.repositorioUsuarios
+		RepoServicios = ServicioExternoJson.repositorioServicios
+		RepoLocacion = ServicioExternoJson.repositorioLocacion
+
+		miCasa = new Locacion() => [
+			nombreDeLaLocacion = "asd"
+			ubicacion = new Point(1.0, 2.0)
+			validar()
+		]
+
+		JSonUsuarios = '[  
    {  
       "nombreUsuario":"lucas_capo",
       "nombre":"Lucas",
@@ -92,14 +111,13 @@ class testRepoGenerico {
 
 	}
 
-	@Test
-	def testearUsuarioJson() {
-		ServicioExternoJson.actualizarRepoUsuarios(JSonUsuarios)
-		Assert.assertEquals(2, RepoUsuario.elementos.size)
-		Assert.assertTrue(RepoUsuario.elementos.get(0).apellido == "Lopez")
-
-	}
-
+//	@Test
+//	def testearUsuarioJson() {
+//		ServicioExternoJson.actualizarRepoUsuarios(JSonUsuarios)
+//		Assert.assertEquals(2, RepoUsuario.elementos.size)
+//		Assert.assertTrue(RepoUsuario.elementos.get(0).apellido == "Lopez")
+//
+//	}
 	@Test
 	def testearLocacionJson() {
 		ServicioExternoJson.actualizarRepoLocacion(JSonLocaciones)
@@ -114,6 +132,14 @@ class testRepoGenerico {
 		Assert.assertEquals(1, RepoServicios.elementos.size)
 		Assert.assertTrue(RepoServicios.elementos.get(0).descripcion == "Catering Food Party")
 
+	}
+
+	@Test
+	def void testSePuedeMockearUnServicioJson() {
+		var rerer = mock(typeof(Asd))
+		when(rerer.hola()).thenReturn(coco)
+		print(rerer.hola())
+		Assert.assertEquals(0,0,0)
 	}
 
 }
