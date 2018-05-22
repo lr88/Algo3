@@ -135,11 +135,18 @@ class testRepoGenerico {
 	}
 
 	@Test
-	def void testSePuedeMockearUnServicioJson() {
+	def void cocoestafeliz() {
 		var rerer = mock(typeof(Asd))
 		when(rerer.hola()).thenReturn(coco)
 		print(rerer.hola())
 		Assert.assertEquals(0,0,0)
+	}
+	
+	@Test
+	def void testSePuedeMockearUnServicioJson() {
+		var locacion =  mock(typeof(RepoLocacion))
+		when(locacion.updateAll()).thenReturn(JSonLocaciones)
+		Assert.assertEquals(locacion.updateAll(),JSonLocaciones)
 	}
 
 }
