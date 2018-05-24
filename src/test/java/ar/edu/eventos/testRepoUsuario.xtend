@@ -9,20 +9,29 @@ import java.time.LocalDateTime
 
 class testRepoUsuario {
 	RepoUsuario repoUser
-	Point lugarUsuario = new Point(1.0, 2.0)
+	Locacion lugarUsuario
 	Locacion lugar1
 	Usuario Us1
 	Usuario Us2
 	Usuario Us3
-	var Point lugargenerco = new Point(20.0, 55.0)
+	Locacion lugargenerico
 
 	@Before
 	def void init() {
 	
 		lugar1 = new Locacion() => [
-			nombreDeLaLocacion ="asd"
+			nombreDeLaLocacion ="lugar1"
 			ubicacion = new Point(4.0, 2.0)
-			validar()
+		]
+		
+		lugargenerico = new Locacion() => [
+			nombreDeLaLocacion ="lugargenerico"
+			ubicacion = new Point(20.0, 55.0)
+		]
+		
+		lugarUsuario = new Locacion() => [
+			nombreDeLaLocacion ="lugarUsuario"
+			ubicacion = new Point(1.0, 2.0)
 		]
 	
 		Us1 = new Usuario => [
@@ -31,7 +40,7 @@ class testRepoUsuario {
 			apellido = "Pin"
 			email = "pepepin@gmail.com"
 			fechaDeNacimiento = LocalDateTime.of(2000,08,07,22,00)
-			direccion = lugar1
+			direccion = lugarUsuario
 			]
 		Us2 = new Usuario => [
 			nombreDeUsuario = "pepito"
@@ -42,7 +51,7 @@ class testRepoUsuario {
 			direccion = lugar1
 			]
 		Us3 = new Usuario => [ // no cumple aproposito con la validacion
-			nombreDeUsuario = "pepito"
+			nombreDeUsuario = ""
 			apellido = "Pin"
 			email = "pepepin@gmail.com"
 			fechaDeNacimiento = LocalDateTime.of(2000,08,07,22,00)
@@ -107,7 +116,7 @@ class testRepoUsuario {
 		Us1.nombreDeUsuario = "coco"
 		Us1.direccion = lugar1
 		repoUser.update(Us1)
-		Assert.assertEquals(lugargenerco, Us1.direccion)
+		Assert.assertEquals(lugar1, Us1.direccion)
 		Assert.assertEquals("coco", Us1.nombreDeUsuario)
 	}
 

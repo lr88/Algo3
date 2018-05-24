@@ -111,13 +111,14 @@ class testRepoGenerico {
 
 	}
 
-//	@Test
-//	def testearUsuarioJson() {
-//		ServicioExternoJson.actualizarRepoUsuarios(JSonUsuarios)
-//		Assert.assertEquals(2, RepoUsuario.elementos.size)
-//		Assert.assertTrue(RepoUsuario.elementos.get(0).apellido == "Lopez")
-//
-//	}
+	@Test
+	def testearUsuarioJson() {
+		ServicioExternoJson.actualizarRepoUsuarios(JSonUsuarios)
+		Assert.assertEquals(2, RepoUsuario.elementos.size)
+		Assert.assertTrue(RepoUsuario.elementos.get(0).apellido == "Lopez")
+
+	}
+
 	@Test
 	def testearLocacionJson() {
 		ServicioExternoJson.actualizarRepoLocacion(JSonLocaciones)
@@ -130,6 +131,9 @@ class testRepoGenerico {
 	def testearServicioJson() {
 		ServicioExternoJson.actualizarRepoServicio(JSonServicios)
 		Assert.assertEquals(1, RepoServicios.elementos.size)
+		
+		
+		
 		Assert.assertTrue(RepoServicios.elementos.get(0).descripcion == "Catering Food Party")
 
 	}

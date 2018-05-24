@@ -32,9 +32,10 @@ class EventoCerrado extends Evento {
 	private def cantidadDeInvitaciones() {
 		invitaciones.size()
 	}
-	private def int cantidadDeInvitacionesAceptadas() {
+	public def int cantidadDeInvitacionesAceptadas() {
 		listaDeInvitacionesAceptadas.size()
 	}
+	
 	private def listaDeInvitacionesAceptadas() {
 		invitaciones.filter[invitaciones|invitaciones.estadoAceptado]
 	}

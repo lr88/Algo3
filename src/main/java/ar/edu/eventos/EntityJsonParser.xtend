@@ -4,6 +4,10 @@ import com.eclipsesource.json.Json
 import com.eclipsesource.json.JsonObject
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.geodds.Point
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.LocalDate
+import javax.swing.text.DateFormatter
 
 @Accessors
 class EntityJsonParser {
@@ -11,8 +15,10 @@ class EntityJsonParser {
 	var RepoUsuario repositorioUsuarios 
 	var RepoLocacion repositorioLocacion
 	var RepoServicios repositorioServicios
-	
-	
+	var LocalDateTime asd
+	var String date
+	DateTimeFormatter formatter
+	LocalDate dateTime
 	
 	public def actualizarRepoUsuarios(String json) {
 	Json.parse(json).asArray.forEach[arrays| parsearUsuario(arrays.asObject)]
@@ -25,11 +31,23 @@ class EntityJsonParser {
 	}
 	
 	private def Usuario parsearUsuario(JsonObject json) {
+		
+			
+			formatter = DateTimeFormatter.ofPattern ( "uuuu/MM/DD" )
+			dateTime = LocalDate.parse (json.get("fechaNacimiento").asString, formatter );
+
+
+//			date = json.get("fechaNacimiento").asString
+//			print(date)
+//			asd = LocalDateTime.parse(date);
+			print(dateTime)
+			
 			var Usuario nuevoUsuario = new Usuario() => [
 			nombreDeUsuario = (json.get("nombreUsuario").asString)
 			nombre = (json.get("nombre").asString)
 			apellido = (json.get("apellido").asString)
 			email = (json.get("email").asString)
+			
 			direccion = new Locacion => [
 			ubicacion = new Point((json.get("direccion").asObject.get("coordenadas").asObject.get("x").asDouble), 
 			(json.get("direccion").asObject.get("coordenadas").asObject.get("y").asDouble))
@@ -37,8 +55,8 @@ class EntityJsonParser {
 			numero = (json.get("direccion").asObject.get("numero").asInt)
 			localidad = (json.get("direccion").asObject.get("localidad").asString)
 			provincia = (json.get("direccion").asObject.get("provincia").asString)
-			]
-			]
+			nombreDeLaLocacion = calle +(json.get("direccion").asObject.get("numero").asInt).toString + localidad + provincia
+			]]
 			repositorioUsuarios.loadUser(nuevoUsuario)
 		return nuevoUsuario
 	}

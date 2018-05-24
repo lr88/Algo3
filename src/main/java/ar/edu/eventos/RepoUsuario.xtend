@@ -22,6 +22,7 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 	
 	override updateAll() {
 		servJson.actualizarRepoUsuarios(UpdateService.getUserUpdates())
+		UpdateService.getUserUpdates()
 	}
 	
 	override actualizarDatos(Usuario usuarioViejo, Usuario usuarioNuevo) {

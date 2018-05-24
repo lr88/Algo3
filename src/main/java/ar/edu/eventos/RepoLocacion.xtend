@@ -10,7 +10,7 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 	override List<Locacion> search(String buscar) {
 		elementos.filter[locacion|locacion.nombreDeLaLocacion == locacion.nombreDeLaLocacion.indexOf(buscar)].toList
 	}
-	
+	 
 	def void loadLocac(Locacion object) {
 		if(elementos.map(elem | elem.nombreDeLaLocacion).contains(object.nombreDeLaLocacion)){
 			update(object)

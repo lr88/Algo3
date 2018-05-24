@@ -171,6 +171,14 @@ class testEventosCerrado {
 		Organizador3.invitarAUnUsuario(persona4, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona5, 5, evento1)
 		Organizador3.invitarAUnUsuario(persona6, 5, evento1)
+		
+		persona1.invitaciones.forEach[inv | persona1.aceptarInvitacion(inv,2)]
+		persona2.invitaciones.forEach[inv | persona1.aceptarInvitacion(inv,2)]
+		persona3.invitaciones.forEach[inv | persona1.aceptarInvitacion(inv,2)]
+		persona4.invitaciones.forEach[inv | persona1.aceptarInvitacion(inv,2)]
+		persona5.invitaciones.forEach[inv | persona1.aceptarInvitacion(inv,2)]
+		persona6.invitaciones.forEach[inv | persona1.aceptarInvitacion(inv,2)]
+		
 
 
 	}
@@ -223,8 +231,24 @@ class testEventosCerrado {
 	}
 
 	@Test
-	def void listaDeTodosMisEventos() {
+	def void CantidadDeTodosMisEventos() {
 		Assert.assertEquals(1, Organizador3.eventos.size)
+	}
+
+	@Test
+	def void listaDeTodaslasinvitaciones() {
+		Assert.assertEquals(1,evento0.invitaciones.size)
+		Assert.assertEquals(5,evento1.invitaciones.size)
+		Assert.assertEquals(0,evento2.invitaciones.size)
+		Assert.assertEquals(0,evento3.invitaciones.size)
+	}
+	
+	@Test
+	def void listaDeTodaslasinvitacionesAceptadas() {
+		Assert.assertEquals(1,evento0.cantidadDeInvitacionesAceptadas)
+		Assert.assertEquals(5,evento1.cantidadDeInvitacionesAceptadas)
+		Assert.assertEquals(0,evento2.cantidadDeInvitacionesAceptadas)
+		Assert.assertEquals(0,evento3.cantidadDeInvitacionesAceptadas)
 	}
 
 	@Test
@@ -240,7 +264,7 @@ class testEventosCerrado {
 	@Test
 	def void aceptacionMasiva() {
 		persona1.aceptacionMasiva
-		Assert.assertEquals(1, persona1.listaDeTodosMisInvitacionesAceptadas.size)
+		Assert.assertEquals(2, persona1.listaDeTodosMisInvitacionesAceptadas.size)
 		Assert.assertEquals(0, persona1.listaDeTodosMisInvitacionesRechazadas.size)
 		Assert.assertEquals(2, persona1.listaDeTodosMisInvitacionesPendientes.size)
 	}

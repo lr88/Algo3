@@ -50,7 +50,7 @@ class Free implements TipoDeUsuario {
 	}}
 
 	def validarcantidadDeInvitados(Evento unEvento, Usuario unUsuario) {
-		if (!(unEvento.cantidadDePersonasQueAsisten > maximoDePersonasPorEvento)) {
+		if (!(unEvento.cantidadDePersonasQueAsisten < maximoDePersonasPorEvento)) {
 			throw new BusinessException("Superas la cantidad maxima de invitados")
 		}
 	}
