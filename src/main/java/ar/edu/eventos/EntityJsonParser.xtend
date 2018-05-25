@@ -32,22 +32,16 @@ class EntityJsonParser {
 	
 	private def Usuario parsearUsuario(JsonObject json) {
 		
-			
-			formatter = DateTimeFormatter.ofPattern ( "uuuu/MM/DD" )
-			dateTime = LocalDate.parse (json.get("fechaNacimiento").asString, formatter );
-
-
-//			date = json.get("fechaNacimiento").asString
-//			print(date)
-//			asd = LocalDateTime.parse(date);
-			print(dateTime)
+		val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+		val LocalDate date = LocalDate.parse(json.get("fechaNacimiento").asString, formatter)
+		val LocalDateTime time = date.atTime(0, 0)
 			
 			var Usuario nuevoUsuario = new Usuario() => [
 			nombreDeUsuario = (json.get("nombreUsuario").asString)
 			nombre = (json.get("nombre").asString)
 			apellido = (json.get("apellido").asString)
 			email = (json.get("email").asString)
-			
+			fechaDeNacimiento = time
 			direccion = new Locacion => [
 			ubicacion = new Point((json.get("direccion").asObject.get("coordenadas").asObject.get("x").asDouble), 
 			(json.get("direccion").asObject.get("coordenadas").asObject.get("y").asDouble))
