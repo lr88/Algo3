@@ -13,7 +13,6 @@ class testUsuario {
 	Usuario lucas
 	Usuario juan
 	Locacion lugar1
-	Point lugarGenerico = new Point(20, 2.0)
 	Locacion miCasa
 	Locacion complejo1
 	EventoCerrado casamiento

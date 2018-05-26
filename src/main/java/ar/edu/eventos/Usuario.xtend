@@ -191,7 +191,7 @@ class Usuario implements Entidad {
 		eventos.add(evento)
 	}
 	
-	override validar() {
+	override void validar() {
 		this.validarNombreDeUsuario()
 		this.validarNombre()
 		this.validarApellido()
@@ -227,14 +227,13 @@ class Usuario implements Entidad {
 	public def void pagarEntrada(Entrada entrada,TipoDePago moneda) {
 		moneda.pagarEntrada(this,entrada)
 		agregarEntrada(entrada)
-		
 	}
 	
 	public def void agregarInvitacion(Invitacion invitacion) {
 		invitaciones.add(invitacion)
 	}
 	
-	def sumarDinero(double dinero) {
+	public def void sumarDinero(double dinero) {
 		plataQueTengo = plataQueTengo + dinero
 	}
 	

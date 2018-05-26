@@ -4,7 +4,7 @@ import ar.edu.eventos.exceptions.BusinessException
 
 interface TipoDePago {
 	def void pagarEntrada(Usuario unUsuario,Entrada entrada)
-	def void asd(Usuario unUsuario,Entrada entrada){
+	def void methodForUser(Usuario unUsuario,Entrada entrada){
 		validarDineroSuficiente(unUsuario,entrada)
 		unUsuario.sumarDinero(-entrada.valorDeLaEntrada)
 	}
@@ -16,7 +16,7 @@ class tarjeta implements TipoDePago{
 
 	override pagarEntrada(Usuario unUsuario,Entrada entrada){
 		validarDatosDeLaTarjeta(unUsuario)
-		asd(unUsuario,entrada)
+		methodForUser(unUsuario,entrada)
 		estadoDeLaTransaccion()
 	}
 	def validarDatosDeLaTarjeta(Usuario unUsuario) {
@@ -41,8 +41,7 @@ class tarjeta implements TipoDePago{
 class Efectivo implements TipoDePago{
 	
 	override pagarEntrada(Usuario unUsuario,Entrada entrada){
-		validarDineroSuficiente(unUsuario,entrada)
-		unUsuario.sumarDinero(-entrada.valorDeLaEntrada)
+		methodForUser(unUsuario,entrada)
 	}
 	
 	override validarDineroSuficiente(Usuario usuario, Entrada entrada) {
