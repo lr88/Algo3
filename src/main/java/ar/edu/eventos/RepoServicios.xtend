@@ -6,13 +6,13 @@ import java.util.List
 @Accessors
 class RepoServicios extends RepoGenerico<Servicio> {
 
-	UpdateService UpdateService
+	private UpdateService UpdateService
 	
 	override List<Servicio> search(String buscar) {
 		elementos.filter[servicio|servicio.descripcion.startsWith(buscar)].toList
 	}
 	
-	def void loadServ(Servicio object) {
+	public def void loadServ(Servicio object) {
 		if(elementos.map(elem | elem.descripcion).contains(object.descripcion)){
 			update(object)
 		}

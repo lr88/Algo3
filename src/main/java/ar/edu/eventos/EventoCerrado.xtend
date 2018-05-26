@@ -54,7 +54,7 @@ class EventoCerrado extends Evento {
 	public override void tipoDeEventoPostergate() {
 		invitaciones.forEach[invitacion|invitacion.postergarEvento()]
 	}
-	public def invitarAUnUsiario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes) {
+	public def invitarAUnUsuario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes) {
 		validarAsistentesVSAcompañantesParaInvitarAAlguien(unaCantidadMaximaDeAcompañantes)
 		var Invitacion unaInvitacion = new Invitacion(unUsuario, unaCantidadMaximaDeAcompañantes, this)
 		unaInvitacion.invitarUsiario

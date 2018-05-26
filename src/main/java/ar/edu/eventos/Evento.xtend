@@ -11,16 +11,16 @@ import ar.edu.eventos.exceptions.BusinessException
 @Accessors
 abstract class Evento {
 
-	LocalDateTime fechaMaximaDeConfirmacion
-	LocalDateTime fechaDeInicioDelEvento
-	LocalDateTime fechaDeFinDelEvento
-	Set<Servicio> servicios = new HashSet()
-	String nombre
-	Locacion locacion
-	Usuario organizador
-	var Boolean fuePostergado = false
-	var Boolean fueCancelado = false
-	var Boolean enProceso = true
+	protected LocalDateTime fechaMaximaDeConfirmacion
+	protected LocalDateTime fechaDeInicioDelEvento
+	protected LocalDateTime fechaDeFinDelEvento
+	protected Set<Servicio> servicios = new HashSet()
+	protected String nombre
+	protected Locacion locacion
+	protected Usuario organizador
+	protected var Boolean fuePostergado = false
+	protected var Boolean fueCancelado = false
+	protected var Boolean enProceso = true
 
 	private def void coherenciaFechaDeConfirmacion() {
 		if (!(fechaMaximaDeConfirmacion < fechaDeInicioDelEvento)) {

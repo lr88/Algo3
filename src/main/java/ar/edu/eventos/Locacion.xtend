@@ -7,21 +7,21 @@ import org.eclipse.xtend.lib.annotations.Accessors
 @Accessors
 class Locacion implements Entidad {
     
-	var int id
-	Point ubicacion 
-	var String nombreDeLaLocacion
-	var double distribucionM2PorPersona = 0.8
-	var double superficieM2
-	var String calle 
-	var int numero
-	var String localidad
-	var String provincia 
+	protected var int id
+	protected Point ubicacion 
+	protected var String nombreDeLaLocacion
+	protected var double distribucionM2PorPersona = 0.8
+	protected var double superficieM2
+	protected var String calle 
+	protected var int numero
+	protected var String localidad
+	protected var String provincia 
 		
-	def distancia(Point unaDirecion) {
+	public def double distancia(Point unaDirecion) {
 		ubicacion.distance(unaDirecion)
 	}
 
-	def double capacidadMaxima() {
+	public def double capacidadMaxima() {
 		superficieM2 / distribucionM2PorPersona
 	}
 	
@@ -30,13 +30,13 @@ class Locacion implements Entidad {
 		validarUbicacion()
 	}
 	
-	def validarUbicacion() {
+	private def void validarUbicacion() {
 		if(ubicacion === null ){
 			throw new BusinessException("No podes crear una locacion sin una Ubicacion")
 		}
 	}
 	
-	def validarDescripcion() {
+	private def void validarDescripcion() {
 		if(nombreDeLaLocacion === null || nombreDeLaLocacion.length == 0){
 			throw new BusinessException("No podes crear una Locacion sin Descripcion")
 		}
