@@ -21,19 +21,19 @@ class Free implements TipoDeUsuario {
 	private int maximoDePersonasPorEvento = 50
 	private int maximoDeEventosMensuales = 3
 
-	override puedoCancelarElEvento(Evento evento) {
+	public override void puedoCancelarElEvento(Evento evento) {
 		throw new BusinessException("No podes Cancelar Eventos")
 	}
 
-	override puedoPostergarElEvento(Evento evento) {
+	public override void puedoPostergarElEvento(Evento evento) {
 		throw new BusinessException("No podes postergar Eventos")
 	}
 
-	override puedoOrganizarEventoAbierto(Evento unEvento, Usuario unUsuario) {
+	public override void puedoOrganizarEventoAbierto(Evento unEvento, Usuario unUsuario) {
 		throw new BusinessException("No podes organizar Eventos Abiertos")
 	}
 
-	override puedoOrganizarelEventoCerrado(Evento unEvento, Usuario unUsuario) {
+	public override void puedoOrganizarelEventoCerrado(Evento unEvento, Usuario unUsuario) {
 		validarEventosEsteMes(unEvento, unUsuario)
 		validarEventosactivos(unEvento, unUsuario)
 		validarcantidadDeInvitados(unEvento, unUsuario)
@@ -62,19 +62,19 @@ class Amateur implements TipoDeUsuario {
 	private int  maximoDeInvitacionesPorEvento = 50
 	private int cantidadMaximaPermitidaDeSimultaneidadDeEventos = 5
 
-	override puedoCancelarElEvento(ar.edu.eventos.Evento evento) {
+	public override void puedoCancelarElEvento(ar.edu.eventos.Evento evento) {
 	}
 
-	override puedoPostergarElEvento(ar.edu.eventos.Evento evento) {
+	public override void puedoPostergarElEvento(ar.edu.eventos.Evento evento) {
 	}
 
-	override puedoOrganizarEventoAbierto(Evento unEvento, Usuario unUsuario) {
+	public override void puedoOrganizarEventoAbierto(Evento unEvento, Usuario unUsuario) {
 		if (!(unUsuario.eventosActivos() < cantidadMaximaPermitidaDeSimultaneidadDeEventos)) {
 			throw new BusinessException("Por Ser de tipo Amateur no podes organizar este Evento")
 		}
 	}
 
-	override puedoOrganizarelEventoCerrado(Evento unEvento, Usuario unUsuario) {
+	public override void puedoOrganizarelEventoCerrado(Evento unEvento, Usuario unUsuario) {
 		if (!(unUsuario.eventosActivos() < cantidadMaximaPermitidaDeSimultaneidadDeEventos &&
 			unEvento.cantidadDePersonasQueAsisten() < maximoDeInvitacionesPorEvento)) {
 			throw new BusinessException("Por Ser de tipo Amateur no podes organizar este Evento")
@@ -87,19 +87,19 @@ class Profesional implements TipoDeUsuario {
 
 	private int maximoDeEventosMensuales = 20
 
-	override puedoCancelarElEvento(Evento evento) {
+	public override void puedoCancelarElEvento(Evento evento) {
 	}
 
-	override puedoPostergarElEvento(Evento evento) {
+	public override void puedoPostergarElEvento(Evento evento) {
 	}
 
-	override puedoOrganizarEventoAbierto(Evento unEvento,Usuario unUsuario) {
+	public override void puedoOrganizarEventoAbierto(Evento unEvento,Usuario unUsuario) {
 		if (!(unUsuario.cantidadDeEventosEnEsteMes(unEvento) < maximoDeEventosMensuales)) {
 			throw new BusinessException("Por Ser de tipo Profesional no podes organizar este Evento")
 		}
 	}
 
-	override puedoOrganizarelEventoCerrado(Evento unEvento, Usuario unUsuario) {
+	public override void puedoOrganizarelEventoCerrado(Evento unEvento, Usuario unUsuario) {
 		if (!(unUsuario.cantidadDeEventosEnEsteMes(unEvento) < maximoDeEventosMensuales)) {
 			throw new BusinessException("Por Ser de tipo Profesional no podes organizar este Evento")
 		}

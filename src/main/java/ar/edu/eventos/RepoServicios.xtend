@@ -21,12 +21,12 @@ class RepoServicios extends RepoGenerico<Servicio> {
 		}
 	}
 	
-	override updateAll() {
+	override String updateAll() {
 		servJson.actualizarRepoServicio(UpdateService.getServiceUpdates())
 		UpdateService.getServiceUpdates()
 	}
 	
-	override actualizarDatos(Servicio serViejo, Servicio serNuevo) {
+	override void actualizarDatos(Servicio serViejo, Servicio serNuevo) {
 		serViejo => [
 		descripcion = serNuevo.descripcion
 		tarifaDelServicio = serNuevo.tarifaDelServicio

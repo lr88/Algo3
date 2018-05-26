@@ -14,18 +14,18 @@ abstract class RepoGenerico<T extends Entidad> {
 	protected abstract def List<T> search(String value)
 
 	protected abstract def String updateAll()
-	
-    protected abstract def void actualizarDatos(T t, T t2)
-    
-    protected def void update(T object){
-    		object.validar()
-		validaciones.validarLaNoExistenciaID(object,this)
-		this.actualizarDatos(searchById(object.id), object)	
+
+	protected abstract def void actualizarDatos(T t, T t2)
+
+	protected def void update(T object) {
+		object.validar()
+		validaciones.validarLaNoExistenciaID(object, this)
+		this.actualizarDatos(searchById(object.id), object)
 	}
-	
+
 	protected def void create(T object) {
 		object.validar()
-		validaciones.validarLaExistenciaID(object,this)
+		validaciones.validarLaExistenciaID(object, this)
 		elementos.add(object)
 		proximoId++
 		object.setId(proximoId)
@@ -42,7 +42,5 @@ abstract class RepoGenerico<T extends Entidad> {
 	public def boolean existeElid(T object) {
 		elementos.exists[elemento|elemento.id == object.id]
 	}
-
-	
 
 }

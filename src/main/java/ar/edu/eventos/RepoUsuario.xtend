@@ -8,7 +8,7 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 
 	private UpdateService UpdateService
 	
-	override List<Usuario> search(String buscar) {
+	protected override List<Usuario> search(String buscar) {
 	  elementos.filter[usuario|usuario.nombre == usuario.nombre.indexOf(buscar) || usuario.apellido == usuario.apellido.indexOf(buscar)|| usuario.nombreDeUsuario.equals(buscar) ].toList 
 	}
 
@@ -21,12 +21,12 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 		}
 	}
 	
-	override updateAll() {
+	protected override String updateAll() {
 		servJson.actualizarRepoUsuarios(UpdateService.getUserUpdates())
 		UpdateService.getUserUpdates()
 	}
 	
-	override actualizarDatos(Usuario usuarioViejo, Usuario usuarioNuevo) {
+	protected override void actualizarDatos(Usuario usuarioViejo, Usuario usuarioNuevo) {
 		usuarioViejo=>[
 		usuarioViejo.nombreDeUsuario = usuarioNuevo.nombreDeUsuario
 		usuarioViejo.nombre = usuarioNuevo.nombre

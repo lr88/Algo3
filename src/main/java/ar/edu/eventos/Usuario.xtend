@@ -30,11 +30,11 @@ class Usuario implements Entidad {
 	protected TipoDeUsuario tipoDeUsuario
 	protected int cantidadDeAcompañantes
 	
-	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada,TipoDePago moneda) {
+	public def void comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada,TipoDePago moneda) {
 		unEvento.adquirirEntrada(this,unaEntrada,moneda)
 	}
 
-	private  def void agregarEntrada(Entrada entrada) {
+	private def void agregarEntrada(Entrada entrada) {
 		entrada.usuario = this
 		entradas.add(entrada)
 	}
@@ -51,11 +51,11 @@ class Usuario implements Entidad {
 		amigos.remove(unUsuario)
 	}
 
-	public def edad() {
+	public def long edad() {
 		Duration.between(fechaDeNacimiento, LocalDateTime.now).toDays/360
 	}
 
-	public def double cantidadDeEventosEnEsteMes(Evento unEvento){
+	public def int cantidadDeEventosEnEsteMes(Evento unEvento){
 		eventos.filter[evento|evento.fechaDeInicioDelEvento.getMonth == unEvento.fechaDeInicioDelEvento.getMonth && evento.fechaDeInicioDelEvento.getYear == unEvento.fechaDeInicioDelEvento.getYear].size
 	}
 	
@@ -77,15 +77,12 @@ class Usuario implements Entidad {
 	}
     
 	public def void invitarAUnUsuario(Usuario unUsuario, int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento) { 
-		if(unEvento.organizador == this){
-			unEvento.invitarAUnUsuario(unUsuario,unaCantidadMaximaDeAcompañantes)
-			}
-			else{
+		if(!(unEvento.organizador == this)){
 			throw new BusinessException("No se puede crear invitacion, no sos el organizador del evento")
-		}
+			}
+		unEvento.invitarAUnUsuario(unUsuario,unaCantidadMaximaDeAcompañantes)
 	}
 	
-
   	public def void aceptarInvitacion(Invitacion unaInvitacion,int unaCantidadDeAcompañantes){
 		validarTiempoParaConfirmar(unaInvitacion)
 		validarCantidadDeAcompañantes(unaInvitacion,unaCantidadDeAcompañantes)
@@ -157,15 +154,15 @@ class Usuario implements Entidad {
 		(esElOrganizadorMiAmigo(inv) && asistenMasDeTantosAmigos(inv,1)) || !asistenMasDeTantosAmigos(inv,2) || !meQuedaSerca(inv)
 	}
 
-	public def listaDeTodosMisInvitacionesRechazadas(){
+	public def Iterable<Invitacion> listaDeTodosMisInvitacionesRechazadas(){
 		invitaciones.filter[ invitacion | invitacion.estadoRechazado == true]
 	}
 	
-	public def listaDeTodosMisInvitacionesAceptadas(){
+	public def Iterable<Invitacion> listaDeTodosMisInvitacionesAceptadas(){
 		invitaciones.filter[ invitacion | invitacion.estadoAceptado == true]
 	}
 	
-	public def listaDeTodosMisInvitacionesPendientes(){
+	public def Iterable<Invitacion> listaDeTodosMisInvitacionesPendientes(){
 		invitaciones.filter[ invitacion | invitacion.estadoPendiente == true]
 	}
 	
@@ -191,7 +188,7 @@ class Usuario implements Entidad {
 		eventos.add(evento)
 	}
 	
-	override void validar() {
+	public override void validar() {
 		this.validarNombreDeUsuario()
 		this.validarNombre()
 		this.validarApellido()

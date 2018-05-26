@@ -20,12 +20,12 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 		}
 	}
 	
-	override updateAll() {
+	override String updateAll() {
 		servJson.actualizarRepoLocacion(UpdateService.getLocationUpdates())
 		UpdateService.getLocationUpdates()
 	}
 	
-	override actualizarDatos(Locacion locacionVieja, Locacion locacionNueva) {
+	override void actualizarDatos(Locacion locacionVieja, Locacion locacionNueva) {
 		locacionVieja => [
 			nombreDeLaLocacion = locacionNueva.nombreDeLaLocacion
 			ubicacion = locacionNueva.ubicacion

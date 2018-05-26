@@ -3,26 +3,27 @@ package ar.edu.eventos
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import ar.edu.eventos.exceptions.BusinessException
+import ar.edu.eventos.exceptions.Validar
 
 @Accessors
 class Servicio implements Entidad {
-	
+	protected Validar validarcion = new Validar
 	private var int id
 	private var String descripcion
-	private TipoDeTarifa tarifaDelServicio 
+	private TipoDeTarifa tarifaDelServicio
 	private Locacion ubicacion
 	private var double tarifaPorKilometro
 
 	public def double costoDelServicio(Evento unEvento) {
-		
+
 		tarifaDelServicio.costo(unEvento) + this.costoDetraslado(unEvento)
 	}
 
- 	private def double costoDetraslado(Evento unEvento) {
+	private def double costoDetraslado(Evento unEvento) {
 		tarifaPorKilometro * unEvento.distancia(ubicacion.ubicacion)
 	}
 
-	override validar() {
+	override void validar() {
 		validarDescripcion()
 		validarTarifa()
 		validarUbicacion()
@@ -35,15 +36,11 @@ class Servicio implements Entidad {
 	}
 
 	private def void validarTarifa() {
-		if (tarifaDelServicio === null) {
-			throw new BusinessException("No podes crear un servicio sin una Tarifa")
-		}
+		validarcion.validarObjetoNoNulo(tarifaDelServicio, "una Tarifa")
 	}
 
 	private def void validarDescripcion() {
-		if (descripcion === null || descripcion.length == 0) {
-			throw new BusinessException("No podes crear un servicio sin una descripcion")
-		}
+		validarcion.validarStringNoNulo(descripcion, "una descripcion")
 	}
 
 	override getId() {
