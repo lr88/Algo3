@@ -13,10 +13,10 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 
 	def void loadUser(Usuario usuario) {
 		if(elementos.map(elem | elem.apellido+elem.nombre).contains(usuario.apellido+usuario.nombre)){
-			update(usuario)
+			update(usuario)// si existe el nombre de la persona
 		}
 		else{
-			create(usuario)
+			create(usuario)// si no existe el nombre de la persona
 		}
 	}
 	

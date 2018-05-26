@@ -1,16 +1,15 @@
 package ar.edu.eventos
 
-import ar.edu.eventos.exceptions.BusinessException
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.eventos.exceptions.Validar
 
 @Accessors
 abstract class RepoGenerico<T extends Entidad> {
-	
+	Validar validaciones = new Validar
 	List<T> elementos = newArrayList()
 	var EntityJsonParser servJson = new EntityJsonParser()
 	int proximoId = 0
-	String stringUser
 
 	abstract def List<T> search(String value)
 
@@ -20,13 +19,13 @@ abstract class RepoGenerico<T extends Entidad> {
     
     def void update(T object){
     		object.validar()
-			validarLaNoExistencia(object)
-			this.actualizarDatos(searchById(object.id), object)	
+		validaciones.validarLaNoExistenciaID(object,this)
+		this.actualizarDatos(searchById(object.id), object)	
 	}
 	
 	def create(T object) {
 		object.validar()
-		validarExistencia(object)
+		validaciones.validarLaExistenciaID(object,this)
 		elementos.add(object)
 		proximoId++
 		object.setId(proximoId)
@@ -40,20 +39,10 @@ abstract class RepoGenerico<T extends Entidad> {
 		elementos.findFirst[elem|elem.id == id]
 	}
 
-	protected def boolean existeElid(T object) {
+	public def boolean existeElid(T object) {
 		elementos.exists[elemento|elemento.id == object.id]
 	}
 
-	protected def validarExistencia(T object) {
-		if (existeElid(object)) {
-			throw new BusinessException("El elemento ya existe en el Repositorio")
-		}
-	}
-
-	protected def validarLaNoExistencia(T object) {
-		if (!existeElid(object)) {
-			throw new BusinessException("El elemento no existe en el Repositorio")
-		}
-	}
+	
 
 }

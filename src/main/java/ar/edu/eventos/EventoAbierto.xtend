@@ -15,9 +15,9 @@ class EventoAbierto extends Evento {
 	private Set<Entrada> entradas = new HashSet()
 	private int edadMinima
 
-	public def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
+	public def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada,TipoDePago moneda) {
 			validarLaAdquisicionDeUnaEntrada(unUsuario)
-			unUsuario.pagarEntrada(unaEntrada)
+			unUsuario.pagarEntrada(unaEntrada,moneda)
 			agregarEntrada(unaEntrada)
 	}
 	private def void validarLaAdquisicionDeUnaEntrada(Usuario unUsuario){

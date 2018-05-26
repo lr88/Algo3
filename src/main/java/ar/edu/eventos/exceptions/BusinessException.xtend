@@ -1,7 +1,9 @@
 package ar.edu.eventos.exceptions
+import ar.edu.eventos.Entidad
+import ar.edu.eventos.RepoGenerico
 
 class BusinessException extends RuntimeException {
-	
+
 	new(String msg) {
 		super(msg)
 	}
@@ -14,6 +16,18 @@ class Validar {
 			throw new BusinessException("No podes crear un Objeto sin " + nombrePropiedad)
 		}
 	}
+	
+	public def validarLaExistenciaID(Entidad objeto, RepoGenerico generico) {
+		if (generico.existeElid(objeto)) {
+			throw new BusinessException("El elemento ya existe en el Repositorio")
+		}
+	}
+	def validarLaNoExistenciaID(Entidad objeto, RepoGenerico generico) {
+		if (!generico.existeElid(objeto)) {
+			throw new BusinessException("El elemento no existe en el Repositorio")
+		}
+	}
+	
 	def validarStringNoNulo(String unString,String nombrePropiedad) {
 		if(unString.length === 0){
 			throw new BusinessException("No podes crear un Objeto sin " + nombrePropiedad)
@@ -28,6 +42,7 @@ class Validar {
 			throw new BusinessException("No podes crear un Objeto sin " + nombrePropiedad)
 		}
 	}
+	
 	
 	
 }

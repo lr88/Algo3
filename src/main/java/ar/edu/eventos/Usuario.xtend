@@ -30,8 +30,8 @@ class Usuario implements Entidad {
 	TipoDeUsuario tipoDeUsuario
 	int cantidadDeAcompañantes
 	
-	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
-		unEvento.adquirirEntrada(this,unaEntrada)
+	def comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada,TipoDePago moneda) {
+		unEvento.adquirirEntrada(this,unaEntrada,moneda)
 	}
 
 	def agregarEntrada(Entrada entrada) {
@@ -129,7 +129,6 @@ class Usuario implements Entidad {
 		esElOrganizadorMiAmigo(inv)  || asistenMasDeTantosAmigos(inv,4)  ||!meQuedaSerca(inv)
 	}
 	
-	
 	def boolean esElOrganizadorMiAmigo(Invitacion unaInvitacion){
 		amigos.contains(unaInvitacion.elOrganizadorDelEvento)
 	}
@@ -137,7 +136,6 @@ class Usuario implements Entidad {
 	def asistenMasDeTantosAmigos(Invitacion unaInvitacion,int cantidad){
 		this.invitaciones.filter[invi|invi.evento.nombre == (unaInvitacion.usuario.invitaciones.map[invita|invita.evento.nombre])].size()>cantidad
 	}
-	
 	
 	def meQuedaSerca(Invitacion invitacion) {
 		invitacion.distanciaAmiCasa(direccion.ubicacion) < radioDeCercanía 
@@ -217,13 +215,19 @@ class Usuario implements Entidad {
 		validarcion.validarStringYObjetoNoNulo(direccion,direccion.nombreDeLaLocacion, "dirección")
 	}
 
-	def pagarEntrada(Entrada entrada) {
+	public def pagarEntrada(Entrada entrada,TipoDePago moneda) {
+		moneda.pagarEntrada(this,entrada)
 		agregarEntrada(entrada)
-		plataQueTengo = plataQueTengo - entrada.valorDeLAEntrada
+		
 	}
 	
 	def agregarInvitacion(Invitacion invitacion) {
 		invitaciones.add(invitacion)
-	}	
+	}
+	
+	def sumarDinero(double dinero) {
+		plataQueTengo = plataQueTengo + dinero
+	}
+	
 }
 

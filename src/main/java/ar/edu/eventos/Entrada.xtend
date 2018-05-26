@@ -7,7 +7,7 @@ import java.time.Duration
 @Accessors
 class Entrada {
 
-	var double valorDeLAEntrada
+	var double valorDeLaEntrada
 	var Usuario usuario
 	val veintePorCiento = 0.2
 	val diezPorCiento = 0.1
@@ -46,15 +46,15 @@ class Entrada {
 	}
 
 	private def devolverDineroCorrespondienteALosDiasFaltantes() {
-		usuario.plataQueTengo = usuario.plataQueTengo + (diasFaltantes + 1) * diezPorCiento * valorDeLAEntrada
+		usuario.plataQueTengo = usuario.plataQueTengo + (diasFaltantes + 1) * diezPorCiento * valorDeLaEntrada
 	}
 
 	private def devolverElPorsentajeMaximo() {
-		usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLAEntrada
+		usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLaEntrada
 	}
 
 	public def void devolverEltotal() {
-		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLAEntrada
+		usuario.plataQueTengo = usuario.plataQueTengo + valorDeLaEntrada
 	}
 
 }
