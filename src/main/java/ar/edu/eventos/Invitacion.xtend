@@ -6,14 +6,12 @@ import org.uqbar.geodds.Point
 @Accessors
 class Invitacion {
 
-	Usuario usuario
-	EventoCerrado evento
-	
-	boolean estadoAceptado = false
-	boolean estadoRechazado = false
-	
-	int cantidadMaximaDeAcompañantes
-	int cantidadDeAcompañantes
+	protected Usuario usuario
+	protected EventoCerrado evento
+	protected boolean estadoAceptado = false
+	protected boolean estadoRechazado = false
+	protected int cantidadMaximaDeAcompañantes
+	protected int cantidadDeAcompañantes
 
 	new (Usuario unUsuario,int unaCantidadMaximaDeAcompañantes,EventoCerrado unEvento){
 		cantidadMaximaDeAcompañantes = unaCantidadMaximaDeAcompañantes
@@ -21,28 +19,28 @@ class Invitacion {
 		evento = unEvento
 	}
 
-	def estadoPendiente (){
+	public def boolean estadoPendiente (){
 		!estadoAceptado || !estadoRechazado
 	}
 	
-	def void cancelarEvento() {
+	public def void cancelarEvento() {
 		usuario.eliminarInvitacion(this)
 		usuario.recibirMensaje("El evento fue cancelado")
 	}
 	
-	def void postergarEvento() {
+	public def void postergarEvento() {
 		usuario.recibirMensaje("se postergo el evento\n")
 	}
 	
-	def void invitarUsiario() {
+	public def void invitarUsiario() {
 		usuario.recibirMensaje("Fuiste Invitado al Evento "+ evento)
 	}
 	
-	def elOrganizadorDelEvento() {
+	public def  elOrganizadorDelEvento() {
 		evento.organizador
 	}
 	 
-	def distanciaAmiCasa(Point unaDirecion) {
+	public def double distanciaAmiCasa(Point unaDirecion) {
 		evento.distancia(unaDirecion)
 	}
 }

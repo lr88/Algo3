@@ -6,19 +6,20 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 interface TipoDeUsuario {
 	
-	def void puedoCancelarElEvento(Evento evento)
+	public def void puedoCancelarElEvento(Evento evento)
 
-	def void puedoPostergarElEvento(Evento evento)
+	public def void puedoPostergarElEvento(Evento evento)
 
-	def void puedoOrganizarEventoAbierto(Evento unEvento, Usuario unUsuario)
+	public def void puedoOrganizarEventoAbierto(Evento unEvento, Usuario unUsuario)
 
-	def void puedoOrganizarelEventoCerrado(Evento unEvento, Usuario unUsuario)
+	public def void puedoOrganizarelEventoCerrado(Evento unEvento, Usuario unUsuario)
 }
 
 @Accessors
 class Free implements TipoDeUsuario {
-	int maximoDePersonasPorEvento = 50
-	int maximoDeEventosMensuales = 3
+	
+	private int maximoDePersonasPorEvento = 50
+	private int maximoDeEventosMensuales = 3
 
 	override puedoCancelarElEvento(Evento evento) {
 		throw new BusinessException("No podes Cancelar Eventos")
@@ -38,18 +39,18 @@ class Free implements TipoDeUsuario {
 		validarcantidadDeInvitados(unEvento, unUsuario)
 	}
 
-	def validarEventosEsteMes(Evento unEvento, Usuario unUsuario) {
+	private def void validarEventosEsteMes(Evento unEvento, Usuario unUsuario) {
 		if (!(unUsuario.cantidadDeEventosEnEsteMes(unEvento) < maximoDeEventosMensuales)){
 		throw new BusinessException("Superas la cantidad permitida por mes")
 		}
 	}
 
-	def validarEventosactivos(Evento unEvento, Usuario unUsuario) {
+	private def void validarEventosactivos(Evento unEvento, Usuario unUsuario) {
 		if (!(unUsuario.eventosActivos() < 1)) {
 			throw new BusinessException("Superas la cantidad permitida a la vez")
 	}}
 
-	def validarcantidadDeInvitados(Evento unEvento, Usuario unUsuario) {
+	private def void validarcantidadDeInvitados(Evento unEvento, Usuario unUsuario) {
 		if (!(unEvento.cantidadDePersonasQueAsisten < maximoDePersonasPorEvento)) {
 			throw new BusinessException("Superas la cantidad maxima de invitados")
 		}
@@ -57,8 +58,9 @@ class Free implements TipoDeUsuario {
 }
 
 class Amateur implements TipoDeUsuario {
-	int maximoDeInvitacionesPorEvento = 50
-	int cantidadMaximaPermitidaDeSimultaneidadDeEventos = 5
+	
+	private int  maximoDeInvitacionesPorEvento = 50
+	private int cantidadMaximaPermitidaDeSimultaneidadDeEventos = 5
 
 	override puedoCancelarElEvento(ar.edu.eventos.Evento evento) {
 	}
@@ -83,7 +85,7 @@ class Amateur implements TipoDeUsuario {
 
 class Profesional implements TipoDeUsuario {
 
-	int maximoDeEventosMensuales = 20
+	private int maximoDeEventosMensuales = 20
 
 	override puedoCancelarElEvento(Evento evento) {
 	}

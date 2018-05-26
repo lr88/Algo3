@@ -10,7 +10,7 @@ interface TipoDePago {
 	}
 	def void validarDineroSuficiente(Usuario unUsuario,Entrada entrada)
 }
-
+  
 class tarjeta implements TipoDePago{
 	Usuario nombreDelUsuario
 

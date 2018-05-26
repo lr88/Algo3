@@ -7,23 +7,23 @@ import ar.edu.eventos.exceptions.Validar
 @Accessors
 abstract class RepoGenerico<T extends Entidad> {
 	Validar validaciones = new Validar
-	List<T> elementos = newArrayList()
-	var EntityJsonParser servJson = new EntityJsonParser()
-	int proximoId = 0
+	protected List<T> elementos = newArrayList()
+	protected var EntityJsonParser servJson = new EntityJsonParser()
+	protected int proximoId = 0
 
-	abstract def List<T> search(String value)
+	protected abstract def List<T> search(String value)
 
-	abstract def String updateAll()
+	protected abstract def String updateAll()
 	
-    abstract def void actualizarDatos(T t, T t2)
+    protected abstract def void actualizarDatos(T t, T t2)
     
-    def void update(T object){
+    protected def void update(T object){
     		object.validar()
 		validaciones.validarLaNoExistenciaID(object,this)
 		this.actualizarDatos(searchById(object.id), object)	
 	}
 	
-	def create(T object) {
+	protected def void create(T object) {
 		object.validar()
 		validaciones.validarLaExistenciaID(object,this)
 		elementos.add(object)
@@ -31,11 +31,11 @@ abstract class RepoGenerico<T extends Entidad> {
 		object.setId(proximoId)
 	}
 
-	def void delete(T object) {
+	protected def void delete(T object) {
 		elementos.remove(object)
 	}
 
-	def T searchById(int id) {
+	protected def T searchById(int id) {
 		elementos.findFirst[elem|elem.id == id]
 	}
 

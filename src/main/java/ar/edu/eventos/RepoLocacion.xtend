@@ -5,13 +5,13 @@ import org.uqbar.updateService.UpdateService
 @Accessors
 class RepoLocacion extends RepoGenerico<Locacion> {
 
-	UpdateService UpdateService
+	private UpdateService UpdateService
 	
 	override List<Locacion> search(String buscar) {
 		elementos.filter[locacion|locacion.nombreDeLaLocacion == locacion.nombreDeLaLocacion.indexOf(buscar)].toList
 	}
 	 
-	def void loadLocac(Locacion object) {
+	public def void loadLocac(Locacion object) {
 		if(elementos.map(elem | elem.nombreDeLaLocacion).contains(object.nombreDeLaLocacion)){
 			update(object)
 		}

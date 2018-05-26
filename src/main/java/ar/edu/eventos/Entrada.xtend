@@ -7,11 +7,11 @@ import java.time.Duration
 @Accessors
 class Entrada {
 
-	var double valorDeLaEntrada
-	var Usuario usuario
-	val veintePorCiento = 0.2
-	val diezPorCiento = 0.1
-	val Evento evento
+	protected var double valorDeLaEntrada
+	protected var Usuario usuario
+	protected val veintePorCiento = 0.2
+	protected val diezPorCiento = 0.1
+	protected val Evento evento
 
 	new(Evento unEventoAbierto) {
 		evento = unEventoAbierto
@@ -25,7 +25,7 @@ class Entrada {
 		usuario.recibirMensaje("se cancelo el evento\n")
 	}
 
-	private def elEventoFuePostegadoOCancelado() {
+	protected def boolean elEventoFuePostegadoOCancelado() {
 		evento.elEventoFuePostegadoOCancelado
 	}
 
@@ -45,11 +45,11 @@ class Entrada {
 		}
 	}
 
-	private def devolverDineroCorrespondienteALosDiasFaltantes() {
+	private def void devolverDineroCorrespondienteALosDiasFaltantes() {
 		usuario.plataQueTengo = usuario.plataQueTengo + (diasFaltantes + 1) * diezPorCiento * valorDeLaEntrada
 	}
 
-	private def devolverElPorsentajeMaximo() {
+	private def void devolverElPorsentajeMaximo() {
 		usuario.plataQueTengo = usuario.plataQueTengo + 8 * diezPorCiento * valorDeLaEntrada
 	}
 
