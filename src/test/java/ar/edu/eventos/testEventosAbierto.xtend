@@ -178,7 +178,7 @@ class testEventosAbierto {
 	}
 
 	@Test
-	def void CuandoSeDevuelveLaEntradaDeUnEventoSeReciveunPorsentajedeLaEntrada() {
+	def void CuandoSeDevuelveLaEntradaDeUnEventoSeRecibeunPorcentajedeLaEntrada() {
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada6,efectivo)
 		usuario2.devolverEntrada(entrada6, eventoAbierto1)
 		Assert.assertEquals(80, usuario2.plataQueTengo, 0)
@@ -206,7 +206,7 @@ class testEventosAbierto {
 	}
 
 	@Test
-	def void CuandoSeDevuelveLaEntradaDeUnEvento3diasantesAlEventoSeReciveunPorsentajedeLaEntrada() {
+	def void CuandoSeDevuelveLaEntradaDeUnEvento3diasantesAlEventoSeRecibeunPorcentajedeLaEntrada() {
 		var aux = Duration.between(LocalDateTime.of(2018, 5, 1, 0, 0), LocalDateTime.of(2018, 5, 4, 0, 2))
 		eventoAbierto2.cambiarFecha(LocalDateTime.now.plus(aux))
 		eventoAbierto2.fuePostergado = false

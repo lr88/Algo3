@@ -1,12 +1,12 @@
 package ar.edu.eventos
 
 import org.uqbar.geodds.Point
-import ar.edu.eventos.exceptions.BusinessException
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.eventos.exceptions.Validar
 
 @Accessors
 class Locacion implements Entidad {
-    
+     protected Validar validarcion = new Validar
 	protected var int id
 	protected Point ubicacion 
 	protected var String nombreDeLaLocacion
@@ -29,17 +29,13 @@ class Locacion implements Entidad {
 		validarDescripcion ()
 		validarUbicacion()
 	}
-	
+
 	private def void validarUbicacion() {
-		if(ubicacion === null ){
-			throw new BusinessException("No podes crear una locacion sin una Ubicacion")
-		}
+		validarcion.validarObjetoNoNulo(ubicacion, "ubicacion")
 	}
 	
 	private def void validarDescripcion() {
-		if(nombreDeLaLocacion === null || nombreDeLaLocacion.length == 0){
-			throw new BusinessException("No podes crear una Locacion sin Descripcion")
-		}
+		validarcion.validarStringNoNulo(nombreDeLaLocacion, "Nombre de la locacion")
 	}
 	
 }

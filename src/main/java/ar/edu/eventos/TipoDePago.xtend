@@ -11,7 +11,7 @@ interface TipoDePago {
 	def void validarDineroSuficiente(Usuario unUsuario,Entrada entrada)
 }
   
-class tarjeta implements TipoDePago{
+class Tarjeta implements TipoDePago{
 	Usuario nombreDelUsuario
 
 	override pagarEntrada(Usuario unUsuario,Entrada entrada){
@@ -21,7 +21,7 @@ class tarjeta implements TipoDePago{
 	}
 	def validarDatosDeLaTarjeta(Usuario unUsuario) {
 		if(unUsuario.nombre != nombreDelUsuario){
-			throw new BusinessException ("No sos el Propietario De la targeta ")
+			throw new BusinessException ("No sos el Propietario De la tarjeta ")
 		}
 	// servicio externo devuelve el los datos del Usuario y los corrobora MOCKEAR EN LOS TEST
 	}
