@@ -36,6 +36,11 @@ class TarifaPorPersona implements TipoDeTarifa {
 
 	public override double costo(Evento unEvento) {
 		return Math.max(unEvento.cantidadDePersonasQueAsisten() * valor,
-			unEvento.capacidadMaxima() * porcentajeMinimo * valor)
+			costoMinimo(unEvento)* valor)
 	}
+	
+	def costoMinimo(Evento unEvento) {
+		unEvento.capacidadMaxima * (porcentajeMinimo * 0.01)
+	}
+	
 }

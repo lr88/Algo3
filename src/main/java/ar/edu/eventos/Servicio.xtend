@@ -7,6 +7,7 @@ import ar.edu.eventos.exceptions.Validar
 
 @Accessors
 class Servicio implements Entidad {
+	
 	protected Validar validarcion = new Validar
 	private var int id
 	private var String descripcion
@@ -19,7 +20,7 @@ class Servicio implements Entidad {
 		tarifaDelServicio.costo(unEvento) + this.costoDetraslado(unEvento)
 	}
 
-	private def double costoDetraslado(Evento unEvento) {
+	public def double costoDetraslado(Evento unEvento) {
 		tarifaPorKilometro * unEvento.distancia(ubicacion.ubicacion)
 	}
 

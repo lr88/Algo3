@@ -90,5 +90,5 @@ class EventoAbierto extends Evento {
 	}
 	public override double cantidadDePersonasQueAsisten() {
 		cantidadDeEntradasVendidas()
-	}
+	} 
 }

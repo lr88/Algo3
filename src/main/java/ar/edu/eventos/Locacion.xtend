@@ -6,7 +6,8 @@ import ar.edu.eventos.exceptions.Validar
 
 @Accessors
 class Locacion implements Entidad {
-     protected Validar validarcion = new Validar
+	
+    protected Validar validarcion = new Validar
 	protected var int id
 	protected Point ubicacion 
 	protected var String nombreDeLaLocacion

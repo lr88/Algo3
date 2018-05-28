@@ -16,18 +16,24 @@ class testEventos {
 	Locacion lugar1
 	EventoCerrado fiesta
 	Evento casamiento
+	Entrada unEntrada
 
 	@Before
 	def void init() {
+		
+		unEntrada= new Entrada(casamiento)
+		
+		
 		miCasa = new Locacion() => [
 			nombreDeLaLocacion ="asd"
-			ubicacion = new Point(1.0, 2.0)
+			ubicacion = new Point(4.1, 2.0)
 			validar()
 		]
-		
+			
 		lugar1 = new Locacion() => [
 			nombreDeLaLocacion ="asd"
 			ubicacion = new Point(4.0, 2.0)
+			superficieM2 = 10
 			validar()
 		]
 		
@@ -44,10 +50,10 @@ class testEventos {
 		lunch = new Servicio() => [
 			descripcion = "asd"
 			ubicacion = miCasa
-			tarifaPorKilometro = 10.0
+			tarifaPorKilometro = 1.0
 			tarifaDelServicio = new TarifaPorHora()=>[
-				valor = 100
-				costoMínimoFijo = 20000
+				valor = 10
+				costoMínimoFijo = 20
 			]
 		]
 
@@ -55,19 +61,19 @@ class testEventos {
 			descripcion = "asd"
 			ubicacion = miCasa
 			tarifaDelServicio = new TarifaFija()=>[
-				valor = 100
+				valor = 10
 			]
-			tarifaPorKilometro = 10.0
+			tarifaPorKilometro = 1.0
 		]
 		
 		robot = new Servicio() => [
 			descripcion = "asd"
 			ubicacion = miCasa
 			tarifaDelServicio = new TarifaPorPersona()=>[
-				valor = 100
-				porcentajeMinimo = 70
+				valor = 10
+				porcentajeMinimo = 10
 			]
-			tarifaPorKilometro = 10.0
+			tarifaPorKilometro = 1.0
 		
 		]
 
@@ -81,7 +87,9 @@ class testEventos {
 			fechaDeFinDelEvento = LocalDateTime.of(2018, 10, 11, 0, 0)
 			contratarServicio(lunch)
 			contratarServicio(luces)
-			locacion = miCasa
+			agregarEntrada(unEntrada)
+			contratarServicio(robot)	
+			locacion = lugar1
 		]
 
 		unaInvitacion = new Invitacion(usuario1, 5, fiesta)
@@ -95,7 +103,7 @@ class testEventos {
 
 	@Test
 	def void distancia() {
-		Assert.assertEquals(11.11, miCasa.distancia(new Point(1.1, 2.0)), 1)
+		Assert.assertEquals(11.11, casamiento.distancia(new Point(4.1, 2.0)), 1)
 	}
 
 	@Test
@@ -105,8 +113,7 @@ class testEventos {
 
 	@Test
 	def void costoTotalDeUnEventoEnBaseASusServiciosContratados() {
-		Assert.assertEquals(20100, casamiento.costoTotal, 0
-		)
+		Assert.assertEquals(95.85, casamiento.costoTotal, 1)
 	}
 
 }
