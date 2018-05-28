@@ -8,7 +8,7 @@ import ar.edu.eventos.exceptions.BusinessException
 
 class testRepoLocacion {
 	var RepoLocacion repoLOCA
-	var Point lugarcasa= new Point(1.0, 2.0)
+	var Point lugarcasa
 	var Locacion casa
 	var Locacion casa1
 	var Locacion casa2
@@ -16,6 +16,9 @@ class testRepoLocacion {
 
 	@Before
 	def void init() {
+		
+		lugarcasa= new Point(1.0, 2.0)
+		
 		casa = new Locacion => [
 			ubicacion = lugarcasa
 			nombreDeLaLocacion = "casa de pepe"
@@ -29,6 +32,7 @@ class testRepoLocacion {
 		casa2 = new Locacion => [//no cumple aproposito con la validacion
 			ubicacion = lugarcasa
 			superficieM2 = 300
+			nombreDeLaLocacion = ""
 		]
 		repoLOCA = new RepoLocacion
 	}

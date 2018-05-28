@@ -40,6 +40,7 @@ class testRepoServicios {
 		]
 		S3 = new Servicio => [ // no cumple aproposito con la validacion
 			ubicacion = lugar
+			descripcion = ""
 		]
 		repoSERV = new RepoServicios
 	}

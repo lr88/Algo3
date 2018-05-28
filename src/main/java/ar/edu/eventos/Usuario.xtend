@@ -29,9 +29,10 @@ class Usuario implements Entidad {
 	protected var double radioDeCercanía
 	protected TipoDeUsuario tipoDeUsuario
 	protected int cantidadDeAcompañantes
+	protected Tarjeta moneda 
 	
-	public def void comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada,TipoDePago moneda) {
-		unEvento.adquirirEntrada(this,unaEntrada,moneda)
+	public def void comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
+		unEvento.adquirirEntrada(this,unaEntrada)
 	}
 
 	private def void agregarEntrada(Entrada entrada) {
@@ -221,8 +222,10 @@ class Usuario implements Entidad {
 		validarcion.validarStringYObjetoNoNulo(direccion,direccion.nombreDeLaLocacion, "dirección")
 	}
 
-	public def void pagarEntrada(Entrada entrada,TipoDePago moneda) {
-		moneda.pagarEntrada(this,entrada)
+	public def void pagarEntrada(Entrada entrada) {
+		print(5)
+		moneda.pagarEntrada(this,entrada)//
+		print(6)
 		agregarEntrada(entrada)
 	}
 	

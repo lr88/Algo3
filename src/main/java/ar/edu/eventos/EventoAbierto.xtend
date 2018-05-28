@@ -10,14 +10,16 @@ import ar.edu.eventos.exceptions.BusinessException
 
 @Accessors
 class EventoAbierto extends Evento {
-
-	public int ValorDeLaEntrada
+	
 	private Set<Entrada> entradas = new HashSet()
-	private int edadMinima
+	public int edadMinima
 
-	public def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada,TipoDePago moneda) {
+	public def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
+			print(1)
 			validarLaAdquisicionDeUnaEntrada(unUsuario)
-			unUsuario.pagarEntrada(unaEntrada,moneda)
+			print(2)
+			unUsuario.pagarEntrada(unaEntrada)
+			print(3)
 			agregarEntrada(unaEntrada)
 	}
 	private def void validarLaAdquisicionDeUnaEntrada(Usuario unUsuario){

@@ -27,8 +27,8 @@ class Locacion implements Entidad {
 	
 	override validar() {
 		validarDescripcion ()
-		validarUbicacion()
-	}
+		validarUbicacion() 
+	} 
 
 	private def void validarUbicacion() {
 		validarcion.validarObjetoNoNulo(ubicacion, "ubicacion")
