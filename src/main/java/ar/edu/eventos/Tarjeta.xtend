@@ -13,32 +13,23 @@ class Tarjeta {
 	CCResponse CCR
 	
 	def void pagarEntrada(Usuario unUsuario, Entrada entrada) {
-		print("asdasd")
 		validarDineroSuficiente(unUsuario, entrada)
-		creditCardService()
+		creditCardService(entrada)
 		unUsuario.sumarDinero(-entrada.valorDeLaEntrada)
 	}
 	
-	def setCCR (){
-		CCR = card.pay(datos,50)
+	def code (Entrada entrada){
+		card.pay(datos,entrada.valorDeLaEntrada)
 	}
 	
-	
-	def code (){
-		CCR
-	}
-	
-	def creditCardService() {
-		if (code.statusCode == 0) {
-			print(code.statusCode + code.statusMessage)
+	def creditCardService(Entrada entrada) {
+		if (code(entrada).statusCode == 0) {
+			println(code(entrada).statusCode + code(entrada).statusMessage)
 		}
-		if (code.statusCode == 1) {
-			throw new BusinessException(code.statusCode + code.statusMessage)
+		if (code(entrada).statusCode == 1 || code(entrada).statusCode == 2) {
+			println(code(entrada).statusCode + code(entrada).statusMessage)
+			throw new BusinessException(code(entrada).statusCode + code(entrada).statusMessage)
 		}
-		if (code.statusCode == 2) {
-			throw new BusinessException(code.statusCode + code.statusMessage)
-		}
-		1
 	}
 
 	def void validarDineroSuficiente(Usuario unUsuario, Entrada entrada) {

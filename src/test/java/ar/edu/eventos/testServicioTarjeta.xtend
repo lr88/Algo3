@@ -9,6 +9,7 @@ import org.uqbar.ccService.CCResponse
 import org.uqbar.ccService.CreditCardService
 import org.uqbar.ccService.CreditCard
 import static org.mockito.Mockito.*
+import ar.edu.eventos.exceptions.BusinessException
 
 class testServicioTarjeta {
 
@@ -16,21 +17,31 @@ class testServicioTarjeta {
 	Locacion lugarDelEvento1
 	EventoAbierto eventoAbierto1
 	Entrada entrada1
-	CCResponse EsperadoCCR
-	Tarjeta tjta
+	CCResponse EsperadoCCR0
+	CCResponse EsperadoCCR1
+	CCResponse EsperadoCCR2
 	Tarjeta tarjeta
 
 	@Before
 	def void init() {
 
-		EsperadoCCR = new CCResponse() => [
+		tarjeta = new Tarjeta => [
+			card = new CreditCardService
+			datos = new CreditCard
+		]
+		EsperadoCCR0 = new CCResponse() => [
 			statusCode = 0
 			statusMessage = "Transacción exitosa"
 		]
-		
-		tarjeta = mock(typeof(Tarjeta))
-		when(tarjeta.code()).thenReturn(EsperadoCCR)
-		
+		EsperadoCCR1 = new CCResponse() => [
+			statusCode = 1
+			statusMessage = "Datos inválidos"
+		]
+		EsperadoCCR2 = new CCResponse() => [
+			statusCode = 2
+			statusMessage = "Pago rechazado"
+		]
+
 		usuario1 = new Usuario() => [
 			esAntisocial = false
 			plataQueTengo = 1000
@@ -56,12 +67,30 @@ class testServicioTarjeta {
 		entrada1 = new Entrada(eventoAbierto1) => [
 			valorDeLaEntrada = 100
 		]
-
+		val CCS = mock(typeof(CreditCardService))
+		tarjeta.card = CCS
+		
 	}
 
 	@Test
-	def void compraUnaEntasdasdrada() {
+	def void compraUnaEntadaYElServidorIndicaTransacciónExitosa() {
+		when(tarjeta.card.pay(tarjeta.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR0)
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
-		Assert.assertEquals(1, usuario1.plataQueTengo, 0)
+		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
 	}
+
+	@Test(expected=typeof(BusinessException))
+	def void compraUnaEntadaYElServidorIndicaDatosInválidos() {
+		when(tarjeta.card.pay(tarjeta.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR1)
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
+		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
+	}
+
+	@Test(expected=typeof(BusinessException))
+	def void compraUnaEntadaYElServidorIndicaPagoRechazado() {
+		when(tarjeta.card.pay(tarjeta.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR2)
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
+		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
+	}
+	
 }
