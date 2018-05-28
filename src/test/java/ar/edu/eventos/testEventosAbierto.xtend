@@ -7,6 +7,8 @@ import org.junit.Test
 import org.uqbar.geodds.Point
 import java.time.Duration
 import ar.edu.eventos.exceptions.BusinessException
+import org.uqbar.ccService.CCResponse
+import org.uqbar.ccService.CreditCardService
 
 class testEventosAbierto {
 	Usuario usuario1
@@ -24,10 +26,19 @@ class testEventosAbierto {
 	Entrada entrada6
 	Entrada entrada7
 	Entrada entrada8
+	Tarjeta tarjeta
 
 	@Before
 	def void init() {
-
+		
+		tarjeta = new Tarjeta =>[
+				card = new CreditCardService
+				
+				CCR = new CCResponse =>[
+					statusCode = 0
+					statusMessage = "Transacción exitosa"
+				]
+			]
 
 		lugarDelEvento1 = new Locacion() => [
 			ubicacion = new Point(1.0, 2.0)
@@ -47,6 +58,7 @@ class testEventosAbierto {
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
+			moneda = tarjeta
 		]
 		usuario2 = new Usuario() => [
 			direccion = lugar1
@@ -55,6 +67,7 @@ class testEventosAbierto {
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
+			moneda = tarjeta
 		]
 		usuario3 = new Usuario() => [
 			direccion = lugar1
@@ -63,6 +76,7 @@ class testEventosAbierto {
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
+			moneda = tarjeta
 		]
 		eventoAbierto1 = new EventoAbierto() => [
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
@@ -70,6 +84,7 @@ class testEventosAbierto {
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
 			edadMinima = 18
+			
 		]
 
 		eventoAbierto2 = new EventoAbierto() => [

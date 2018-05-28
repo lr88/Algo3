@@ -33,6 +33,7 @@ class Usuario implements Entidad {
 	
 	public def void comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
 		unEvento.adquirirEntrada(this,unaEntrada)
+		pagarEntrada(unaEntrada)
 	}
 
 	private def void agregarEntrada(Entrada entrada) {
@@ -223,9 +224,7 @@ class Usuario implements Entidad {
 	}
 
 	public def void pagarEntrada(Entrada entrada) {
-		print(5)
-		moneda.pagarEntrada(this,entrada)//
-		print(6)
+		moneda.pagarEntrada(this,entrada)
 		agregarEntrada(entrada)
 	}
 	

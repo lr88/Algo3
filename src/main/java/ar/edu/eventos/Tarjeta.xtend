@@ -8,39 +8,40 @@ import org.uqbar.ccService.CreditCard
 
 @Accessors
 class Tarjeta {
+	CreditCardService card
+	CreditCard datos
+	CCResponse CCR
 	
-	CreditCardService TCCS
-	CreditCard TCC = new CreditCard
-	CCResponse TCCR = TCCS.pay(TCC,0)
-
-	def pagarEntrada(Usuario unUsuario, Entrada entrada) {
-		print("hola")
+	def void pagarEntrada(Usuario unUsuario, Entrada entrada) {
+		print("asdasd")
 		validarDineroSuficiente(unUsuario, entrada)
-		mensajeDeRespuesta()
+		creditCardService()
 		unUsuario.sumarDinero(-entrada.valorDeLaEntrada)
 	}
 	
-	def CCResponse codigosDeLaTarjeta(){
-		return TCCR
-	}
-
-	def codigoDeEstado(){
-		codigosDeLaTarjeta().statusCode
+	def setCCR (){
+		CCR = card.pay(datos,50)
 	}
 	
-	def mensajeDeRespuesta() {
-		if (codigoDeEstado === 0) {
-			print(codigosDeLaTarjeta().statusCode + codigosDeLaTarjeta().statusMessage)
+	
+	def code (){
+		CCR
+	}
+	
+	def creditCardService() {
+		if (code.statusCode == 0) {
+			print(code.statusCode + code.statusMessage)
 		}
-		if (codigoDeEstado === 1) {
-			throw new BusinessException(codigosDeLaTarjeta().statusCode + codigosDeLaTarjeta().statusMessage)
+		if (code.statusCode == 1) {
+			throw new BusinessException(code.statusCode + code.statusMessage)
 		}
-		if (codigoDeEstado === 2) {
-			throw new BusinessException(codigosDeLaTarjeta().statusCode + codigosDeLaTarjeta().statusMessage)
+		if (code.statusCode == 2) {
+			throw new BusinessException(code.statusCode + code.statusMessage)
 		}
+		1
 	}
 
-	def validarDineroSuficiente(Usuario unUsuario, Entrada entrada) {
+	def void validarDineroSuficiente(Usuario unUsuario, Entrada entrada) {
 		if (unUsuario.plataQueTengo < entrada.valorDeLaEntrada) {
 			throw new BusinessException("El Dinero no es Suficiente para Pagar La Entrada ")
 		}

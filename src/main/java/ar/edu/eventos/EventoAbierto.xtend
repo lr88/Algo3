@@ -15,11 +15,7 @@ class EventoAbierto extends Evento {
 	public int edadMinima
 
 	public def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
-			print(1)
 			validarLaAdquisicionDeUnaEntrada(unUsuario)
-			print(2)
-			unUsuario.pagarEntrada(unaEntrada)
-			print(3)
 			agregarEntrada(unaEntrada)
 	}
 	private def void validarLaAdquisicionDeUnaEntrada(Usuario unUsuario){
