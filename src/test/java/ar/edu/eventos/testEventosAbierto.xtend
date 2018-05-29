@@ -9,6 +9,9 @@ import java.time.Duration
 import ar.edu.eventos.exceptions.BusinessException
 import org.uqbar.ccService.CCResponse
 import org.uqbar.ccService.CreditCardService
+import org.uqbar.ccService.CreditCard
+import static org.mockito.Mockito.*
+
 
 class testEventosAbierto {
 	Usuario usuario1
@@ -27,18 +30,19 @@ class testEventosAbierto {
 	Entrada entrada7
 	Entrada entrada8
 	Tarjeta tarjeta
+	CCResponse EsperadoCCR0
 
 	@Before
 	def void init() {
 		
-		tarjeta = new Tarjeta =>[
-				card = new CreditCardService
-				
-				CCR = new CCResponse =>[
-					statusCode = 0
-					statusMessage = "Transacción exitosa"
-				]
-			]
+		tarjeta = new Tarjeta => [
+			card = new CreditCardService
+			datos = new CreditCard
+		]
+		EsperadoCCR0 = new CCResponse() => [
+			statusCode = 0
+			statusMessage = "Transacción exitosa"
+		]
 
 		lugarDelEvento1 = new Locacion() => [
 			ubicacion = new Point(1.0, 2.0)
@@ -122,6 +126,9 @@ class testEventosAbierto {
 			valorDeLaEntrada = 100
 		]
 
+		val CCS = mock(typeof(CreditCardService))
+		tarjeta.card = CCS
+		when(tarjeta.card.pay(tarjeta.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR0)
 	}
 
 	@Test
@@ -135,9 +142,7 @@ class testEventosAbierto {
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
 		Assert.assertEquals(1, usuario1.entradas.size)
 		Assert.assertEquals(9900, usuario1.plataQueTengo,0)
-	
 	}
-	
 
 	@Test
 	def void capacidadMAxima() {
@@ -190,8 +195,6 @@ class testEventosAbierto {
 		Assert.assertTrue(usuario2.mensajes.contains("se postergo el evento\n"))
 	}
 
-	
-
 	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoPostergadoSeReciveElValorTotalDeLaEntrada() {
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada2)
@@ -218,7 +221,6 @@ class testEventosAbierto {
 		Assert.assertEquals(80, usuario2.plataQueTengo,0.1)
 	}
 
-//----------------------------
 	@Test 
 	def void CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada() {
 		var aux = Duration.between(LocalDateTime.of(2018, 5, 1, 0, 0),  LocalDateTime.of(2018, 5, 2, 0, 2))

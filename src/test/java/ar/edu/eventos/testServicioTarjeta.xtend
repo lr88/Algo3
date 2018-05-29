@@ -21,9 +21,17 @@ class testServicioTarjeta {
 	CCResponse EsperadoCCR1
 	CCResponse EsperadoCCR2
 	Tarjeta tarjeta
+	CreditCard creditcard1
 
 	@Before
 	def void init() {
+
+		creditcard1 = new CreditCard => [
+			name = "pepe"
+			number = "12345"
+			cvc = "999"
+			expirationDate = "16-12-2017"
+		]
 
 		tarjeta = new Tarjeta => [
 			card = new CreditCardService
@@ -67,9 +75,7 @@ class testServicioTarjeta {
 		entrada1 = new Entrada(eventoAbierto1) => [
 			valorDeLaEntrada = 100
 		]
-		val CCS = mock(typeof(CreditCardService))
-		tarjeta.card = CCS
-		
+		tarjeta.card = mock(typeof(CreditCardService))
 	}
 
 	@Test
@@ -92,5 +98,35 @@ class testServicioTarjeta {
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
 		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
 	}
+
+	@Test
+	def void seMockealaRespuestadelCreditCardNombre() {
+		Assert.assertEquals("pepe", creditcard1.name)
+		var creditcard1 = mock(typeof(CreditCard))
+		when(creditcard1.name).thenReturn("Perdro")
+		Assert.assertEquals("Perdro", creditcard1.name)
+	}
+
+	@Test
+	def void seMockealaRespuestadelCreditCardNumer() {
+		Assert.assertEquals("12345", creditcard1.number)
+		var creditcard1 = mock(typeof(CreditCard))
+		when(creditcard1.number).thenReturn("111")
+		Assert.assertEquals("111", creditcard1.number)
+	}
+	@Test
+	def void seMockealaRespuestadelCreditCardCVC() {
+		Assert.assertEquals("999", creditcard1.cvc)
+		var creditcard1 = mock(typeof(CreditCard))
+		when(creditcard1.cvc).thenReturn("919191919")
+		Assert.assertEquals("919191919", creditcard1.cvc)
+	}
 	
+	@Test
+	def void seMockealaRespuestadelCreditCardExpirationDate() {
+		Assert.assertEquals("16-12-2017", creditcard1.expirationDate)
+		var creditcard1 = mock(typeof(CreditCard))
+		when(creditcard1.expirationDate).thenReturn("03-07-2017")
+		Assert.assertEquals("03-07-2017", creditcard1.expirationDate)
+	}
 }
