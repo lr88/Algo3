@@ -17,10 +17,9 @@ abstract class RepoGenerico<T extends Entidad> {
 
 	protected abstract def void actualizarDatos(T t, T t2)
 
-	protected def void update(T object) {
-		object.validar()
-		validaciones.validarLaNoExistenciaID(object, this)
-		this.actualizarDatos(searchById(object.id), object)
+	protected def void update(T objectViejo,T objectNuevo) {
+		objectNuevo.validar()
+		this.actualizarDatos(objectViejo, objectNuevo)
 	}
 
 	protected def void create(T object) {

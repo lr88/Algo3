@@ -97,10 +97,11 @@ class testRepoServicios {
 
 	@Test
 	def void updateServicio() {
+		var Servicio Saux = S1
 		repoSERV.create(S1)
 		S1.descripcion = "Magia"
 		S1.ubicacion = lugar1
-		repoSERV.update(S1)
+		repoSERV.update(Saux,S1)
 		Assert.assertEquals(lugar1, S1.ubicacion)
 		Assert.assertEquals("Magia", S1.descripcion)
 	}

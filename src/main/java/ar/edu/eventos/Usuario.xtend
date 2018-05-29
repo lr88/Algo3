@@ -12,7 +12,7 @@ import ar.edu.eventos.exceptions.Validar
 @Accessors
 class Usuario implements Entidad {
 	protected Validar validarcion = new Validar
-	protected  var int id
+	protected var int id
 	protected List <String> mensajes = newArrayList()
 	protected Set<Evento> eventos = new HashSet ()
 	protected Set<Usuario> amigos = new HashSet()	
@@ -236,5 +236,12 @@ class Usuario implements Entidad {
 		plataQueTengo = plataQueTengo + dinero
 	}
 	
+	override getId() {
+		id
+	}
+
+	override setId(int unId) {
+		id = unId
+	}
 }
 

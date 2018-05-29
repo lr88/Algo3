@@ -23,8 +23,24 @@ class testServicioTarjeta {
 	Tarjeta tarjeta
 	CreditCard creditcard1
 
+	CCResponse JsonCCResponse
+	CreditCard JsonCreditCard
+	CreditCardService JsonCreditCardService
+
 	@Before
 	def void init() {
+
+		JsonCCResponse = new CCResponse => []
+
+		JsonCreditCard = new CreditCard => [
+			name = "Adrian Lopez"
+			number = "123456789"
+			cvc = "123465123"
+			expirationDate =  "12"
+
+		]
+		
+		JsonCreditCardService = new CreditCardService
 
 		creditcard1 = new CreditCard => [
 			name = "pepe"
@@ -114,6 +130,7 @@ class testServicioTarjeta {
 		when(creditcard1.number).thenReturn("111")
 		Assert.assertEquals("111", creditcard1.number)
 	}
+
 	@Test
 	def void seMockealaRespuestadelCreditCardCVC() {
 		Assert.assertEquals("999", creditcard1.cvc)
@@ -121,7 +138,7 @@ class testServicioTarjeta {
 		when(creditcard1.cvc).thenReturn("919191919")
 		Assert.assertEquals("919191919", creditcard1.cvc)
 	}
-	
+
 	@Test
 	def void seMockealaRespuestadelCreditCardExpirationDate() {
 		Assert.assertEquals("16-12-2017", creditcard1.expirationDate)

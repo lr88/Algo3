@@ -79,6 +79,39 @@ class testRepoGenerico {
             "y":60.516598
          }
       }
+   },
+	{  
+      "nombreUsuario":"martin1990",
+      "nombre":"Martín",
+	  "apellido":"Varela",
+      "email":"martinvarela90@yahoo.com",
+      "fechaNacimiento":"18/11/1990",
+      "direccion":{  
+         "calle":"Av. Triunvirato",
+         "numero":4065,
+         "localidad":"CABA",
+         "provincia":"",
+         "coordenadas":{  
+            "x":-33.582360,
+            "y":60.516598
+         }
+      }
+   },{  
+      "nombreUsuario":"Adrian58",
+      "nombre":"Adrian",
+	  "apellido":"Varela",
+      "email":"martinvarela90@yahoo.com",
+      "fechaNacimiento":"18/11/1990",
+      "direccion":{  
+         "calle":"Av. Triunvirato",
+         "numero":4065,
+         "localidad":"CABA",
+         "provincia":"",
+         "coordenadas":{  
+            "x":-33.582360,
+            "y":60.516598
+         }
+      }
    }
 ]'
 
@@ -114,9 +147,8 @@ class testRepoGenerico {
 	@Test
 	def testearUsuarioJson() {
 		ServicioExternoJson.actualizarRepoUsuarios(JSonUsuarios)
-		Assert.assertEquals(2, RepoUsuario.elementos.size)
+		Assert.assertEquals(3, RepoUsuario.elementos.size)
 		Assert.assertTrue(RepoUsuario.elementos.get(0).apellido == "Lopez")
-
 	}
 
 	@Test
@@ -131,9 +163,6 @@ class testRepoGenerico {
 	def testearServicioJson() {
 		ServicioExternoJson.actualizarRepoServicio(JSonServicios)
 		Assert.assertEquals(1, RepoServicios.elementos.size)
-		
-		
-		
 		Assert.assertTrue(RepoServicios.elementos.get(0).descripcion == "Catering Food Party")
 
 	}
@@ -142,7 +171,6 @@ class testRepoGenerico {
 	def void cocoestafeliz() {
 		var rerer = mock(typeof(Asd))
 		when(rerer.hola()).thenReturn(coco)
-		print(rerer.hola())
 		Assert.assertEquals(0,0,0)
 	}
 	

@@ -112,10 +112,11 @@ class testRepoUsuario {
 
 	@Test
 	def void updateUsuario() {
+		var Usuario Uaux = Us1
 		repoUser.create(Us1)
 		Us1.nombreDeUsuario = "coco"
 		Us1.direccion = lugar1
-		repoUser.update(Us1)
+		repoUser.update(Uaux,Us1)
 		Assert.assertEquals(lugar1, Us1.direccion)
 		Assert.assertEquals("coco", Us1.nombreDeUsuario)
 	}

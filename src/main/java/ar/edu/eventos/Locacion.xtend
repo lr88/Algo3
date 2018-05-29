@@ -38,5 +38,12 @@ class Locacion implements Entidad {
 	private def void validarDescripcion() {
 		validarcion.validarStringNoNulo(nombreDeLaLocacion, "Nombre de la locacion")
 	}
+	override getId() {
+		id
+	}
+
+	override setId(int unId) {
+		id = unId
+	}
 	
 }

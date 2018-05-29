@@ -12,13 +12,13 @@ class testRepoLocacion {
 	var Locacion casa
 	var Locacion casa1
 	var Locacion casa2
-	var Point lugargenerco= new Point(20.0, 55.0)
+	var Point lugargenerco = new Point(20.0, 55.0)
 
 	@Before
 	def void init() {
-		
-		lugarcasa= new Point(1.0, 2.0)
-		
+
+		lugarcasa = new Point(1.0, 2.0)
+
 		casa = new Locacion => [
 			ubicacion = lugarcasa
 			nombreDeLaLocacion = "casa de pepe"
@@ -29,7 +29,7 @@ class testRepoLocacion {
 			nombreDeLaLocacion = "casa de pedro"
 			superficieM2 = 300
 		]
-		casa2 = new Locacion => [//no cumple aproposito con la validacion
+		casa2 = new Locacion => [ // no cumple aproposito con la validacion
 			ubicacion = lugarcasa
 			superficieM2 = 300
 			nombreDeLaLocacion = ""
@@ -42,7 +42,7 @@ class testRepoLocacion {
 		repoLOCA.create(casa)
 		Assert.assertEquals(1, repoLOCA.elementos.size)
 	}
-	
+
 	@Test
 	def void SeCreaUnaLocacionYSeElimina() {
 		repoLOCA.create(casa)
@@ -50,7 +50,7 @@ class testRepoLocacion {
 		Assert.assertEquals(0, repoLOCA.elementos.size)
 	}
 
-	@Test(expected = typeof(BusinessException))
+	@Test(expected=typeof(BusinessException))
 	def void SeCreaUnaLocacionYSeAgregaAlRepositorioIncumpliendolasValidacionesCorrespondientes() {
 		repoLOCA.create(casa2)
 		Assert.assertEquals(1, repoLOCA.elementos.size)
@@ -61,7 +61,7 @@ class testRepoLocacion {
 		repoLOCA.create(casa)
 		Assert.assertEquals(1, casa.id)
 	}
-	
+
 	@Test
 	def void LaLocacionCASA1ContieneUnIDDistinto() {
 		repoLOCA.create(casa)
@@ -70,7 +70,7 @@ class testRepoLocacion {
 		Assert.assertEquals(2, casa1.id)
 		Assert.assertEquals(2, repoLOCA.elementos.size)
 	}
-	
+
 	@Test
 	def void alPedirUnaLocacionPorSuIDTeDevuelveLaLocacionCorrespondiente() {
 		repoLOCA.create(casa)
@@ -78,26 +78,28 @@ class testRepoLocacion {
 		Assert.assertEquals(casa, repoLOCA.searchById(1))
 		Assert.assertEquals(casa1, repoLOCA.searchById(2))
 	}
-	
+
 	@Test
 	def void alPedirLosDatosDeUnObjetoDelRepoEstosCorrespondenCorrectamente() {
 		repoLOCA.create(casa)
 		var Locacion aux = repoLOCA.searchById(1)
 		Assert.assertEquals(lugarcasa, aux.ubicacion)
 		Assert.assertEquals("casa de pepe", aux.nombreDeLaLocacion)
-		Assert.assertEquals(300, aux.superficieM2,0)
+		Assert.assertEquals(300, aux.superficieM2, 0)
 	}
-	
+
 	@Test
 	def void updateLocacion() {
 		repoLOCA.create(casa)
-		casa.nombreDeLaLocacion = "casa de pepe y lucas"
-		casa.ubicacion = lugargenerco
-		casa.superficieM2 = 20
-		repoLOCA.update(casa)
-		Assert.assertEquals(lugargenerco, casa.ubicacion)
-		Assert.assertEquals("casa de pepe y lucas", casa.nombreDeLaLocacion)
-		Assert.assertEquals(20, casa.superficieM2,0)
+		var Locacion casona = new Locacion => [
+			nombreDeLaLocacion = "casa de pepe"
+			ubicacion = lugargenerco
+			superficieM2 = 20
+		]
+		repoLOCA.update(casa,casona)
+		Assert.assertEquals(lugargenerco, repoLOCA.elementos.get(0).ubicacion)
+		Assert.assertEquals("casa de pepe", repoLOCA.elementos.get(0).nombreDeLaLocacion)
+		Assert.assertEquals(20, repoLOCA.elementos.get(0).superficieM2, 0)
 	}
 
 }

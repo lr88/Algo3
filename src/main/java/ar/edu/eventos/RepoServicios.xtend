@@ -14,7 +14,8 @@ class RepoServicios extends RepoGenerico<Servicio> {
 	
 	public def void loadServ(Servicio object) {
 		if(elementos.map(elem | elem.descripcion).contains(object.descripcion)){
-			update(object)
+			var Servicio servicioViejo = elementos.filter[elem | (elem.descripcion == object.descripcion)].get(0)
+			update(servicioViejo,object)
 		}
 		else{
 			create(object)

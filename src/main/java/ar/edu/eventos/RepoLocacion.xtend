@@ -13,7 +13,8 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 	 
 	public def void loadLocac(Locacion object) {
 		if(elementos.map(elem | elem.nombreDeLaLocacion).contains(object.nombreDeLaLocacion)){
-			update(object)
+			var Locacion locacionVieja = elementos.filter[elem | (elem.nombreDeLaLocacion == object.nombreDeLaLocacion)].get(0)
+			update(locacionVieja,object)
 		}
 		else{
 			create(object)
@@ -26,10 +27,10 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 	}
 	
 	override void actualizarDatos(Locacion locacionVieja, Locacion locacionNueva) {
-		locacionVieja => [
-			nombreDeLaLocacion = locacionNueva.nombreDeLaLocacion
-			ubicacion = locacionNueva.ubicacion
-		]
+			locacionVieja.nombreDeLaLocacion = locacionNueva.nombreDeLaLocacion
+			locacionVieja.ubicacion = locacionNueva.ubicacion
+			locacionVieja.superficieM2 = locacionNueva.superficieM2
+		
 	}
 
 }
