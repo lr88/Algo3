@@ -27,7 +27,7 @@ class EntityJsonParser {
 		Json.parse(json).asArray.forEach[arrays|parsearServicio(arrays.asObject)]
 	}
 
-	private def Usuario parsearUsuario(JsonObject json) {
+	private def parsearUsuario(JsonObject json) {
 
 		val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 		val LocalDate date = LocalDate.parse(json.get("fechaNacimiento").asString, formatter)
@@ -51,19 +51,17 @@ class EntityJsonParser {
 			]
 		]
 		repositorioUsuarios.loadUser(nuevoUsuario)
-		return nuevoUsuario
 	}
 
-	private def Locacion parsearLocacion(JsonObject json) {
+	private def parsearLocacion(JsonObject json) {
 		var Locacion nuevaLocacion = new Locacion => [
 			ubicacion = new Point((json.get("x").asDouble), (json.get("y").asDouble))
 			nombreDeLaLocacion = (json.get("nombre").asString)
 		]
 		repositorioLocacion.loadLocac(nuevaLocacion)
-		return nuevaLocacion
 	}
 
-	private def Servicio parsearServicio(JsonObject json) {
+	private def parsearServicio(JsonObject json) {
 		var Servicio nuevoServicio = new Servicio => [
 			descripcion = (json.get("descripcion").asString)
 			tarifaDelServicio = getTipoDeTarifa(json)
@@ -74,7 +72,6 @@ class EntityJsonParser {
 			]
 		]
 		repositorioServicios.loadServ(nuevoServicio)
-		return nuevoServicio
 	}
 
 	private def getTipoDeTarifa(JsonObject json) {

@@ -20,7 +20,7 @@ class testServicioTarjeta {
 	CCResponse EsperadoCCR0
 	CCResponse EsperadoCCR1
 	CCResponse EsperadoCCR2
-	Tarjeta tarjeta
+	Tarjeta tarjeta1
 	CreditCard creditcard1
 
 	CCResponse JsonCCResponse
@@ -49,7 +49,7 @@ class testServicioTarjeta {
 			expirationDate = "16-12-2017"
 		]
 
-		tarjeta = new Tarjeta => [
+		tarjeta1 = new Tarjeta => [
 			card = new CreditCardService
 			datos = new CreditCard
 		]
@@ -72,7 +72,7 @@ class testServicioTarjeta {
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
-			moneda = tarjeta
+			tarjeta = tarjeta1
 		]
 
 		lugarDelEvento1 = new Locacion() => [
@@ -91,26 +91,26 @@ class testServicioTarjeta {
 		entrada1 = new Entrada(eventoAbierto1) => [
 			valorDeLaEntrada = 100
 		]
-		tarjeta.card = mock(typeof(CreditCardService))
+		tarjeta1.card = mock(typeof(CreditCardService))
 	}
 
 	@Test
 	def void compraUnaEntadaYElServidorIndicaTransacciónExitosa() {
-		when(tarjeta.card.pay(tarjeta.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR0)
+		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR0)
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
-		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
+		Assert.assertEquals(1000, usuario1.plataQueTengo, 0)
 	}
 
 	@Test(expected=typeof(BusinessException))
 	def void compraUnaEntadaYElServidorIndicaDatosInválidos() {
-		when(tarjeta.card.pay(tarjeta.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR1)
+		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR1)
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
 		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
 	}
 
 	@Test(expected=typeof(BusinessException))
 	def void compraUnaEntadaYElServidorIndicaPagoRechazado() {
-		when(tarjeta.card.pay(tarjeta.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR2)
+		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR2)
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
 		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
 	}

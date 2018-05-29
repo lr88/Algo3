@@ -6,19 +6,12 @@ import org.junit.Test
 import org.uqbar.geodds.Point
 
 import static org.mockito.Mockito.*
-
-class Asd {
-
-	def hola() {
-		"asdasdasdasdsad"
-	}
-}
+import org.uqbar.updateService.UpdateService
 
 class testRepoGenerico {
 
 	EntityJsonParser ServicioExternoJson
 
-	var String coco = "coco estya feliz"
 	var Locacion miCasa
 	var RepoUsuario RepoUsuario
 	var RepoServicios RepoServicios
@@ -156,7 +149,6 @@ class testRepoGenerico {
 		ServicioExternoJson.actualizarRepoLocacion(JSonLocaciones)
 		Assert.assertEquals(2, RepoLocacion.elementos.size)
 		Assert.assertTrue(RepoLocacion.elementos.get(0).nombreDeLaLocacion == "Salón El Abierto")
-
 	}
 
 	@Test
@@ -164,21 +156,15 @@ class testRepoGenerico {
 		ServicioExternoJson.actualizarRepoServicio(JSonServicios)
 		Assert.assertEquals(1, RepoServicios.elementos.size)
 		Assert.assertTrue(RepoServicios.elementos.get(0).descripcion == "Catering Food Party")
-
-	}
-
-	@Test
-	def void cocoestafeliz() {
-		var rerer = mock(typeof(Asd))
-		when(rerer.hola()).thenReturn(coco)
-		Assert.assertEquals(0,0,0)
 	}
 	
 	@Test
 	def void testSePuedeMockearUnServicioJson() {
-		var locacion =  mock(typeof(RepoLocacion))
-		when(locacion.updateAll()).thenReturn(JSonLocaciones)
-		Assert.assertEquals(locacion.updateAll(),JSonLocaciones)
+		var locacionUpdateService =  mock(typeof(UpdateService)) 
+		RepoLocacion.updateService = locacionUpdateService 
+		when(locacionUpdateService.getLocationUpdates()).thenReturn(JSonLocaciones)
+		RepoLocacion.updateAll()
+		Assert.assertEquals("Salón El Abierto",RepoLocacion.elementos.get(0).nombreDeLaLocacion)
 	}
 
 }

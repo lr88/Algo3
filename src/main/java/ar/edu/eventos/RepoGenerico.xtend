@@ -13,7 +13,7 @@ abstract class RepoGenerico<T extends Entidad> {
 
 	protected abstract def List<T> search(String value)
 
-	protected abstract def String updateAll()
+	protected abstract def void updateAll()
 
 	protected abstract def void actualizarDatos(T t, T t2)
 

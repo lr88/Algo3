@@ -22,9 +22,9 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 		}
 	}
 	
-	protected override String updateAll() {
+	protected override updateAll() {
+//		UpdateService.getUserUpdates()
 		servJson.actualizarRepoUsuarios(UpdateService.getUserUpdates())
-		UpdateService.getUserUpdates()
 	}
 	
 	protected override void actualizarDatos(Usuario usuarioViejo, Usuario usuarioNuevo) {

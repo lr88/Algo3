@@ -12,7 +12,6 @@ import org.uqbar.ccService.CreditCardService
 import org.uqbar.ccService.CreditCard
 import static org.mockito.Mockito.*
 
-
 class testEventosAbierto {
 	Usuario usuario1
 	Usuario usuario2
@@ -29,13 +28,13 @@ class testEventosAbierto {
 	Entrada entrada6
 	Entrada entrada7
 	Entrada entrada8
-	Tarjeta tarjeta
+	Tarjeta tarjeta1
 	CCResponse EsperadoCCR0
 
 	@Before
 	def void init() {
-		
-		tarjeta = new Tarjeta => [
+
+		tarjeta1 = new Tarjeta => [
 			card = new CreditCardService
 			datos = new CreditCard
 		]
@@ -50,7 +49,7 @@ class testEventosAbierto {
 		]
 
 		lugar1 = new Locacion() => [
-			nombreDeLaLocacion ="asd"
+			nombreDeLaLocacion = "asd"
 			ubicacion = new Point(1.0, 2.0)
 			validar()
 		]
@@ -58,11 +57,11 @@ class testEventosAbierto {
 		usuario1 = new Usuario() => [
 			direccion = lugar1
 			esAntisocial = false
-			plataQueTengo = 10000
+			plataQueTengo = 100
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
-			moneda = tarjeta
+			tarjeta = tarjeta1
 		]
 		usuario2 = new Usuario() => [
 			direccion = lugar1
@@ -71,7 +70,7 @@ class testEventosAbierto {
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
-			moneda = tarjeta
+			tarjeta = tarjeta1
 		]
 		usuario3 = new Usuario() => [
 			direccion = lugar1
@@ -80,7 +79,7 @@ class testEventosAbierto {
 			fechaDeNacimiento = LocalDateTime.of(1990, 10, 10, 0, 0)
 			radioDeCercanía = 3
 			tipoDeUsuario = new Profesional
-			moneda = tarjeta
+			tarjeta = tarjeta1
 		]
 		eventoAbierto1 = new EventoAbierto() => [
 			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
@@ -88,7 +87,7 @@ class testEventosAbierto {
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
 			edadMinima = 18
-			
+
 		]
 
 		eventoAbierto2 = new EventoAbierto() => [
@@ -127,8 +126,8 @@ class testEventosAbierto {
 		]
 
 		val CCS = mock(typeof(CreditCardService))
-		tarjeta.card = CCS
-		when(tarjeta.card.pay(tarjeta.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR0)
+		tarjeta1.card = CCS
+		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR0)
 	}
 
 	@Test
@@ -138,10 +137,10 @@ class testEventosAbierto {
 	}
 
 	@Test
-	def void compraUnaEntradaYSeLEDescuentaElValorDeLAEntrada() {
+	def void compraUnaEntradaYNoSeLEDescuentaElValorDeLAEntrada() {
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
 		Assert.assertEquals(1, usuario1.entradas.size)
-		Assert.assertEquals(9900, usuario1.plataQueTengo,0)
+		Assert.assertEquals(100, usuario1.plataQueTengo, 0)
 	}
 
 	@Test
@@ -170,8 +169,8 @@ class testEventosAbierto {
 		Assert.assertEquals(LocalDateTime.of(2018, 7, 12, 0, 0), eventoAbierto1.fechaMaximaDeConfirmacion)
 	}
 
-	@Test(expected = typeof(BusinessException))
-	def void pasoLaFechaDeConfirmacion(){
+	@Test(expected=typeof(BusinessException))
+	def void pasoLaFechaDeConfirmacion() {
 		eventoAbierto1.cambiarFecha(LocalDateTime.of(2004, 10, 10, 00, 00))
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada2)
 	}
@@ -201,14 +200,14 @@ class testEventosAbierto {
 		usuario1.postergarEvento(eventoAbierto1, LocalDateTime.of(2020, 10, 11, 0, 0))
 		usuario2.devolverEntrada(entrada2, eventoAbierto1)
 		Assert.assertTrue(usuario2.mensajes.contains("se postergo el evento\n"))
-		Assert.assertEquals(100, usuario2.plataQueTengo, 0)
+		Assert.assertEquals(200, usuario2.plataQueTengo, 0)
 	}
 
 	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoSeRecibeunPorcentajedeLaEntrada() {
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada6)
 		usuario2.devolverEntrada(entrada6, eventoAbierto1)
-		Assert.assertEquals(80, usuario2.plataQueTengo, 0)
+		Assert.assertEquals(180, usuario2.plataQueTengo, 0)
 	}
 
 	@Test //
@@ -218,17 +217,17 @@ class testEventosAbierto {
 		eventoAbierto2.fuePostergado = false
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)
 		usuario2.devolverEntrada(entrada8, eventoAbierto2)
-		Assert.assertEquals(80, usuario2.plataQueTengo,0.1)
+		Assert.assertEquals(180, usuario2.plataQueTengo, 0.1)
 	}
 
-	@Test 
+	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada() {
-		var aux = Duration.between(LocalDateTime.of(2018, 5, 1, 0, 0),  LocalDateTime.of(2018, 5, 2, 0, 2))
+		var aux = Duration.between(LocalDateTime.of(2018, 5, 1, 0, 0), LocalDateTime.of(2018, 5, 2, 0, 2))
 		eventoAbierto2.cambiarFecha(LocalDateTime.now.plus(aux))
 		eventoAbierto2.fuePostergado = false
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)
 		usuario2.devolverEntrada(entrada8, eventoAbierto2)
-		Assert.assertEquals(20, usuario2.plataQueTengo,0.1)
+		Assert.assertEquals(120, usuario2.plataQueTengo, 0.1)
 	}
 
 	@Test
@@ -238,6 +237,6 @@ class testEventosAbierto {
 		eventoAbierto2.fuePostergado = false
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)
 		usuario2.devolverEntrada(entrada8, eventoAbierto2)
-		Assert.assertEquals(40, usuario2.plataQueTengo,0.1)
+		Assert.assertEquals(140, usuario2.plataQueTengo, 0.1)
 	}
 }

@@ -29,11 +29,12 @@ class Usuario implements Entidad {
 	protected var double radioDeCercanía
 	protected TipoDeUsuario tipoDeUsuario
 	protected int cantidadDeAcompañantes
-	protected Tarjeta moneda 
+	protected Tarjeta tarjeta 
 	
 	public def void comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
-		unEvento.adquirirEntrada(this,unaEntrada)
 		pagarEntrada(unaEntrada)
+		agregarEntrada(unaEntrada)
+		unEvento.adquirirEntrada(this,unaEntrada)
 	}
 
 	private def void agregarEntrada(Entrada entrada) {
@@ -224,8 +225,7 @@ class Usuario implements Entidad {
 	}
 
 	public def void pagarEntrada(Entrada entrada) {
-		moneda.pagarEntrada(this,entrada)
-		agregarEntrada(entrada)
+		tarjeta.pagarEntrada(entrada)
 	}
 	
 	public def void agregarInvitacion(Invitacion invitacion) {

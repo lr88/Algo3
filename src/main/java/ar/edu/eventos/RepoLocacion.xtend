@@ -2,10 +2,12 @@ package ar.edu.eventos
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.List
 import org.uqbar.updateService.UpdateService
+import org.eclipse.xtend.lib.annotations.AccessorsProcessor.Util
+
 @Accessors
 class RepoLocacion extends RepoGenerico<Locacion> {
 
-	private UpdateService UpdateService
+	UpdateService UpdateService
 	
 	override List<Locacion> search(String buscar) {
 		elementos.filter[locacion|locacion.nombreDeLaLocacion == locacion.nombreDeLaLocacion.indexOf(buscar)].toList
@@ -21,9 +23,9 @@ class RepoLocacion extends RepoGenerico<Locacion> {
 		}
 	}
 	
-	override String updateAll() {
+	
+	override void updateAll() {
 		servJson.actualizarRepoLocacion(UpdateService.getLocationUpdates())
-		UpdateService.getLocationUpdates()
 	}
 	
 	override void actualizarDatos(Locacion locacionVieja, Locacion locacionNueva) {
