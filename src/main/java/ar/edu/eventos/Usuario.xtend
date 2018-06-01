@@ -8,6 +8,7 @@ import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.eventos.exceptions.Validar
+import java.util.ArrayList
 
 @Accessors
 class Usuario implements Entidad {
@@ -30,6 +31,8 @@ class Usuario implements Entidad {
 	protected TipoDeUsuario tipoDeUsuario
 	protected int cantidadDeAcompañantes
 	protected Tarjeta tarjeta 
+	protected var List<MailInterno> mailsRecibidos = new ArrayList<MailInterno>
+	protected var List<ObserverCrearEvento> listaAccionesAlCrearUnEvento = new ArrayList<ObserverCrearEvento>
 	
 	public def void comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
 		pagarEntrada(unaEntrada)
@@ -65,11 +68,13 @@ class Usuario implements Entidad {
 	public def void crearEventoCerrado(Evento unEvento) {
 		tipoDeUsuario.puedoOrganizarelEventoCerrado(unEvento,this)
 		agregarEvento(unEvento)
+		listaAccionesAlCrearUnEvento.forEach[observer|observer.ejecutar(this)]
 	}
 
 	public def void crearEventoAbierto(EventoAbierto unEvento) {
 		tipoDeUsuario.puedoOrganizarEventoAbierto(unEvento,this)
 		agregarEvento(unEvento)
+		listaAccionesAlCrearUnEvento.forEach[observer|observer.ejecutar(this)]
 	}
 	
 	public def void devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
@@ -242,6 +247,18 @@ class Usuario implements Entidad {
 
 	override setId(int unId) {
 		id = unId
+	}
+	
+	def recibirMensajeDeMail(MailInterno mail) {
+		mailsRecibidos.add(mail)
+	}
+	
+	def agregarAccion(ObserverCrearEvento observer) {
+		listaAccionesAlCrearUnEvento.add(observer)
+	}
+
+	def eliminarAccion(ObserverCrearEvento observer) {
+		listaAccionesAlCrearUnEvento.remove(observer)
 	}
 }
 
