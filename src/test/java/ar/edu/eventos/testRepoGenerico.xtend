@@ -4,32 +4,46 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.uqbar.geodds.Point
+import org.uqbar.updateService.UpdateService
 
 import static org.mockito.Mockito.*
-import org.uqbar.updateService.UpdateService
 
 class testRepoGenerico {
 
-	EntityJsonParser ServicioExternoJson
-
+	var EntityJsonParser EnJsPars
 	var Locacion miCasa
-	var RepoUsuario RepoUsuario
-	var RepoServicios RepoServicios
-	var RepoLocacion RepoLocacion
-	var String JSonUsuarios
-	var String JSonLocaciones
-	var String JSonServicios
+	var String jSonUsuarios
+	var String jSonLocaciones
+	var String jSonServicios
+	var UpdateService updServs
+	var EntityJsonParser servJsonParser
+	var RepoLocacion RL
+	var RepoServicios RS
+	var RepoUsuario RU
 
 	@Before
 	def void init() {
+
+		updServs = new UpdateService
 		
-		ServicioExternoJson = new EntityJsonParser
-		ServicioExternoJson.repositorioUsuarios = new RepoUsuario
-		ServicioExternoJson.repositorioServicios = new RepoServicios
-		ServicioExternoJson.repositorioLocacion = new RepoLocacion
-		RepoUsuario = ServicioExternoJson.repositorioUsuarios
-		RepoServicios = ServicioExternoJson.repositorioServicios
-		RepoLocacion = ServicioExternoJson.repositorioLocacion
+		RL = new RepoLocacion
+		RS = new RepoServicios
+		RU = new RepoUsuario
+
+		EnJsPars = new EntityJsonParser => [
+
+			repositorioLocacion = RL
+			repositorioServicios = RS
+			repositorioUsuarios = RU
+
+			repositorioLocacion.servJson = servJsonParser
+			repositorioServicios.servJson = servJsonParser
+			repositorioUsuarios.servJson = servJsonParser
+
+			repositorioLocacion.update = updServs
+			repositorioServicios.update = updServs
+			repositorioUsuarios.update = updServs
+		]
 
 		miCasa = new Locacion() => [
 			nombreDeLaLocacion = "asd"
@@ -37,7 +51,7 @@ class testRepoGenerico {
 			validar()
 		]
 
-		JSonUsuarios = '[  
+		jSonUsuarios = '[  
    {  
       "nombreUsuario":"lucas_capo",
       "nombre":"Lucas",
@@ -108,7 +122,7 @@ class testRepoGenerico {
    }
 ]'
 
-		JSonLocaciones = '[{
+		jSonLocaciones = '[{
 		\"x\":-34.603759,
 		\"y\":-58.381586,
 		\"nombre\":\"Salón El Abierto\"
@@ -119,7 +133,7 @@ class testRepoGenerico {
 		\"nombre\":\"Estadio Obras\"
 		}]'
 
-		JSonServicios = '[  
+		jSonServicios = '[  
    {  
       "descripcion":"Catering Food Party",
       "tarifaServicio":{  
@@ -133,38 +147,54 @@ class testRepoGenerico {
       }
    }
 ]
-'
-
+' 
 	}
+
 
 	@Test
 	def testearUsuarioJson() {
-		ServicioExternoJson.actualizarRepoUsuarios(JSonUsuarios)
-		Assert.assertEquals(3, RepoUsuario.elementos.size)
-		Assert.assertTrue(RepoUsuario.elementos.get(0).apellido == "Lopez")
+		EnJsPars.actualizarRepoUsuarios(jSonUsuarios)
+		Assert.assertEquals(3, EnJsPars.repositorioUsuarios.elementos.size)
+		Assert.assertTrue(EnJsPars.repositorioUsuarios.elementos.get(0).apellido == "Lopez")
 	}
 
 	@Test
 	def testearLocacionJson() {
-		ServicioExternoJson.actualizarRepoLocacion(JSonLocaciones)
-		Assert.assertEquals(2, RepoLocacion.elementos.size)
-		Assert.assertTrue(RepoLocacion.elementos.get(0).nombreDeLaLocacion == "Salón El Abierto")
+		EnJsPars.actualizarRepoLocacion(jSonLocaciones)
+		Assert.assertEquals(2, EnJsPars.repositorioLocacion.elementos.size)
+		Assert.assertTrue(EnJsPars.repositorioLocacion.elementos.get(0).nombreDeLaLocacion == "Salón El Abierto")
 	}
 
 	@Test
 	def testearServicioJson() {
-		ServicioExternoJson.actualizarRepoServicio(JSonServicios)
-		Assert.assertEquals(1, RepoServicios.elementos.size)
-		Assert.assertTrue(RepoServicios.elementos.get(0).descripcion == "Catering Food Party")
+		EnJsPars.actualizarRepoServicio(jSonServicios)
+		Assert.assertEquals(1, EnJsPars.repositorioServicios.elementos.size)
+		Assert.assertTrue(EnJsPars.repositorioServicios.elementos.get(0).descripcion == "Catering Food Party")
 	}
 	
 	@Test
-	def void testSePuedeMockearUnServicioJson() {
-		var locacionUpdateService =  mock(typeof(UpdateService)) 
-		RepoLocacion.updateService = locacionUpdateService 
-		when(locacionUpdateService.getLocationUpdates()).thenReturn(JSonLocaciones)
-		RepoLocacion.updateAll()
-		Assert.assertEquals("Salón El Abierto",RepoLocacion.elementos.get(0).nombreDeLaLocacion)
+	def void mockUpdateServiceLocaciones() {
+		RL.servJson = EnJsPars
+		RL.update = mock(typeof(UpdateService))
+		when(RL.locations).thenReturn(jSonLocaciones)
+		RL.updateAll
+		Assert.assertTrue(EnJsPars.repositorioLocacion.elementos.get(0).nombreDeLaLocacion == "Salón El Abierto")
+	}
+	@Test
+	def void mockUpdateServiceUsuarios() {
+		RU.servJson = EnJsPars
+		RU.update = mock(typeof(UpdateService))
+		when(RU.getUsers).thenReturn(jSonUsuarios)
+		RU.updateAll
+		Assert.assertTrue(EnJsPars.repositorioUsuarios.elementos.get(0).nombre == "Lucas")
+	}
+	@Test
+	def void mockUpdateServiceServicios() {
+		RS.servJson = EnJsPars
+		RS.update = mock(typeof(UpdateService))
+		when(RS.getServis()).thenReturn(jSonServicios)
+		RS.updateAll
+		Assert.assertTrue(EnJsPars.repositorioServicios.elementos.get(0).descripcion == "Catering Food Party")
 	}
 
 }

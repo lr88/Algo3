@@ -3,12 +3,19 @@ package ar.edu.eventos
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.eventos.exceptions.Validar
+import org.uqbar.updateService.UpdateService
 
 @Accessors
 abstract class RepoGenerico<T extends Entidad> {
+	
+	UpdateService update
+		
 	Validar validaciones = new Validar
+	
 	protected List<T> elementos = newArrayList()
-	protected var EntityJsonParser servJson = new EntityJsonParser()
+	
+	var EntityJsonParser servJson 
+	
 	protected int proximoId = 0
 
 	protected abstract def List<T> search(String value)

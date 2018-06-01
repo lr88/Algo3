@@ -11,9 +11,9 @@ import org.uqbar.geodds.Point
 @Accessors
 class EntityJsonParser {
 
-	private var RepoUsuario repositorioUsuarios
-	private var RepoLocacion repositorioLocacion
-	private var RepoServicios repositorioServicios
+	var RepoUsuario repositorioUsuarios
+	var RepoLocacion repositorioLocacion
+	var RepoServicios repositorioServicios
 
 	public def void actualizarRepoUsuarios(String json) {
 		Json.parse(json).asArray.forEach[arrays|parsearUsuario(arrays.asObject)]
