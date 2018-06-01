@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.TestRepositorios
 
 import org.junit.Assert
 import org.junit.Before
@@ -11,6 +11,7 @@ import ar.edu.eventos.Repositorios.RepoLocacion
 import ar.edu.eventos.Repositorios.RepoServicios
 import ar.edu.eventos.Repositorios.RepoUsuario
 import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Json.EntityJsonParser
 
 class testRepoGenerico {
 

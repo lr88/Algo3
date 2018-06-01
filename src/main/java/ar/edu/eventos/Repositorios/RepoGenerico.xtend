@@ -4,8 +4,8 @@ import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.eventos.exceptions.Validar
 import org.uqbar.updateService.UpdateService
-import ar.edu.eventos.Entidad
-import ar.edu.eventos.EntityJsonParser
+import ar.edu.eventos.Json.Entidad
+import ar.edu.eventos.Json.EntityJsonParser
 
 @Accessors
 abstract class RepoGenerico<T extends Entidad> {

@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.TestRepositorios
 
 import org.junit.Before
 import org.uqbar.geodds.Point

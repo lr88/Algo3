@@ -3,7 +3,7 @@ package ar.edu.eventos.Eventos
 import org.uqbar.geodds.Point
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.eventos.exceptions.Validar
-import ar.edu.eventos.Entidad
+import ar.edu.eventos.Json.Entidad
 
 @Accessors
 class Locacion implements Entidad {

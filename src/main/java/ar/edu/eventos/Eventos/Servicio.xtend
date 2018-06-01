@@ -6,7 +6,7 @@ import ar.edu.eventos.exceptions.BusinessException
 import ar.edu.eventos.exceptions.Validar
 import ar.edu.eventos.Eventos.Locacion
 import ar.edu.eventos.Eventos.Evento
-import ar.edu.eventos.Entidad
+import ar.edu.eventos.Json.Entidad
 
 @Accessors
 class Servicio implements Entidad {

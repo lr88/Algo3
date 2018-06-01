@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.Mails
 
 import ar.edu.eventos.Usuario.Usuario
 

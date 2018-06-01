@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.TestEventos
 
 import java.time.LocalDateTime
 import org.junit.Assert

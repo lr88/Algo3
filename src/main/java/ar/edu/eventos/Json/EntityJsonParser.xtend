@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.Json
 
 import com.eclipsesource.json.Json
 import com.eclipsesource.json.JsonObject

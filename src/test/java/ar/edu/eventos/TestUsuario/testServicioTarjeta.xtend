@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.TestUsuario
 
 import org.junit.Before
 import org.junit.Assert

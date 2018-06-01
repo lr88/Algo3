@@ -15,9 +15,9 @@ import ar.edu.eventos.Eventos.Entrada
 import ar.edu.eventos.Eventos.Locacion
 import ar.edu.eventos.Eventos.EventoAbierto
 import ar.edu.eventos.Eventos.EventoCerrado
-import ar.edu.eventos.Entidad
-import ar.edu.eventos.MailInterno
-import ar.edu.eventos.ObserverCrearEvento
+import ar.edu.eventos.Json.Entidad
+import ar.edu.eventos.Mails.MailInterno
+import ar.edu.eventos.Observer.ObserverCrearEvento
 
 @Accessors
 class Usuario implements Entidad {

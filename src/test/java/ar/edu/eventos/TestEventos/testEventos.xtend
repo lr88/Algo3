@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.TestEventos
 import ar.edu.eventos.Usuario.Usuario
 import java.time.LocalDateTime
 import org.junit.Assert
@@ -32,7 +32,6 @@ class testEventos {
 	def void init() {
 		
 		unEntrada= new Entrada(casamiento)
-		
 		
 		miCasa = new Locacion() => [
 			nombreDeLaLocacion ="asd"

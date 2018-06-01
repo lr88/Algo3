@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.Mails
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.eventos.Usuario.Usuario
