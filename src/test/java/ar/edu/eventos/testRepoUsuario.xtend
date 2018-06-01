@@ -6,7 +6,9 @@ import org.junit.Test
 import org.junit.Assert
 import ar.edu.eventos.exceptions.BusinessException
 import java.time.LocalDateTime
-
+import ar.edu.eventos.Repositorios.RepoUsuario
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Usuario.Usuario
 class testRepoUsuario {
 	RepoUsuario repoUser
 	Locacion lugarUsuario

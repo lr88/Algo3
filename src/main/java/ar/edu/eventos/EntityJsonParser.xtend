@@ -7,6 +7,15 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.geodds.Point
+import ar.edu.eventos.Repositorios.RepoUsuario
+import ar.edu.eventos.Repositorios.RepoLocacion
+import ar.edu.eventos.Repositorios.RepoServicios
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Usuario.Usuario
+import ar.edu.eventos.Eventos.Servicio
+import ar.edu.eventos.Eventos.TarifaFija
+import ar.edu.eventos.Eventos.TarifaPorPersona
+import ar.edu.eventos.Eventos.TarifaPorHora
 
 @Accessors
 class EntityJsonParser {

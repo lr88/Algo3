@@ -5,6 +5,8 @@ import org.uqbar.geodds.Point
 import org.junit.Test
 import org.junit.Assert
 import ar.edu.eventos.exceptions.BusinessException
+import ar.edu.eventos.Repositorios.RepoLocacion
+import ar.edu.eventos.Eventos.Locacion
 
 class testRepoLocacion {
 	var RepoLocacion repoLOCA

@@ -1,9 +1,11 @@
-package ar.edu.eventos
+package ar.edu.eventos.Repositorios
 
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.eventos.exceptions.Validar
 import org.uqbar.updateService.UpdateService
+import ar.edu.eventos.Entidad
+import ar.edu.eventos.EntityJsonParser
 
 @Accessors
 abstract class RepoGenerico<T extends Entidad> {
@@ -24,12 +26,12 @@ abstract class RepoGenerico<T extends Entidad> {
 
 	protected abstract def void actualizarDatos(T t, T t2)
 
-	protected def void update(T objectViejo,T objectNuevo) {
+	def void update(T objectViejo,T objectNuevo) {
 		objectNuevo.validar()
 		this.actualizarDatos(objectViejo, objectNuevo)
 	}
 
-	protected def void create(T object) {
+	def void create(T object) {
 		object.validar()
 		validaciones.validarLaExistenciaID(object, this)
 		elementos.add(object)
@@ -37,11 +39,11 @@ abstract class RepoGenerico<T extends Entidad> {
 		object.setId(proximoId)
 	}
 
-	protected def void delete(T object) {
+	def void delete(T object) {
 		elementos.remove(object)
 	}
 
-	protected def T searchById(int id) {
+	def T searchById(int id) {
 		elementos.findFirst[elem|elem.id == id]
 	}
 

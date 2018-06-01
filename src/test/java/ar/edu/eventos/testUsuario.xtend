@@ -6,6 +6,13 @@ import org.junit.Test
 import org.junit.Before
 import org.uqbar.geodds.Point
 import java.time.LocalDateTime
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Eventos.EventoCerrado
+import ar.edu.eventos.Eventos.EventoAbierto
+import ar.edu.eventos.Usuario.Usuario
+import ar.edu.eventos.Usuario.Free
+import ar.edu.eventos.Usuario.Profesional
+import ar.edu.eventos.Usuario.Amateur
 
 class testUsuario {
 	Usuario carlos

@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.Usuario
 import ar.edu.eventos.exceptions.BusinessException
 
 import java.time.Duration
@@ -9,6 +9,15 @@ import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.eventos.exceptions.Validar
 import java.util.ArrayList
+import ar.edu.eventos.Eventos.Evento
+import ar.edu.eventos.Eventos.Invitacion
+import ar.edu.eventos.Eventos.Entrada
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Eventos.EventoAbierto
+import ar.edu.eventos.Eventos.EventoCerrado
+import ar.edu.eventos.Entidad
+import ar.edu.eventos.MailInterno
+import ar.edu.eventos.ObserverCrearEvento
 
 @Accessors
 class Usuario implements Entidad {

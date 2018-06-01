@@ -7,6 +7,10 @@ import org.uqbar.geodds.Point
 import org.uqbar.updateService.UpdateService
 
 import static org.mockito.Mockito.*
+import ar.edu.eventos.Repositorios.RepoLocacion
+import ar.edu.eventos.Repositorios.RepoServicios
+import ar.edu.eventos.Repositorios.RepoUsuario
+import ar.edu.eventos.Eventos.Locacion
 
 class testRepoGenerico {
 

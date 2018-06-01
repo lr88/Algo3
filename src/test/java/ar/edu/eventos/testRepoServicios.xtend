@@ -5,6 +5,10 @@ import org.uqbar.geodds.Point
 import org.junit.Test
 import org.junit.Assert
 import ar.edu.eventos.exceptions.BusinessException
+import ar.edu.eventos.Repositorios.RepoServicios
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Eventos.Servicio
+import ar.edu.eventos.Eventos.TarifaFija
 
 class testRepoServicios {
 	RepoServicios repoSERV

@@ -1,6 +1,7 @@
-package ar.edu.eventos
+package ar.edu.eventos.Eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.eventos.Eventos.Evento
 
 interface TipoDeTarifa {
 
@@ -10,7 +11,7 @@ interface TipoDeTarifa {
 @Accessors
 class TarifaFija implements TipoDeTarifa {
 
-	private var double valor
+	var double valor
 
 	public override double costo(Evento unEvento) {
 		valor
@@ -20,8 +21,8 @@ class TarifaFija implements TipoDeTarifa {
 @Accessors
 class TarifaPorHora implements TipoDeTarifa {
 
-	private var double valor
-	private var double costoMínimoFijo
+	var double valor
+	var double costoMínimoFijo
 
 	public override double costo(Evento unEvento) {
 		return Math.max(valor * unEvento.duracion().intValue, costoMínimoFijo)
@@ -31,8 +32,8 @@ class TarifaPorHora implements TipoDeTarifa {
 @Accessors
 class TarifaPorPersona implements TipoDeTarifa {
 
-	private var double valor
-	private var double porcentajeMinimo
+	var double valor
+	var double porcentajeMinimo
 
 	public override double costo(Evento unEvento) {
 		return Math.max(unEvento.cantidadDePersonasQueAsisten() * valor,

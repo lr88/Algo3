@@ -1,8 +1,8 @@
-package ar.edu.eventos
-
+package ar.edu.eventos.Usuario
 
 import ar.edu.eventos.exceptions.BusinessException
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.eventos.Eventos.Evento
 
 interface TipoDeUsuario {
 	
@@ -62,10 +62,10 @@ class Amateur implements TipoDeUsuario {
 	private int  maximoDeInvitacionesPorEvento = 50
 	private int cantidadMaximaPermitidaDeSimultaneidadDeEventos = 5
 
-	public override void puedoCancelarElEvento(ar.edu.eventos.Evento evento) {
+	public override void puedoCancelarElEvento(Evento evento) {
 	}
 
-	public override void puedoPostergarElEvento(ar.edu.eventos.Evento evento) {
+	public override void puedoPostergarElEvento(Evento evento) {
 	}
 
 	public override void puedoOrganizarEventoAbierto(Evento unEvento, Usuario unUsuario) {

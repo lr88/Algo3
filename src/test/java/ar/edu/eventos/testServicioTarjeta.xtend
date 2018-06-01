@@ -10,6 +10,12 @@ import org.uqbar.ccService.CreditCardService
 import org.uqbar.ccService.CreditCard
 import static org.mockito.Mockito.*
 import ar.edu.eventos.exceptions.BusinessException
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Eventos.EventoAbierto
+import ar.edu.eventos.Eventos.Entrada
+import ar.edu.eventos.Usuario.Usuario
+import ar.edu.eventos.Usuario.Tarjeta
+import ar.edu.eventos.Usuario.Profesional
 
 class testServicioTarjeta {
 
@@ -104,49 +110,49 @@ class testServicioTarjeta {
 		Assert.assertEquals(1000, usuario1.plataQueTengo, 0)
 	}
 
-//	@Test(expected=typeof(BusinessException))
-//	def void compraUnaEntadaYElServidorIndicaDatosInválidos() {
-//		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR1)
-//		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
-//		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
-//	}
-//
-//	@Test(expected=typeof(BusinessException))
-//	def void compraUnaEntadaYElServidorIndicaPagoRechazado() {
-//		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR2)
-//		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
-//		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
-//	}
-//
-//	@Test
-//	def void seMockealaRespuestadelCreditCardNombre() {
-//		Assert.assertEquals("pepe", creditcard1.name)
-//		var creditcard1 = mock(typeof(CreditCard))
-//		when(creditcard1.name).thenReturn("Perdro")
-//		Assert.assertEquals("Perdro", creditcard1.name)
-//	}
-//
-//	@Test
-//	def void seMockealaRespuestadelCreditCardNumer() {
-//		Assert.assertEquals("12345", creditcard1.number)
-//		var creditcard1 = mock(typeof(CreditCard))
-//		when(creditcard1.number).thenReturn("111")
-//		Assert.assertEquals("111", creditcard1.number)
-//	}
-//
-//	@Test
-//	def void seMockealaRespuestadelCreditCardCVC() {
-//		Assert.assertEquals("999", creditcard1.cvc)
-//		var creditcard1 = mock(typeof(CreditCard))
-//		when(creditcard1.cvc).thenReturn("919191919")
-//		Assert.assertEquals("919191919", creditcard1.cvc)
-//	}
-//
-//	@Test
-//	def void seMockealaRespuestadelCreditCardExpirationDate() {
-//		Assert.assertEquals("16-12-2017", creditcard1.expirationDate)
-//		var creditcard1 = mock(typeof(CreditCard))
-//		when(creditcard1.expirationDate).thenReturn("03-07-2017")
-//		Assert.assertEquals("03-07-2017", creditcard1.expirationDate)
-//	}
+	@Test(expected=typeof(BusinessException))
+	def void compraUnaEntadaYElServidorIndicaDatosInválidos() {
+		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR1)
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
+		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
+	}
+
+	@Test(expected=typeof(BusinessException))
+	def void compraUnaEntadaYElServidorIndicaPagoRechazado() {
+		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR2)
+		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
+		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
+	}
+
+	@Test
+	def void seMockealaRespuestadelCreditCardNombre() {
+		Assert.assertEquals("pepe", creditcard1.name)
+		var creditcard1 = mock(typeof(CreditCard))
+		when(creditcard1.name).thenReturn("Perdro")
+		Assert.assertEquals("Perdro", creditcard1.name)
+	}
+
+	@Test
+	def void seMockealaRespuestadelCreditCardNumer() {
+		Assert.assertEquals("12345", creditcard1.number)
+		var creditcard1 = mock(typeof(CreditCard))
+		when(creditcard1.number).thenReturn("111")
+		Assert.assertEquals("111", creditcard1.number)
+	}
+
+	@Test
+	def void seMockealaRespuestadelCreditCardCVC() {
+		Assert.assertEquals("999", creditcard1.cvc)
+		var creditcard1 = mock(typeof(CreditCard))
+		when(creditcard1.cvc).thenReturn("919191919")
+		Assert.assertEquals("919191919", creditcard1.cvc)
+	}
+
+	@Test
+	def void seMockealaRespuestadelCreditCardExpirationDate() {
+		Assert.assertEquals("16-12-2017", creditcard1.expirationDate)
+		var creditcard1 = mock(typeof(CreditCard))
+		when(creditcard1.expirationDate).thenReturn("03-07-2017")
+		Assert.assertEquals("03-07-2017", creditcard1.expirationDate)
+	}
 }

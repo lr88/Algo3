@@ -1,8 +1,9 @@
-package ar.edu.eventos
+package ar.edu.eventos.Eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.time.LocalDateTime
 import java.time.Duration
+import ar.edu.eventos.Usuario.Usuario
 
 @Accessors
 class Entrada {

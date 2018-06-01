@@ -1,7 +1,7 @@
-package ar.edu.eventos
-
+package ar.edu.eventos.Repositorios
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.eventos.Usuario.Usuario
 
 @Accessors
 class RepoUsuario extends RepoGenerico<Usuario>{
@@ -24,7 +24,7 @@ class RepoUsuario extends RepoGenerico<Usuario>{
 		update.getUserUpdates()
 	}
 	
-	protected override updateAll() {
+	override updateAll() {
 		servJson.actualizarRepoUsuarios(update.getUserUpdates())
 	}
 	

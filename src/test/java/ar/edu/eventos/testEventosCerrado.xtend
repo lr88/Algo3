@@ -7,6 +7,12 @@ import org.junit.Test
 import org.uqbar.geodds.Point
 import java.util.List
 import ar.edu.eventos.exceptions.BusinessException
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Eventos.EventoCerrado
+import ar.edu.eventos.Usuario.Usuario
+import ar.edu.eventos.Usuario.Free
+import ar.edu.eventos.Usuario.Amateur
+import ar.edu.eventos.Usuario.Profesional
 
 class testEventosCerrado {
 	Locacion lugarDelEvento1

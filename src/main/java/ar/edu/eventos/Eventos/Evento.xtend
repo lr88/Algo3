@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.Eventos
 
 import java.time.Duration
 import java.time.LocalDateTime
@@ -8,6 +8,7 @@ import java.util.HashSet
 import org.uqbar.geodds.Point
 import ar.edu.eventos.exceptions.BusinessException
 import ar.edu.eventos.exceptions.Validar
+import ar.edu.eventos.Usuario.Usuario
 
 @Accessors
 abstract class Evento {

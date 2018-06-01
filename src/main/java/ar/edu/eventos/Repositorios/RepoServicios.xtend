@@ -1,7 +1,8 @@
-package ar.edu.eventos
+package ar.edu.eventos.Repositorios
 
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.eventos.Eventos.Servicio
 
 @Accessors
 class RepoServicios extends RepoGenerico<Servicio> {

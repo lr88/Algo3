@@ -11,6 +11,12 @@ import org.uqbar.ccService.CCResponse
 import org.uqbar.ccService.CreditCardService
 import org.uqbar.ccService.CreditCard
 import static org.mockito.Mockito.*
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Eventos.EventoAbierto
+import ar.edu.eventos.Eventos.Entrada
+import ar.edu.eventos.Usuario.Usuario
+import ar.edu.eventos.Usuario.Tarjeta
+import ar.edu.eventos.Usuario.Profesional
 
 class testEventosAbierto {
 	Usuario usuario1

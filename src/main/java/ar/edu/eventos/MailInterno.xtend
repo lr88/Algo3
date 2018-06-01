@@ -1,6 +1,7 @@
 package ar.edu.eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.eventos.Usuario.Usuario
 
 @Accessors
 class MailInterno {

@@ -1,5 +1,6 @@
-package ar.edu.eventos
+package ar.edu.eventos.Eventos
 
+import ar.edu.eventos.Usuario.Usuario
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.geodds.Point
 

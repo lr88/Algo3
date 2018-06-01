@@ -1,4 +1,4 @@
-package ar.edu.eventos
+package ar.edu.eventos.Eventos
 
 /* mosjim@gmail.com */
 import org.eclipse.xtend.lib.annotations.Accessors
@@ -7,6 +7,7 @@ import java.time.LocalDateTime
 import java.util.Set
 import java.util.HashSet
 import ar.edu.eventos.exceptions.BusinessException
+import ar.edu.eventos.Usuario.Usuario
 
 @Accessors
 class EventoAbierto extends Evento {

@@ -1,14 +1,15 @@
-package ar.edu.eventos
+package ar.edu.eventos.Eventos
 
 import ar.edu.eventos.exceptions.BusinessException
 import java.util.HashSet
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.eventos.Usuario.Usuario
 
 @Accessors
 class EventoCerrado extends Evento {
 
-	private var double cantidadMaximaDeInvitados
+	@Accessors var double cantidadMaximaDeInvitados
 	Set<Invitacion> invitaciones = new HashSet()
 
 	public override double capacidadMaxima() {

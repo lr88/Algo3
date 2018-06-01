@@ -3,6 +3,8 @@ package ar.edu.eventos
 
 import org.eclipse.xtend.lib.annotations.Accessors
 import java.util.Observable
+import ar.edu.eventos.Usuario.Usuario
+
 //import org.uqbar.commons.model.annotations.Observable;
 
 @Accessors
