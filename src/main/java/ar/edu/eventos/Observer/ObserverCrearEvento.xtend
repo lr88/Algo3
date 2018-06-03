@@ -3,11 +3,11 @@ package ar.edu.eventos.Observer
 import org.eclipse.xtend.lib.annotations.Accessors
 import ar.edu.eventos.Usuario.Usuario
 import ar.edu.eventos.Mails.MailInterno
-import ar.edu.eventos.Mails.MailSender
+import org.uqbar.mailService.MailService
+import org.uqbar.mailService.Mail
 
-//import org.uqbar.commons.model.annotations.Observable;
+
 @Accessors
-//@Observable
 abstract class ObserverCrearEvento {
 
 	String nombre
@@ -15,13 +15,16 @@ abstract class ObserverCrearEvento {
 	new(String nom) {
 		nombre = nom
 	}
+	
 	def void ejecutar(Usuario unUsuario)
+	
 	override toString() {
 		nombre
 	}
+	
 }
 
-class AmigosDelCreador extends ObserverCrearEvento {
+class AmigoDelCreador extends ObserverCrearEvento {
 
 	new(String nom) {
 		super(nom)
@@ -35,12 +38,12 @@ class AmigosDelCreador extends ObserverCrearEvento {
 	}
 
 	def String generarTexto(Usuario unUsuario) {
-		"el usuario " + unUsuario.nombre + " ha creado el evento " + unUsuario.eventos
+		"el usuario " + unUsuario.nombre + " ha creado el evento " + unUsuario.eventos.head.nombre
 	}
 
 }
 
-class MeTienenDeAmigo extends ObserverCrearEvento {
+class SuperAmigo extends ObserverCrearEvento {
 
 	new(String nom) {
 		super(nom)
@@ -58,37 +61,91 @@ class MeTienenDeAmigo extends ObserverCrearEvento {
 	}
 
 	def String generarTexto(Usuario unUsuario) {
-		"el usuario " + unUsuario.nombre + " ha creado el evento " + unUsuario.eventos
+		"el usuario " + unUsuario.nombre + " ha creado el evento " + unUsuario.eventos.head.nombre
 	}
 
 }
 
-class AmigosCercanos extends ObserverCrearEvento {
+class ViveCerca extends ObserverCrearEvento {
 
-	MailSender mailSender
+	MailService mailService
+	Mail email
 
-	new(String nom, MailSender sender) {
+	new(String nom, MailService sender) {
 		super(nom)
-		mailSender = sender
+		mailService = sender
 	}
 
 	override ejecutar(Usuario unUsuario) {
+			
 		/*Enviar un mail y una notificación a contactos que viven cerca del evento.
 		 *  Se entiende por contacto tanto a los amigos del  creador como a quienes
 		 *  lo tienen en su lista de amigos. 
-		 * unUsuario.amigos.forEach [ amigo |
-		 * 	if (amigo.amigos.contains(unUsuario) ) {
-		 * 		var String mensaje
-		 * 		mensaje = this.generarTexto(unUsuario)
-		 * 		val MailInterno mail = new MailInterno(mensaje,unUsuario) 
-		 * 		amigo.recibirMensajeDeMail(mail)	
-		 * 		mailSender.sendMail(amigo, mail)	
-		 * 	}
-		 ]*/
+		 */
+		unUsuario.amigos.forEach [ amigo |
+		  	    amigo.amigos.contains(unUsuario)
+		  		amigo.viveCerca
+		 		var String mensaje
+		    	mensaje = this.generarTexto(unUsuario)
+		  		val MailInterno mail = new MailInterno(mensaje,unUsuario) 
+		  		amigo.recibirMensajeDeMail(mail)
+		  		mailService.sendMail(email)	
+		 ]	 
+		
 	}
 
 	def String generarTexto(Usuario unUsuario) {
-		"el usuario " + unUsuario.nombre + " ha creado el evento " + unUsuario.eventos
+		"el usuario " + unUsuario.nombre + " ha creado el evento " + unUsuario.eventos.head.nombre
 	}
 
 }
+
+class ViveCercaEventoAbierto extends ObserverCrearEvento {
+
+	
+	new(String nom) {
+		super(nom)
+	}
+
+	override ejecutar(Usuario unUsuario) {
+			
+		/*Notificar a todos los usuarios que viven cerca del evento. Solo aplicable a eventos abiertos.  */
+	/*	unUsuario.amigos.forEach [ amigo |
+		  	    amigo.amigos.contains(unUsuario)
+		  		amigo.viveCerca
+		 		var String mensaje
+		    	mensaje = this.generarTexto(unUsuario)
+		  		val MailInterno mail = new MailInterno(mensaje,unUsuario) 
+		  		amigo.recibirMensajeDeMail(mail)
+		 ]	 */
+		
+	}
+
+	def String generarTexto(Usuario unUsuario) {
+		"el usuario " + unUsuario.nombre + " ha creado el evento " + unUsuario.eventos.head.nombre
+	}
+
+}
+
+class FanDeUnArtista extends ObserverCrearEvento {
+  
+    MailService mailService
+	Mail email
+	
+	new(String nom, MailService sender) {
+		super(nom)
+		mailService = sender
+	}
+
+	override ejecutar(Usuario unUsuario) {
+			
+		/*Enviar un mail a Fans de un artista que participa del evento. 
+		 * Para esto en los eventos abiertos se podrá definir el listado de artistas que participarán del mismo. 
+		 * Además los usuarios indicarán de qué artistas son fans
+		 */
+
+		
+	}	
+
+}
+

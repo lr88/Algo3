@@ -24,6 +24,13 @@
 			<artifactId>geodds-xtend</artifactId>
 			<version>1.0.3</version>
 		</dependency>
+		
+		<dependency>
+       <groupId>com.github.algo2-unsam</groupId>
+       <artifactId>mailService</artifactId>
+       <version>0.0.1</version>
+      </dependency>
+		
 
 		<dependency>
 			<groupId>com.eclipsesource.minimal-json</groupId>

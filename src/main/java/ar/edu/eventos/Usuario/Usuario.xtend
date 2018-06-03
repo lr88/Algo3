@@ -258,16 +258,21 @@ class Usuario implements Entidad {
 		id = unId
 	}
 	
-	def recibirMensajeDeMail(MailInterno mail) {
+	public def recibirMensajeDeMail(MailInterno mail) {
 		mailsRecibidos.add(mail)
 	}
 	
-	def agregarAccion(ObserverCrearEvento observer) {
+	public def agregarAccion(ObserverCrearEvento observer) {
 		listaAccionesAlCrearUnEvento.add(observer)
 	}
 
-	def eliminarAccion(ObserverCrearEvento observer) {
+	public def eliminarAccion(ObserverCrearEvento observer) {
 		listaAccionesAlCrearUnEvento.remove(observer)
 	}
+	
+	public def viveCerca(){
+		eventos.forall[evento|evento.distancia(this.direccion.ubicacion)< this.radioDeCercanía] 	
+	}
+	
 }
 

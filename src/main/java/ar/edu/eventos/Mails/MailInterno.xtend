@@ -7,11 +7,12 @@ import ar.edu.eventos.Usuario.Usuario
 class MailInterno {
 	
 	var String mensaje
-	var Usuario emisor
-
-	new(String _mensaje, Usuario _emisor) {
+	var Usuario unUsuario
+	
+	new(String _mensaje,Usuario _unUsuario) {
 		mensaje = _mensaje
-		emisor = _emisor
+		unUsuario = _unUsuario
+		
 	}
 	
 
