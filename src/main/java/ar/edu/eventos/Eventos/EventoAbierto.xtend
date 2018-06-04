@@ -13,6 +13,7 @@ import ar.edu.eventos.Usuario.Usuario
 class EventoAbierto extends Evento {
 	
 	private Set<Entrada> entradas = new HashSet()
+	protected Set <Artista> artistas = new HashSet ()
 	public int edadMinima
 
 	public def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
@@ -92,4 +93,7 @@ class EventoAbierto extends Evento {
 	public override double cantidadDePersonasQueAsisten() {
 		cantidadDeEntradasVendidas()
 	} 
+	public def void artistasQueParticipanDelEvento(Artista unArtista){
+		artistas.add(unArtista)
+	}
 }

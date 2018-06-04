@@ -17,10 +17,10 @@ import org.uqbar.mailService.Mail
 import static org.mockito.Mockito.*
 import ar.edu.eventos.Observer.ViveCerca
 import org.uqbar.mailService.MailService
+import ar.edu.eventos.Observer.ViveCercaEventoAbierto
 
 class testAmigo {
 	
-var mockedMail = mock(typeof(Mail))
 var mockedMailService = mock(typeof(MailService))
 
 	Usuario carlos
@@ -115,7 +115,7 @@ var mockedMailService = mock(typeof(MailService))
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 8, 5, 00)
 		]
 		casamiento3 = new EventoAbierto() => [
-			nombre = "asdasd"
+			nombre = "horacioycoca"
 			locacion = miCasa
 			fechaDeInicioDelEvento = LocalDateTime.of(2007, 10, 9, 5, 00)
 			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 10, 00)
@@ -150,9 +150,15 @@ var mockedMailService = mock(typeof(MailService))
 	@Test
 	def void vivenCercaDelEventoYseNotifica() {
 		juan.agregarAmigo(pedro)
-		juan.agregarAccion(new ViveCerca("Viven cerca del evento",mockedMailService))
+		juan.agregarAccion(new ViveCerca("Viven cerca del evento",mockedMailService,casamiento2))
 		juan.crearEventoCerrado(casamiento2)
 		Assert.assertEquals("el usuario juan ha creado el evento leoyflor", pedro.mailsRecibidos.head.mensaje)
 	}
 	
+	@Test
+	def void vivenCercaDelEventoAbiertoYseNotifica() {
+		juan.agregarAccion(new ViveCercaEventoAbierto("Viven cerca del evento",casamiento3))
+		juan.crearEventoAbierto(casamiento3)
+		Assert.assertEquals("el usuario juan ha creado el evento horacioycoca", juan.mailsRecibidos.head.mensaje)
+	}
  }

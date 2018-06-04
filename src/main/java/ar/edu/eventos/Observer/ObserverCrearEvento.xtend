@@ -5,7 +5,8 @@ import ar.edu.eventos.Usuario.Usuario
 import ar.edu.eventos.Mails.MailInterno
 import org.uqbar.mailService.MailService
 import org.uqbar.mailService.Mail
-
+import ar.edu.eventos.Eventos.EventoAbierto
+import ar.edu.eventos.Eventos.Evento
 
 @Accessors
 abstract class ObserverCrearEvento {
@@ -70,10 +71,13 @@ class ViveCerca extends ObserverCrearEvento {
 
 	MailService mailService
 	Mail email
+	Evento unEvento
 
-	new(String nom, MailService sender) {
+	new(String nom, MailService sender,Evento _unEvento) {
 		super(nom)
 		mailService = sender
+		unEvento = _unEvento
+		
 	}
 
 	override ejecutar(Usuario unUsuario) {
@@ -84,7 +88,7 @@ class ViveCerca extends ObserverCrearEvento {
 		 */
 		unUsuario.amigos.forEach [ amigo |
 		  	    amigo.amigos.contains(unUsuario)
-		  		amigo.viveCerca
+		  		amigo.viveCerca(unEvento)
 		 		var String mensaje
 		    	mensaje = this.generarTexto(unUsuario)
 		  		val MailInterno mail = new MailInterno(mensaje,unUsuario) 
@@ -101,24 +105,22 @@ class ViveCerca extends ObserverCrearEvento {
 }
 
 class ViveCercaEventoAbierto extends ObserverCrearEvento {
-
+    
+    EventoAbierto unEvento
 	
-	new(String nom) {
+	new(String nom,EventoAbierto _unEvento) {
 		super(nom)
+		unEvento = _unEvento
 	}
 
 	override ejecutar(Usuario unUsuario) {
 			
 		/*Notificar a todos los usuarios que viven cerca del evento. Solo aplicable a eventos abiertos.  */
-	/*	unUsuario.amigos.forEach [ amigo |
-		  	    amigo.amigos.contains(unUsuario)
-		  		amigo.viveCerca
+		  		unUsuario.viveCerca(unEvento)
 		 		var String mensaje
 		    	mensaje = this.generarTexto(unUsuario)
 		  		val MailInterno mail = new MailInterno(mensaje,unUsuario) 
-		  		amigo.recibirMensajeDeMail(mail)
-		 ]	 */
-		
+		  		unUsuario.recibirMensajeDeMail(mail)		
 	}
 
 	def String generarTexto(Usuario unUsuario) {
@@ -131,10 +133,12 @@ class FanDeUnArtista extends ObserverCrearEvento {
   
     MailService mailService
 	Mail email
+	EventoAbierto unEvento
 	
-	new(String nom, MailService sender) {
+	new(String nom, MailService sender,EventoAbierto _unEvento) {
 		super(nom)
 		mailService = sender
+		unEvento = _unEvento
 	}
 
 	override ejecutar(Usuario unUsuario) {
@@ -143,9 +147,11 @@ class FanDeUnArtista extends ObserverCrearEvento {
 		 * Para esto en los eventos abiertos se podrá definir el listado de artistas que participarán del mismo. 
 		 * Además los usuarios indicarán de qué artistas son fans
 		 */
+		unUsuario.artistas.exists[artista|unEvento.artistas.contains(artista.nombre)]
+		mailService.sendMail(email)
+	}
+	
 
-		
-	}	
 
 }
 

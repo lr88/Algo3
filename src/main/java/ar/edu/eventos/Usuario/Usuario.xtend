@@ -18,6 +18,7 @@ import ar.edu.eventos.Eventos.EventoCerrado
 import ar.edu.eventos.Json.Entidad
 import ar.edu.eventos.Mails.MailInterno
 import ar.edu.eventos.Observer.ObserverCrearEvento
+import ar.edu.eventos.Eventos.Artista
 
 @Accessors
 class Usuario implements Entidad {
@@ -27,7 +28,8 @@ class Usuario implements Entidad {
 	protected Set<Evento> eventos = new HashSet ()
 	protected Set<Usuario> amigos = new HashSet()	
 	protected Set <Invitacion> invitaciones = new HashSet ()
-	protected Set<Entrada> entradas = new HashSet()	
+	protected Set<Entrada> entradas = new HashSet()
+	protected Set <Artista> artistas = new HashSet ()	
 	protected String nombreDeUsuario
 	protected String nombre
 	protected String apellido
@@ -258,20 +260,24 @@ class Usuario implements Entidad {
 		id = unId
 	}
 	
-	public def recibirMensajeDeMail(MailInterno mail) {
+	public def void recibirMensajeDeMail(MailInterno mail) {
 		mailsRecibidos.add(mail)
 	}
 	
-	public def agregarAccion(ObserverCrearEvento observer) {
+	public def void agregarAccion(ObserverCrearEvento observer) {
 		listaAccionesAlCrearUnEvento.add(observer)
 	}
 
-	public def eliminarAccion(ObserverCrearEvento observer) {
+	public def void  eliminarAccion(ObserverCrearEvento observer) {
 		listaAccionesAlCrearUnEvento.remove(observer)
 	}
 	
-	public def viveCerca(){
-		eventos.forall[evento|evento.distancia(this.direccion.ubicacion)< this.radioDeCercanía] 	
+	public def boolean viveCerca(Evento unEvento){
+		unEvento.distancia(this.direccion.ubicacion)< this.radioDeCercanía	
+	}
+	
+	public def void esFan(Artista unArtista){
+		artistas.add(unArtista)
 	}
 	
 }
