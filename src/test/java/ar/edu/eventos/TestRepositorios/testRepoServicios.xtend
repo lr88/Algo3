@@ -45,7 +45,7 @@ class testRepoServicios {
 			tarifaDelServicio = new TarifaFija 
 			descripcion = "Juegos"
 			ubicacion = lugar
-		]
+		] 
 		S2 = new Servicio => [
 			tarifaDelServicio = new TarifaFija
 			descripcion = "Animación Mago Goma"
