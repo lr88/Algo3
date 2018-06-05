@@ -7,6 +7,7 @@ import ar.edu.eventos.exceptions.Validar
 import ar.edu.eventos.Eventos.Locacion
 import ar.edu.eventos.Eventos.Evento
 import ar.edu.eventos.Json.Entidad
+import java.util.List
 
 @Accessors
 class Servicio implements Entidad {
@@ -19,7 +20,6 @@ class Servicio implements Entidad {
 	private var double tarifaPorKilometro
 
 	public def double costoDelServicio(Evento unEvento) {
-
 		tarifaDelServicio.costo(unEvento) + this.costoDetraslado(unEvento)
 	}
 
@@ -56,3 +56,26 @@ class Servicio implements Entidad {
 	}
 
 }
+
+@Accessors
+class ServicioMultiple extends Servicio {
+	
+	List<Servicio> servicios = newArrayList
+	Double porcentajeDeDescuento
+	
+		public override double costoDelServicio(Evento unEvento) {
+			costoBruto(unEvento)*porcentajeDeDescuento
+		}
+		
+		def costoBruto(Evento unEvento){
+			servicios.fold(0.0, [acum, servicios|acum + servicios.costoDelServicio(unEvento)])
+		}
+		
+		def porcentajeDeDescuento(){
+			1 - porcentajeDeDescuento/100
+		}
+		
+
+}
+	
+	

@@ -9,19 +9,28 @@ import ar.edu.eventos.Repositorios.RepoServicios
 import ar.edu.eventos.Eventos.Locacion
 import ar.edu.eventos.Eventos.Servicio
 import ar.edu.eventos.Eventos.TarifaFija
+import ar.edu.eventos.Eventos.ServicioMultiple
 
 class testRepoServicios {
 	RepoServicios repoSERV
-	Point lugarServ = new Point(1.0, 2.0)
+	Point lugarServ
 	Locacion lugar
 	Locacion lugar1
 	Servicio S1
 	Servicio S2
 	Servicio S3
-	var Point lugargenerco= new Point(20.0, 55.0)
+	var Point lugargenerco
+	ServicioMultiple SM1
 
 	@Before
 	def void init() {
+		
+		lugarServ = new Point(1.0, 2.0)
+		lugargenerco= new Point(20.0, 55.0)
+		
+		
+		
+		
 		lugar = new Locacion => [
 			ubicacion = lugarServ
 			nombreDeLaLocacion = "club"
@@ -46,6 +55,15 @@ class testRepoServicios {
 			ubicacion = lugar
 			descripcion = ""
 		]
+		
+		SM1 = new ServicioMultiple =>[
+			ubicacion = lugar
+			tarifaDelServicio = new TarifaFija
+			descripcion = "Animación Mago Goma"
+		]
+		
+		
+		
 		repoSERV = new RepoServicios
 	}
 
