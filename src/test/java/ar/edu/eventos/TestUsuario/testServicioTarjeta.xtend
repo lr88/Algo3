@@ -23,15 +23,13 @@ class testServicioTarjeta {
 	Locacion lugarDelEvento1
 	EventoAbierto eventoAbierto1
 	Entrada entrada1
-	CCResponse EsperadoCCR0
-	CCResponse EsperadoCCR1
-	CCResponse EsperadoCCR2
+	CCResponse esperadoCCR0
+	CCResponse esperadoCCR1
+	CCResponse esperadoCCR2
 	Tarjeta tarjeta1
 	CreditCard creditcard1
-
 	CCResponse ccResponse
 	CreditCard creditCard
-	CreditCardService creditCardService
 
 	@Before
 	def void init() {
@@ -45,8 +43,6 @@ class testServicioTarjeta {
 			expirationDate =  "12"
 
 		]
-		
-		creditCardService = new CreditCardService
 
 		creditcard1 = new CreditCard => [
 			name = "pepe"
@@ -56,21 +52,20 @@ class testServicioTarjeta {
 		]
 		
 		tarjeta1 = new Tarjeta => [
-			card = new CreditCardService
 			datos = new CreditCard
 		]
 		
-		tarjeta1.card = mock(typeof(CreditCardService))
+		tarjeta1.ccService = mock(typeof(CreditCardService))
 		
-		EsperadoCCR0 = new CCResponse() => [
+		esperadoCCR0 = new CCResponse() => [
 			statusCode = 0
 			statusMessage = "Transacción exitosa"
 		]
-		EsperadoCCR1 = new CCResponse() => [
+		esperadoCCR1 = new CCResponse() => [
 			statusCode = 1
 			statusMessage = "Datos inválidos"
 		]
-		EsperadoCCR2 = new CCResponse() => [
+		esperadoCCR2 = new CCResponse() => [
 			statusCode = 2
 			statusMessage = "Pago rechazado"
 		]
@@ -105,54 +100,24 @@ class testServicioTarjeta {
 
 	@Test
 	def void compraUnaEntadaYElServidorIndicaTransacciónExitosa() {
-		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR0)
+		when(tarjeta1.getCcService.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(esperadoCCR0)
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
 		Assert.assertEquals(1000, usuario1.plataQueTengo, 0)
 	}
 
 	@Test(expected=typeof(BusinessException))
 	def void compraUnaEntadaYElServidorIndicaDatosInválidos() {
-		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR1)
+		when(tarjeta1.getCcService.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(esperadoCCR1)
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
 		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
 	}
 
 	@Test(expected=typeof(BusinessException))
 	def void compraUnaEntadaYElServidorIndicaPagoRechazado() {
-		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR2)
+		when(tarjeta1.getCcService.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(esperadoCCR2)
 		usuario1.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada1)
 		Assert.assertEquals(900, usuario1.plataQueTengo, 0)
 	}
 
-	@Test
-	def void seMockealaRespuestadelCreditCardNombre() {
-		Assert.assertEquals("pepe", creditcard1.name)
-		var creditcard1 = mock(typeof(CreditCard))
-		when(creditcard1.name).thenReturn("Perdro")
-		Assert.assertEquals("Perdro", creditcard1.name)
-	}
-
-	@Test
-	def void seMockealaRespuestadelCreditCardNumer() {
-		Assert.assertEquals("12345", creditcard1.number)
-		var creditcard1 = mock(typeof(CreditCard))
-		when(creditcard1.number).thenReturn("111")
-		Assert.assertEquals("111", creditcard1.number)
-	}
-
-	@Test
-	def void seMockealaRespuestadelCreditCardCVC() {
-		Assert.assertEquals("999", creditcard1.cvc)
-		var creditcard1 = mock(typeof(CreditCard))
-		when(creditcard1.cvc).thenReturn("919191919")
-		Assert.assertEquals("919191919", creditcard1.cvc)
-	}
-
-	@Test
-	def void seMockealaRespuestadelCreditCardExpirationDate() {
-		Assert.assertEquals("16-12-2017", creditcard1.expirationDate)
-		var creditcard1 = mock(typeof(CreditCard))
-		when(creditcard1.expirationDate).thenReturn("03-07-2017")
-		Assert.assertEquals("03-07-2017", creditcard1.expirationDate)
-	}
+	
 }

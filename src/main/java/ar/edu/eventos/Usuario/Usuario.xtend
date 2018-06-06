@@ -1,6 +1,7 @@
 package ar.edu.eventos.Usuario
 import ar.edu.eventos.exceptions.BusinessException
 
+
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.HashSet
@@ -16,9 +17,8 @@ import ar.edu.eventos.Eventos.Locacion
 import ar.edu.eventos.Eventos.EventoAbierto
 import ar.edu.eventos.Eventos.EventoCerrado
 import ar.edu.eventos.Json.Entidad
-import ar.edu.eventos.Mails.MailInterno
 import ar.edu.eventos.Observer.ObserverCrearEvento
-import ar.edu.eventos.Eventos.Artista
+import org.uqbar.mailService.Mail
 
 @Accessors
 class Usuario implements Entidad {
@@ -29,7 +29,7 @@ class Usuario implements Entidad {
 	protected Set<Usuario> amigos = new HashSet()	
 	protected Set <Invitacion> invitaciones = new HashSet ()
 	protected Set<Entrada> entradas = new HashSet()
-	protected Set <Artista> artistas = new HashSet ()	
+	protected Set <String> artistas = new HashSet ()	
 	protected String nombreDeUsuario
 	protected String nombre
 	protected String apellido
@@ -42,13 +42,12 @@ class Usuario implements Entidad {
 	protected TipoDeUsuario tipoDeUsuario
 	protected int cantidadDeAcompañantes
 	protected Tarjeta tarjeta 
-	protected var List<MailInterno> mailsRecibidos = new ArrayList<MailInterno>
 	protected var List<ObserverCrearEvento> listaAccionesAlCrearUnEvento = new ArrayList<ObserverCrearEvento>
 	
 	public def void comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
 		pagarEntrada(unaEntrada)
-		agregarEntrada(unaEntrada)
 		unEvento.adquirirEntrada(this,unaEntrada)
+		agregarEntrada(unaEntrada)
 	}
 
 	private def void agregarEntrada(Entrada entrada) {
@@ -79,13 +78,13 @@ class Usuario implements Entidad {
 	public def void crearEventoCerrado(Evento unEvento) {
 		tipoDeUsuario.puedoOrganizarelEventoCerrado(unEvento,this)
 		agregarEvento(unEvento)
-		listaAccionesAlCrearUnEvento.forEach[observer|observer.ejecutar(this)]
+		listaAccionesAlCrearUnEvento.forEach[observer|observer.ejecutar(this,unEvento)]
 	}
 
 	public def void crearEventoAbierto(EventoAbierto unEvento) {
 		tipoDeUsuario.puedoOrganizarEventoAbierto(unEvento,this)
 		agregarEvento(unEvento)
-		listaAccionesAlCrearUnEvento.forEach[observer|observer.ejecutar(this)]
+		listaAccionesAlCrearUnEvento.forEach[observer|observer.ejecutar(this,unEvento)]
 	}
 	
 	public def void devolverEntrada(Entrada unaEntrada,EventoAbierto unEvento){
@@ -260,10 +259,6 @@ class Usuario implements Entidad {
 		id = unId
 	}
 	
-	public def void recibirMensajeDeMail(MailInterno mail) {
-		mailsRecibidos.add(mail)
-	}
-	
 	public def void agregarAccion(ObserverCrearEvento observer) {
 		listaAccionesAlCrearUnEvento.add(observer)
 	}
@@ -276,7 +271,7 @@ class Usuario implements Entidad {
 		unEvento.distancia(this.direccion.ubicacion)< this.radioDeCercanía	
 	}
 	
-	public def void esFan(Artista unArtista){
+	public def void agregarFan(String unArtista){
 		artistas.add(unArtista)
 	}
 	

@@ -15,6 +15,7 @@ import ar.edu.eventos.Eventos.Servicio
 import ar.edu.eventos.Eventos.TarifaPorHora
 import ar.edu.eventos.Eventos.TarifaFija
 import ar.edu.eventos.Eventos.TarifaPorPersona
+import java.util.List
 
 class testEventos {
 	Invitacion unaInvitacion
@@ -124,5 +125,5 @@ class testEventos {
 	def void costoTotalDeUnEventoEnBaseASusServiciosContratados() {
 		Assert.assertEquals(95.85, casamiento.costoTotal, 1)
 	}
-
+	
 }

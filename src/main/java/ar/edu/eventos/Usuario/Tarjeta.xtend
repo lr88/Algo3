@@ -8,13 +8,13 @@ import ar.edu.eventos.Eventos.Entrada
 
 @Accessors
 class Tarjeta {
-	@Accessors CreditCardService card
+	@Accessors CreditCardService ccService
 	@Accessors CreditCard datos
 	
 	def void pagarEntrada(Entrada entrada){
-		var respons = card.pay(datos,entrada.valorDeLaEntrada)
-		if (respons.statusCode == 1 || respons.statusCode == 2) {
-			throw new BusinessException(respons.statusCode + respons.statusMessage)
+		var response = ccService.pay(datos,entrada.valorDeLaEntrada)
+		if (response.statusCode == 1 || response.statusCode == 2) {
+			throw new BusinessException(response.statusCode + response.statusMessage)
 		}
 	}
 

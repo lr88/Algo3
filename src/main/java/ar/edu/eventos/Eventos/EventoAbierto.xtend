@@ -2,6 +2,7 @@ package ar.edu.eventos.Eventos
 
 /* mosjim@gmail.com */
 import org.eclipse.xtend.lib.annotations.Accessors
+
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.Set
@@ -13,7 +14,7 @@ import ar.edu.eventos.Usuario.Usuario
 class EventoAbierto extends Evento {
 	
 	private Set<Entrada> entradas = new HashSet()
-	protected Set <Artista> artistas = new HashSet ()
+	protected Set <String> artistas = new HashSet ()
 	public int edadMinima
 
 	public def void adquirirEntrada(Usuario unUsuario, Entrada unaEntrada) {
@@ -93,7 +94,7 @@ class EventoAbierto extends Evento {
 	public override double cantidadDePersonasQueAsisten() {
 		cantidadDeEntradasVendidas()
 	} 
-	public def void artistasQueParticipanDelEvento(Artista unArtista){
+	public def void artistasQueParticipanDelEvento(String unArtista){
 		artistas.add(unArtista)
 	}
 }

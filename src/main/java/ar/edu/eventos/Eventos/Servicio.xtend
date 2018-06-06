@@ -11,7 +11,7 @@ import java.util.List
 
 @Accessors
 class Servicio implements Entidad {
-	
+
 	protected Validar validarcion = new Validar
 	private var int id
 	private var String descripcion
@@ -20,7 +20,7 @@ class Servicio implements Entidad {
 	private var double tarifaPorKilometro
 
 	public def double costoDelServicio(Evento unEvento) {
-		tarifaDelServicio.costo(unEvento) + this.costoDetraslado(unEvento)
+		tarifa(unEvento) + this.costoDetraslado(unEvento)
 	}
 
 	public def double costoDetraslado(Evento unEvento) {
@@ -55,27 +55,32 @@ class Servicio implements Entidad {
 		id = unId
 	}
 
+	def tarifa(Evento evento) {
+		tarifaDelServicio.costo(evento)
+	}
+
 }
 
 @Accessors
 class ServicioMultiple extends Servicio {
-	
+
 	List<Servicio> servicios = newArrayList
 	Double porcentajeDeDescuento
-	
-		public override double costoDelServicio(Evento unEvento) {
-			costoBruto(unEvento)*porcentajeDeDescuento
-		}
-		
-		def costoBruto(Evento unEvento){
-			servicios.fold(0.0, [acum, servicios|acum + servicios.costoDelServicio(unEvento)])
-		}
-		
-		def porcentajeDeDescuento(){
-			1 - porcentajeDeDescuento/100
-		}
-		
+
+	public override double costoDelServicio(Evento unEvento) {
+		costoBruto(unEvento) * porcentajeACobrar() / 100 + costoDetraslado(unEvento)
+	}
+
+	def costoBruto(Evento unEvento) {
+		servicios.fold(0.0, [acum, servicios|acum + servicios.tarifa(unEvento)])
+	}
+
+	def porcentajeACobrar() {
+		100 - porcentajeDeDescuento
+	}
+
+	override public def double costoDetraslado(Evento unEvento) {
+		servicios.map[ser|ser.costoDetraslado(unEvento)].max
+	}
 
 }
-	
-	

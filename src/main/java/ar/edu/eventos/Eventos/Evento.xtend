@@ -18,7 +18,7 @@ abstract class Evento {
 	protected LocalDateTime fechaDeInicioDelEvento
 	protected LocalDateTime fechaDeFinDelEvento
 	protected Set<Servicio> servicios = new HashSet()
-	protected String nombre
+	public String nombre
 	protected Locacion locacion
 	protected Usuario organizador
 	protected var Boolean fuePostergado = false

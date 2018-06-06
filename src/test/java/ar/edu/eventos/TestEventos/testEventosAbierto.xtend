@@ -41,7 +41,7 @@ class testEventosAbierto {
 	def void init() {
 
 		tarjeta1 = new Tarjeta => [
-			card = new CreditCardService
+			ccService = new CreditCardService
 			datos = new CreditCard
 		]
 		EsperadoCCR0 = new CCResponse() => [
@@ -132,8 +132,8 @@ class testEventosAbierto {
 		]
 
 		val CCS = mock(typeof(CreditCardService))
-		tarjeta1.card = CCS
-		when(tarjeta1.card.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR0)
+		tarjeta1.ccService = CCS
+		when(tarjeta1.getCcService.pay(tarjeta1.datos, entrada1.valorDeLaEntrada)).thenReturn(EsperadoCCR0)
 	}
 
 	@Test

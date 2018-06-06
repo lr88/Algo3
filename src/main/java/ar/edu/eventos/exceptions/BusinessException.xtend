@@ -1,6 +1,7 @@
 package ar.edu.eventos.exceptions
-import ar.edu.eventos.Repositorios.RepoGenerico
+
 import ar.edu.eventos.Json.Entidad
+import ar.edu.eventos.Repositorios.RepoGenerico
 
 class BusinessException extends RuntimeException {
 
