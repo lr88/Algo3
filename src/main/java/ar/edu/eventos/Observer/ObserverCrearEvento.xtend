@@ -7,107 +7,123 @@ import org.uqbar.mailService.Mail
 import ar.edu.eventos.Eventos.EventoAbierto
 import ar.edu.eventos.Eventos.Evento
 import ar.edu.eventos.Repositorios.RepoUsuario
+import java.util.Set
 
 @Accessors
 abstract class ObserverCrearEvento {
 	
 	var RepoUsuario repoUsuario
+	var Mail mail
+	var MailService mailService
 	
-	def void ejecutar(Usuario unUsuario,Evento unEvento)
+	new (MailService unMailService, Mail unMail){
+		mailService = unMailService
+		mail = unMail
+	}
+	
+	
+	def void ejecutar(Usuario unUsuario,Evento unEvento){
+		listaDeContactosParaMandarMail(unUsuario,unEvento).forEach[mailService.sendMail(mail)]
+		listaDeContactosParaMandarMensaje(unUsuario,unEvento).forEach[amigo|amigo.recibirMensaje(generarTexto(unUsuario,unEvento))]
+	}
+	
+	def Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento)
+	def Set <Usuario> listaDeContactosParaMandarMensaje(Usuario unUsuario,Evento unEvento)
+	
+	def String generarTexto(Usuario unUsuario,Evento unEvento) {
+		"el usuario " + unUsuario.nombre + " ha creado el evento " + unEvento.nombre
+	}
 }
 
 class AmigoDelCreador extends ObserverCrearEvento {
 
-	override void ejecutar(Usuario unUsuario,Evento unEvento) {
-		unUsuario.amigos.forEach[amigo|amigo.recibirMensaje(generarTexto(unUsuario,unEvento))]
+	new(MailService unMailService, Mail unMail) {
+		super(unMailService, unMail)
 	}
-
-	def String generarTexto(Usuario unUsuario,Evento unEvento) {
-		"el usuario " + unUsuario.nombre + " ha creado el evento " + unEvento.nombre
 	
+	override Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento) {
+		unUsuario.amigos
 	}
-
+	
+	override listaDeContactosParaMandarMensaje(Usuario unUsuario, Evento unEvento) {
+	//
+	}
+	
 }
 
 class SuperAmigo extends ObserverCrearEvento {
 
-	override void ejecutar(Usuario unUsuario,Evento unEvento) {
-		repoUsuario.elementos.forEach[elem | 
-			if(elem.amigos.contains(unUsuario)){
-			elem.recibirMensaje(generarTexto(unUsuario,unEvento))}]
+	new(MailService unMailService, Mail unMail) {
+		super(unMailService, unMail)
 	}
-
-	def String generarTexto(Usuario unUsuario,Evento unEvento) {
-		"el usuario " + unUsuario.nombre + " ha creado el evento " + unEvento.nombre
+	
+	override Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento) {
+		repoUsuario.elementos.filter[elem | elem.amigos.contains(unUsuario)].toSet
 	}
-
+	
+	override listaDeContactosParaMandarMensaje(Usuario unUsuario, Evento unEvento) {
+		//
+	}
+	
 }
 
 class ViveCerca extends ObserverCrearEvento {
 
-	MailService mailService
-	Mail mail 
 	Evento unEvento
-
-	new(MailService sender,Evento _unEvento) {
-		mailService = sender
-		unEvento = _unEvento
-		
+	
+	new(MailService unMailService, Mail unMail) {
+		super(unMailService, unMail)
 	}
 
-	override ejecutar(Usuario unUsuario,Evento unEvento) {
-			var listaDeContactos = unUsuario.amigos + repoUsuario.elementos.filter[elem | elem.amigos.contains(unUsuario)]
-		/*Enviar un mail y una notificación a contactos que viven cerca del evento.
-		 *  Se entiende por contacto tanto a los amigos del  creador como a quienes
-		 *  lo tienen en su lista de amigos. 
-		 */
-		listaDeContactos.filter[user | user.viveCerca(unEvento)].forEach[elem | elem.recibirMensaje(generarTexto(unUsuario,unEvento)) mailService.sendMail(mail)]
+	
+
+//Se entiende por contacto tanto a los amigos del  creador como a quienes lo tienen en su lista de amigos. 
+
+	override Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento) {
+		//Enviar un mail a contactos que viven cerca del evento.
+		 (unUsuario.amigos + repoUsuario.elementos.filter[elem | elem.amigos.contains(unUsuario)]).toSet
 	}
 	
-	def String generarTexto(Usuario unUsuario,Evento unEvento) {
-		"el usuario " + unUsuario.nombre + " ha creado el evento " + unEvento.nombre
+	override listaDeContactosParaMandarMensaje(Usuario unUsuario, Evento unEvento) {
+		//Enviar una notificación a contactos que viven cerca del evento.
 	}
-
+	
 }
 
 class ViveCercaEventoAbierto extends ObserverCrearEvento {
     
     EventoAbierto unEvento
 	
-	new(EventoAbierto _unEvento) {
-
-		unEvento = _unEvento
+	new(MailService unMailService, Mail unMail) {
+		super(unMailService, unMail)
 	}
-
-	override ejecutar(Usuario unUsuario,Evento unEvento) {
-			
+	
+	override Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento) {
 		/*Notificar a todos los usuarios que viven cerca del evento. Solo aplicable a eventos abiertos.  */
-		  			
 	}
-
-	def String generarTexto(Usuario unUsuario) {
-		"el usuario " + unUsuario.nombre + " ha creado el evento " + unUsuario.eventos.head.nombre
+	
+	override listaDeContactosParaMandarMensaje(Usuario unUsuario, Evento unEvento) {
+		//
 	}
-
+	
 }
 
 class FanDeUnArtista extends ObserverCrearEvento {
   
-    MailService mailService
-	Mail email
 	EventoAbierto evento
 	
-	new(MailService sender,EventoAbierto _unEvento) {
-		mailService = sender
-		evento = _unEvento
+	new(MailService unMailService, Mail unMail) {
+		super(unMailService, unMail)
 	}
-
-	override ejecutar(Usuario unUsuario,Evento unEvento) {
-			
-		/*Enviar un mail a los Fans de un artista que participa del evento. 
-		 */
-		repoUsuario.elementos.filter[elem | elem.artistas.exits[arti | arti.contains(evento.artista)]]
-		mailService.sendMail(email)
+	
+	override Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento) {
+//	Enviar un mail a los Fans de un artista que participa del evento. 
+//	repoUsuario.elementos.filter[elem | elem.artistas.exists[arti | arti.contains(evento.artistas)]].toSet
+		
+	}
+	
+	override listaDeContactosParaMandarMensaje(Usuario unUsuario, Evento unEvento) {
+		//
 	}
 
 }
