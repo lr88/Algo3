@@ -1,4 +1,5 @@
 package ar.edu.eventos.TestUsuario
+
 import org.junit.Assert
 import org.junit.Test
 import org.junit.Before
@@ -18,10 +19,11 @@ import static org.mockito.Mockito.*
 import ar.edu.eventos.Observer.ViveCerca
 import org.uqbar.mailService.MailService
 import ar.edu.eventos.Observer.ViveCercaEventoAbierto
+import java.util.List
 
 class testAmigo {
-	
-var mockedMailService = mock(typeof(MailService))
+
+	var mockedMailService = mock(typeof(MailService))
 
 	Usuario carlos
 	Usuario pedro
@@ -34,9 +36,15 @@ var mockedMailService = mock(typeof(MailService))
 	EventoCerrado casamiento1
 	EventoCerrado casamiento2
 	EventoAbierto casamiento3
+	
+	MailService mailService
+	Mail mail
 
 	@Before
 	def void init() {
+		
+		mailService = new MailService
+		mail = new Mail
 
 		lugar1 = new Locacion() => [
 			nombreDeLaLocacion = "asd"
@@ -56,7 +64,7 @@ var mockedMailService = mock(typeof(MailService))
 			tipoDeUsuario = new Free
 		]
 		pedro = new Usuario() => [
-			nombre= "pedro"
+			nombre = "pedro"
 			direccion = lugar1
 			fechaDeNacimiento = LocalDateTime.of(2005, 01, 10, 0, 0)
 			esAntisocial = false
@@ -71,7 +79,7 @@ var mockedMailService = mock(typeof(MailService))
 			tipoDeUsuario = new Amateur
 		]
 		juan = new Usuario() => [
-			nombre="juan"
+			nombre = "juan"
 			direccion = lugar1
 			fechaDeNacimiento = LocalDateTime.of(2005, 10, 10, 0, 0)
 			esAntisocial = false
@@ -121,44 +129,44 @@ var mockedMailService = mock(typeof(MailService))
 			fechaDeFinDelEvento = LocalDateTime.of(2007, 10, 10, 10, 00)
 			fechaMaximaDeConfirmacion = LocalDateTime.of(2007, 10, 8, 5, 00)
 		]
-     }
-   
-   @Test
+	}
+
+	@Test
 	def void amigoCreaUnEventoYesNotificado() {
 		juan.agregarAmigo(pedro)
-		juan.agregarAccion(new AmigoDelCreador("Amigo del creador del evento"))
+		juan.agregarAccion(new AmigoDelCreador(mailService,mail))
 		juan.crearEventoCerrado(casamiento)
-		Assert.assertEquals("el usuario juan ha creado el evento juanylore", pedro.mailsRecibidos.head.mensaje)
+		Assert.assertEquals(1, pedro.mensajes.size)
 	}
-	
+
 	@Test
 	def void NoEsAmigoCreaUnEventoYnoEsNotificado() {
-		juan.agregarAccion(new AmigoDelCreador("Amigo del creador del evento"))
+		juan.agregarAccion(new AmigoDelCreador(mailService,mail))
 		juan.crearEventoCerrado(casamiento)
-		Assert.assertTrue(pedro.mailsRecibidos.head === null)
+		Assert.assertEquals(0,pedro.mensajes.size)
 	}
-	
+
 	@Test
 	def void amigosMutuosCreaEventoYseNotifica() {
 		juan.agregarAmigo(pedro)
 		pedro.agregarAmigo(juan)
-		juan.agregarAccion(new SuperAmigo("Amigo del creador del evento"))
+		juan.agregarAccion(new SuperAmigo(mailService,mail))
 		juan.crearEventoCerrado(casamiento2)
-		Assert.assertEquals("el usuario juan ha creado el evento leoyflor", pedro.mailsRecibidos.head.mensaje)
+		Assert.assertEquals(1, pedro.mensajes.size)
 	}
-	
+
 	@Test
 	def void vivenCercaDelEventoYseNotifica() {
 		juan.agregarAmigo(pedro)
-		juan.agregarAccion(new ViveCerca("Viven cerca del evento",mockedMailService,casamiento2))
+		juan.agregarAccion(new ViveCerca(mailService,mail))
 		juan.crearEventoCerrado(casamiento2)
-		Assert.assertEquals("el usuario juan ha creado el evento leoyflor", pedro.mailsRecibidos.head.mensaje)
+		Assert.assertEquals(1, pedro.mensajes.size)
 	}
-	
+
 	@Test
 	def void vivenCercaDelEventoAbiertoYseNotifica() {
-		juan.agregarAccion(new ViveCercaEventoAbierto("Viven cerca del evento",casamiento3))
+		juan.agregarAccion(new ViveCercaEventoAbierto(mailService,mail))
 		juan.crearEventoAbierto(casamiento3)
-		Assert.assertEquals("el usuario juan ha creado el evento horacioycoca", juan.mailsRecibidos.head.mensaje)
+		Assert.assertEquals(1, pedro.mensajes.size)
 	}
- }
+}
