@@ -1,20 +1,18 @@
 package ar.edu.eventos.TestUsuario
 
-import org.junit.Assert
-import ar.edu.eventos.exceptions.BusinessException
-import org.junit.Test
-import org.junit.Before
-import org.uqbar.geodds.Point
-import java.time.LocalDateTime
-import ar.edu.eventos.Eventos.Locacion
-import ar.edu.eventos.Eventos.EventoCerrado
 import ar.edu.eventos.Eventos.EventoAbierto
-import ar.edu.eventos.Usuario.Usuario
+import ar.edu.eventos.Eventos.EventoCerrado
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Usuario.Amateur
 import ar.edu.eventos.Usuario.Free
 import ar.edu.eventos.Usuario.Profesional
-import ar.edu.eventos.Usuario.Amateur
-import ar.edu.eventos.Observer.AmigoDelCreador
-import ar.edu.eventos.Observer.SuperAmigo
+import ar.edu.eventos.Usuario.Usuario
+import ar.edu.eventos.exceptions.BusinessException
+import java.time.LocalDateTime
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.uqbar.geodds.Point
 
 class testUsuario {
 	Usuario carlos

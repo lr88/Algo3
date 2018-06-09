@@ -1,29 +1,29 @@
 package ar.edu.eventos.TestUsuario
 
-import org.junit.Assert
-import org.junit.Test
-import org.junit.Before
-import org.uqbar.geodds.Point
-import java.time.LocalDateTime
-import ar.edu.eventos.Eventos.Locacion
-import ar.edu.eventos.Eventos.EventoCerrado
 import ar.edu.eventos.Eventos.EventoAbierto
-import ar.edu.eventos.Usuario.Usuario
+import ar.edu.eventos.Eventos.EventoCerrado
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Observer.AmigoDelCreador
+import ar.edu.eventos.Observer.FanDeUnArtista
+import ar.edu.eventos.Observer.SuperAmigo
+import ar.edu.eventos.Observer.ViveCerca
+import ar.edu.eventos.Observer.ViveCercaEventoAbierto
+import ar.edu.eventos.Repositorios.RepoUsuario
+import ar.edu.eventos.Usuario.Amateur
 import ar.edu.eventos.Usuario.Free
 import ar.edu.eventos.Usuario.Profesional
-import ar.edu.eventos.Usuario.Amateur
-import ar.edu.eventos.Observer.AmigoDelCreador
-import ar.edu.eventos.Observer.SuperAmigo
+import ar.edu.eventos.Usuario.Usuario
+import java.time.LocalDateTime
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.uqbar.geodds.Point
 import org.uqbar.mailService.Mail
-import static org.mockito.Mockito.*
-import ar.edu.eventos.Observer.ViveCerca
 import org.uqbar.mailService.MailService
-import ar.edu.eventos.Observer.ViveCercaEventoAbierto
-import java.util.List
+
+import static org.mockito.Mockito.*
 
 class testAmigo {
-
-	var mockedMailService = mock(typeof(MailService))
 
 	Usuario carlos
 	Usuario pedro
@@ -36,19 +36,26 @@ class testAmigo {
 	EventoCerrado casamiento1
 	EventoCerrado casamiento2
 	EventoAbierto casamiento3
-	
+	RepoUsuario repoUsuario1
+
+	AmigoDelCreador amigoDelCreador
+	SuperAmigo superAmigo
+	ViveCerca viveCerca
+	ViveCercaEventoAbierto viveCercaEventoAbierto
+	FanDeUnArtista fanDeUnArtista
+
 	MailService mailService
 	Mail mail
 
 	@Before
 	def void init() {
-		
-		mailService = new MailService
-		mail = new Mail
+
+		mailService = mock(typeof(MailService))
+		mail = mock(typeof(Mail))
 
 		lugar1 = new Locacion() => [
 			nombreDeLaLocacion = "asd"
-			ubicacion = new Point(4.0, 2.0)
+			ubicacion = new Point(10.0, 9.9)
 			validar()
 		]
 
@@ -68,7 +75,7 @@ class testAmigo {
 			direccion = lugar1
 			fechaDeNacimiento = LocalDateTime.of(2005, 01, 10, 0, 0)
 			esAntisocial = false
-			radioDeCercanía = 3
+			radioDeCercanía = 11
 			tipoDeUsuario = new Profesional
 		]
 		lucas = new Usuario() => [
@@ -83,9 +90,40 @@ class testAmigo {
 			direccion = lugar1
 			fechaDeNacimiento = LocalDateTime.of(2005, 10, 10, 0, 0)
 			esAntisocial = false
-			radioDeCercanía = 3
+			radioDeCercanía = 12
 			tipoDeUsuario = new Profesional
 		]
+
+		repoUsuario1 = new RepoUsuario => [
+			elementos.add(carlos)
+			elementos.add(pedro)
+			elementos.add(lucas)
+			elementos.add(juan)
+		]
+
+		amigoDelCreador = new AmigoDelCreador(mailService, mail) => [
+			repoUsuario = repoUsuario1
+		]
+		superAmigo = new SuperAmigo(mailService, mail) => [
+			repoUsuario = repoUsuario1
+		]
+		viveCerca = new ViveCerca(mailService, mail) => [
+			repoUsuario = repoUsuario1
+		]
+		viveCercaEventoAbierto = new ViveCercaEventoAbierto(mailService, mail) => [
+			repoUsuario = repoUsuario1
+		]
+		fanDeUnArtista = new FanDeUnArtista(mailService, mail) => [
+			repoUsuario = repoUsuario1
+		]
+
+		when(amigoDelCreador.returnMailServis).thenReturn("")
+		when(superAmigo.returnMailServis).thenReturn("")
+		when(viveCerca.returnMailServis).thenReturn("")
+		when(viveCercaEventoAbierto.returnMailServis).thenReturn("")
+		when(fanDeUnArtista.returnMailServis).thenReturn("")
+
+
 
 		miCasa = new Locacion() => [
 			nombreDeLaLocacion = "miCasa"
@@ -134,23 +172,23 @@ class testAmigo {
 	@Test
 	def void amigoCreaUnEventoYesNotificado() {
 		juan.agregarAmigo(pedro)
-		juan.agregarAccion(new AmigoDelCreador(mailService,mail))
+		juan.agregarAccion(amigoDelCreador)
 		juan.crearEventoCerrado(casamiento)
 		Assert.assertEquals(1, pedro.mensajes.size)
 	}
 
 	@Test
 	def void NoEsAmigoCreaUnEventoYnoEsNotificado() {
-		juan.agregarAccion(new AmigoDelCreador(mailService,mail))
+		juan.agregarAccion(amigoDelCreador)
 		juan.crearEventoCerrado(casamiento)
-		Assert.assertEquals(0,pedro.mensajes.size)
+		Assert.assertEquals(0, pedro.mensajes.size)
 	}
 
 	@Test
 	def void amigosMutuosCreaEventoYseNotifica() {
 		juan.agregarAmigo(pedro)
 		pedro.agregarAmigo(juan)
-		juan.agregarAccion(new SuperAmigo(mailService,mail))
+		juan.agregarAccion(superAmigo)
 		juan.crearEventoCerrado(casamiento2)
 		Assert.assertEquals(1, pedro.mensajes.size)
 	}
@@ -158,14 +196,14 @@ class testAmigo {
 	@Test
 	def void vivenCercaDelEventoYseNotifica() {
 		juan.agregarAmigo(pedro)
-		juan.agregarAccion(new ViveCerca(mailService,mail))
+		juan.agregarAccion(viveCerca)
 		juan.crearEventoCerrado(casamiento2)
 		Assert.assertEquals(1, pedro.mensajes.size)
 	}
 
 	@Test
 	def void vivenCercaDelEventoAbiertoYseNotifica() {
-		juan.agregarAccion(new ViveCercaEventoAbierto(mailService,mail))
+		juan.agregarAccion(viveCercaEventoAbierto)
 		juan.crearEventoAbierto(casamiento3)
 		Assert.assertEquals(1, pedro.mensajes.size)
 	}

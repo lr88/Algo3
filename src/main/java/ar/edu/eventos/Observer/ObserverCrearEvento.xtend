@@ -11,7 +11,8 @@ import org.uqbar.mailService.MailService
 
 @Accessors
 abstract class ObserverCrearEvento {
-	var Set <Usuario> contactos = new HashSet ()
+	var Set <Usuario> contactosMails = new HashSet
+	var Set <Usuario> contactosMensajes = new HashSet
 	var RepoUsuario repoUsuario
 	var Mail mail
 	var MailService mailService
@@ -22,10 +23,22 @@ abstract class ObserverCrearEvento {
 	}
 
 	def void ejecutar(Usuario unUsuario,Evento unEvento){
-		print(listaDeContactosParaMandarMail(unUsuario,unEvento))
-		print(listaDeContactosParaMandarMensaje(unUsuario,unEvento))
-		listaDeContactosParaMandarMail(unUsuario,unEvento).forEach[mailService.sendMail(mail)]
-		listaDeContactosParaMandarMensaje(unUsuario,unEvento).forEach[amigo|amigo.recibirMensaje(generarTexto(unUsuario,unEvento))]
+		contactosMails = listaDeContactosParaMandarMail(unUsuario,unEvento)
+		contactosMensajes = listaDeContactosParaMandarMensaje(unUsuario,unEvento)
+		
+		contactosMails.remove(unUsuario)
+		contactosMensajes.remove(unUsuario)
+		
+		if(contactosMails.size > 0){
+			contactosMails.forEach[returnMailServis]
+		}
+		if(contactosMensajes.size > 0){
+			contactosMensajes.forEach[amigo| amigo.recibirMensaje(generarTexto(unUsuario,unEvento))]
+		}
+	}
+	
+	def returnMailServis(){
+		mailService.sendMail(mail)
 	}
 	
 	def Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento)
@@ -38,18 +51,17 @@ abstract class ObserverCrearEvento {
 
 class AmigoDelCreador extends ObserverCrearEvento {
 
-	
-
 	new(MailService unMailService, Mail unMail) {
 		super(unMailService, unMail)
 	}
 	
 	override Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento) {
-		unUsuario.amigos
+		contactosMails
 	}
 	
 	override Set <Usuario>  listaDeContactosParaMandarMensaje(Usuario unUsuario, Evento unEvento) {
-		contactos
+		contactosMensajes = unUsuario.amigos
+		contactosMensajes
 	}
 	
 }
@@ -61,19 +73,17 @@ class SuperAmigo extends ObserverCrearEvento {
 	}
 	
 	override Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento) {
-		repoUsuario.elementos.filter[elem | elem.amigos.contains(unUsuario)].toSet
+		contactosMensajes
 	}
 	
 	override  Set <Usuario> listaDeContactosParaMandarMensaje(Usuario unUsuario, Evento unEvento) {
-		contactos
+		repoUsuario.elementos.filter[elem | elem.amigos.contains(unUsuario)].toSet
 	}
 	
 }
 
 class ViveCerca extends ObserverCrearEvento {
 
-	Evento unEvento
-	
 	new(MailService unMailService, Mail unMail) {
 		super(unMailService, unMail)
 	}
@@ -90,8 +100,8 @@ class ViveCerca extends ObserverCrearEvento {
 	}
 	
 	def listaDeContactosAmigosYCercanos(Usuario unUsuario, Evento unEvento){
-		repoUsuario.elementos.filter[elem | elem.amigos.contains(unUsuario)&& elem.viveCerca(unEvento)].toSet
-		+ unUsuario.amigos
+		(repoUsuario.elementos.filter[elem | elem.amigos.contains(unUsuario)&& elem.viveCerca(unEvento)]+ unUsuario.amigos).toSet
+		
 	}
 	
 }
@@ -103,7 +113,7 @@ class ViveCercaEventoAbierto extends ObserverCrearEvento {
 	}
 		
 	override Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento) {
-		contactos
+		contactosMails
 	}
 	
 	override Set <Usuario> listaDeContactosParaMandarMensaje(Usuario unUsuario, Evento unEvento) {
@@ -119,13 +129,13 @@ class FanDeUnArtista extends ObserverCrearEvento {
 	}
 	
 	override Set <Usuario> listaDeContactosParaMandarMail(Usuario unUsuario,Evento unEvento) {
+		contactosMails
 //	Enviar un mail a los Fans de un artista que participa del evento. 
 //	repoUsuario.elementos.filter[elem | elem.artistas.exists[arti | arti.contains(evento.artistas)]].toSet
-	
 	}
 	
 	override Set <Usuario> listaDeContactosParaMandarMensaje(Usuario unUsuario, Evento unEvento) {
-		contactos
+		contactosMensajes
 	}
 
 }
