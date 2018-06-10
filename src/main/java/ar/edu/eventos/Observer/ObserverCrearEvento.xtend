@@ -109,6 +109,7 @@ class ViveCercaEventoAbierto extends ObserverCrearEvento {
 @Accessors
 class FanDeUnArtista extends ObserverCrearEvento {
 
+	var int i
 	var Mail mail
 	var MailService mailService
 
@@ -132,11 +133,27 @@ class FanDeUnArtista extends ObserverCrearEvento {
 	}
 
 	def Set<Usuario> listaDeContactosParaMandarMail(Usuario unUsuario, EventoAbierto unEvento) {
-		//var Set <String> artistas = unEvento.artistas
+		var Set <Usuario> listaDeContactos = new HashSet
 		contactos = repoUsuario.elementos.toSet
-		//unUsuario
-		//	repoUsuario.elementos.filter[elem | elem.artistas.exists[arti | arti.contains(evento.artistas)]].toSet
+		for (i=0 ; i < unEvento.artistas.size ; i++){
+			listaDeContactos = contactos.filter[cont | cont.soyFanDeEsteArtista(unEvento.artistas.get(i)) == true].toSet
+			contactos = (contactos + listaDeContactos).toSet
+		}
 		contactos
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

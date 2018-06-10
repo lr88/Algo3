@@ -273,5 +273,9 @@ class Usuario implements Entidad {
 		artistas.add(unArtista)
 	}
 	
+	def boolean soyFanDeEsteArtista(String artista) {
+		artistas.contains(artista)
+	}
+	
 }
 
