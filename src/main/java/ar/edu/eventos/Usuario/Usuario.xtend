@@ -1,24 +1,22 @@
 package ar.edu.eventos.Usuario
+
+import ar.edu.eventos.Eventos.Entrada
+import ar.edu.eventos.Eventos.Evento
+import ar.edu.eventos.Eventos.EventoAbierto
+import ar.edu.eventos.Eventos.EventoCerrado
+import ar.edu.eventos.Eventos.Invitacion
+import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Json.Entidad
+import ar.edu.eventos.Observer.ObserverCrearEvento
 import ar.edu.eventos.exceptions.BusinessException
-
-
+import ar.edu.eventos.exceptions.Validar
 import java.time.Duration
 import java.time.LocalDateTime
+import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
-import ar.edu.eventos.exceptions.Validar
-import java.util.ArrayList
-import ar.edu.eventos.Eventos.Evento
-import ar.edu.eventos.Eventos.Invitacion
-import ar.edu.eventos.Eventos.Entrada
-import ar.edu.eventos.Eventos.Locacion
-import ar.edu.eventos.Eventos.EventoAbierto
-import ar.edu.eventos.Eventos.EventoCerrado
-import ar.edu.eventos.Json.Entidad
-import ar.edu.eventos.Observer.ObserverCrearEvento
-import org.uqbar.mailService.Mail
 
 @Accessors
 class Usuario implements Entidad {

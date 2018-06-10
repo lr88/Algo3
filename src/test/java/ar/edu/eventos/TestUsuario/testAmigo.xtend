@@ -5,7 +5,6 @@ import ar.edu.eventos.Eventos.EventoCerrado
 import ar.edu.eventos.Eventos.Locacion
 import ar.edu.eventos.Observer.AmigoDelCreador
 import ar.edu.eventos.Observer.FanDeUnArtista
-import ar.edu.eventos.Observer.SuperAmigo
 import ar.edu.eventos.Observer.ViveCerca
 import ar.edu.eventos.Observer.ViveCercaEventoAbierto
 import ar.edu.eventos.Repositorios.RepoUsuario
@@ -22,6 +21,7 @@ import org.uqbar.mailService.Mail
 import org.uqbar.mailService.MailService
 
 import static org.mockito.Mockito.*
+import ar.edu.eventos.Observer.MiAmigoEsElCreador
 
 class testAmigo {
 
@@ -39,7 +39,7 @@ class testAmigo {
 	RepoUsuario repoUsuario1
 
 	AmigoDelCreador amigoDelCreador
-	SuperAmigo superAmigo
+	MiAmigoEsElCreador miAmigoEsElCreador
 	ViveCerca viveCerca
 	ViveCercaEventoAbierto viveCercaEventoAbierto
 	FanDeUnArtista fanDeUnArtista
@@ -101,29 +101,24 @@ class testAmigo {
 			elementos.add(juan)
 		]
 
-		amigoDelCreador = new AmigoDelCreador(mailService, mail) => [
+		amigoDelCreador = new AmigoDelCreador => [
 			repoUsuario = repoUsuario1
 		]
-		superAmigo = new SuperAmigo(mailService, mail) => [
+		miAmigoEsElCreador = new MiAmigoEsElCreador => [
 			repoUsuario = repoUsuario1
 		]
 		viveCerca = new ViveCerca(mailService, mail) => [
 			repoUsuario = repoUsuario1
 		]
-		viveCercaEventoAbierto = new ViveCercaEventoAbierto(mailService, mail) => [
+		viveCercaEventoAbierto = new ViveCercaEventoAbierto => [
 			repoUsuario = repoUsuario1
 		]
 		fanDeUnArtista = new FanDeUnArtista(mailService, mail) => [
 			repoUsuario = repoUsuario1
 		]
 
-		when(amigoDelCreador.returnMailServis).thenReturn("")
-		when(superAmigo.returnMailServis).thenReturn("")
 		when(viveCerca.returnMailServis).thenReturn("")
-		when(viveCercaEventoAbierto.returnMailServis).thenReturn("")
 		when(fanDeUnArtista.returnMailServis).thenReturn("")
-
-
 
 		miCasa = new Locacion() => [
 			nombreDeLaLocacion = "miCasa"
@@ -188,7 +183,7 @@ class testAmigo {
 	def void amigosMutuosCreaEventoYseNotifica() {
 		juan.agregarAmigo(pedro)
 		pedro.agregarAmigo(juan)
-		juan.agregarAccion(superAmigo)
+		juan.agregarAccion(miAmigoEsElCreador)
 		juan.crearEventoCerrado(casamiento2)
 		Assert.assertEquals(1, pedro.mensajes.size)
 	}

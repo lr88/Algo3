@@ -36,6 +36,9 @@ class EventoCerrado extends Evento {
 	public def int cantidadDeInvitacionesAceptadas() {
 		listaDeInvitacionesAceptadas.size()
 	}
+	public override soyDeTipoEventoAbierto(){
+		false
+	}
 	
 	private def listaDeInvitacionesAceptadas() {
 		invitaciones.filter[invitaciones|invitaciones.estadoAceptado]

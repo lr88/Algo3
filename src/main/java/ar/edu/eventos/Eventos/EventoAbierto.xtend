@@ -47,6 +47,9 @@ class EventoAbierto extends Evento {
 	public override double capacidadMaxima() {
 		locacion.capacidadMaxima()
 	}
+	public override soyDeTipoEventoAbierto(){
+		true
+	}
 	public override boolean esExitoso() {
 		validarCapacidadMaximaParaExitoso 
 		&& validarPostergacion

@@ -18,7 +18,11 @@
 			<version>1.9.0</version>
 			<scope>test</scope>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.uqbar-project</groupId>
+			<artifactId>uqbar-domain</artifactId>
+			<version>3.6.3</version>
+		</dependency>
 		<dependency>
 			<groupId>org.uqbar-project</groupId>
 			<artifactId>geodds-xtend</artifactId>

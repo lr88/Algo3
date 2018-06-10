@@ -94,6 +94,8 @@ abstract class Evento {
 		validarLocacion()
 		validarCoherenciaFechas()
 	}
+	
+	public def boolean soyDeTipoEventoAbierto()
 
 	private def void validarCoherenciaFechas() {
 		coherenciaFechaDeConfirmacion()
