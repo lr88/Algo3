@@ -281,23 +281,38 @@ class Usuario implements Entidad {
 	}
 	def void agregarOrden(Orden unaOrden){
 		validarTipoDeUsuario(this)
+		validarLaNoExistenciaDeLaOrden(unaOrden)
 		ordenes.add(unaOrden)
-      }
+	}
+	
+	def void quitarOrden(Orden unaOrden){
+		validarTipoDeUsuario(this)
+		validarLaExistenciaDeLaOrden(unaOrden)
+		unaOrden.eliminarOrden()
+		ordenes.remove(unaOrden)
+	}
+	
+	def ejecutarOrden(Orden unaOrden){
+		validarTipoDeUsuario(this)
+		validarLaExistenciaDeLaOrden(unaOrden)
+		unaOrden.ejecutar()
+	}
 	
 	def validarTipoDeUsuario(Usuario usuario) {
 		if(!usuario.tipoDeUsuario.sosDeTipoProfecional()){
 			throw new BusinessException("No sos de tipo Profecional no podes crear una orden")
 		}
 	}
-      
-      def ejecutarOrden(Orden unaOrden){
-      	validarExistenciaDeLaOrden(unaOrden)
-      	unaOrden.ejecutar()
-	}
 	
-	def validarExistenciaDeLaOrden(Orden unaOrden) {
+	def validarLaExistenciaDeLaOrden(Orden unaOrden) {
 		if(!ordenes.contains(unaOrden)){
 			throw new BusinessException("Esta orden que queres ejecutar no existe entre tus ordenes")
+		}
+	}
+	
+	def validarLaNoExistenciaDeLaOrden(Orden unaOrden) {
+		if(ordenes.contains(unaOrden)){
+			throw new BusinessException("Esta orden que queres agregar ya existe entre tus ordenes")
 		}
 	}
 	

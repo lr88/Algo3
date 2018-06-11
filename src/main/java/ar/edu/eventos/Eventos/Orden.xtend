@@ -1,6 +1,7 @@
 package ar.edu.eventos.Eventos
 
 import ar.edu.eventos.Usuario.Usuario
+import ar.edu.eventos.exceptions.BusinessException
 
 abstract class Orden {
 	protected val Invitacion invitacion
@@ -15,12 +16,19 @@ abstract class Orden {
 	def void ejecutar() {}
 	
 	def validarEstadoPendienteDeEjecucion() {
-		estadoDeEjecucion
+		if(!estadoDeEjecucion){
+			throw new BusinessException("la Orden ya fue anteriormente Ejecutada")
+		}
 	}
 	
 	def cambiarEstadoDeEjecucion(boolean bool){
 		estadoDeEjecucion = bool
 	}
+	
+	def void eliminarOrden(){
+		invitacion.evento.eliminarOrden(this)
+	}
+	
 }
 
 class OrdenDeAceptacion extends Orden {
@@ -31,6 +39,7 @@ class OrdenDeAceptacion extends Orden {
 	
 	override void ejecutar() {
 		validarEstadoPendienteDeEjecucion()
+		cambiarEstadoDeEjecucion(true)
 	}
 
 //•	posibles escenarios a la hora de ejecutar una orden; aceptación exitosa, 
@@ -48,6 +57,7 @@ class OrdenDeRechazo extends Orden {
 	override void ejecutar() {
 		validarEstadoPendienteDeEjecucion()
 		usuario.rechazarInvitacion(invitacion)
+		cambiarEstadoDeEjecucion(true)
 		usuario.recibirMensaje("Rechazo Exitoso")
 	}
 

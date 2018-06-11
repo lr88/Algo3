@@ -79,5 +79,9 @@ class EventoCerrado extends Evento {
   		listaDeOrdenes.forEach[orden| orden.ejecutar()]
 	}
 	
+	def eliminarOrden(Orden orden) {
+		listaDeOrdenes.remove(orden)
+	}
+	
 	
 }
