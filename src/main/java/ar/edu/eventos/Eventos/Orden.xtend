@@ -1,13 +1,26 @@
 package ar.edu.eventos.Eventos
 
+import ar.edu.eventos.Usuario.Usuario
+
 abstract class Orden {
-	val Invitacion invitacion
+	protected val Invitacion invitacion
+	protected var boolean estadoDeEjecucion = false
+	protected val Usuario usuario 
 	
 	new (Invitacion unaInvitacion){
 		invitacion = unaInvitacion
+		usuario = invitacion.usuario
 	}
 	
-	def ejecutar() {}
+	def void ejecutar() {}
+	
+	def validarEstadoPendienteDeEjecucion() {
+		estadoDeEjecucion
+	}
+	
+	def cambiarEstadoDeEjecucion(boolean bool){
+		estadoDeEjecucion = bool
+	}
 }
 
 class OrdenDeAceptacion extends Orden {
@@ -16,7 +29,9 @@ class OrdenDeAceptacion extends Orden {
 		super(unaInvitacion)
 	}
 	
-	override ejecutar() {}
+	override void ejecutar() {
+		validarEstadoPendienteDeEjecucion()
+	}
 
 //•	posibles escenarios a la hora de ejecutar una orden; aceptación exitosa, 
 //•	Aceptación fallida (al momento de ejecutarla no se pueda aceptar la invitación porque se superaría la capacidad máxima). 
@@ -30,7 +45,11 @@ class OrdenDeRechazo extends Orden {
 		super(unaInvitacion)
 	}
 	
-	override ejecutar() {}
+	override void ejecutar() {
+		validarEstadoPendienteDeEjecucion()
+		usuario.rechazarInvitacion(invitacion)
+		usuario.recibirMensaje("Rechazo Exitoso")
+	}
 
 //    posibles escenarios a la hora de ejecutar una orden;  rechazo exitoso.
 // En todos ellos se debe notificar al usuario invitado el resultado de su orden.
