@@ -9,6 +9,7 @@ import ar.edu.eventos.Usuario.Usuario
 @Accessors
 class EventoCerrado extends Evento {
 
+	protected var Set<Orden> listaDeOrdenes = new HashSet
 	@Accessors var double cantidadMaximaDeInvitados
 	Set<Invitacion> invitaciones = new HashSet()
 
@@ -73,5 +74,10 @@ class EventoCerrado extends Evento {
 	public override cantidadDePersonasQueAsisten() {
 		cantidadDeInvitadosAceptadosMasSusAsistentes()
 	}
+	
+	def ejecturarOrdenesDeInvitacion()  { 
+  		listaDeOrdenes.forEach[orden| orden.ejecutar()]
+	}
+	
 	
 }

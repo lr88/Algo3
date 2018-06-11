@@ -45,3 +45,6 @@ class Invitacion {
 		evento.distancia(unaDirecion)
 	}
 }
+
+
+

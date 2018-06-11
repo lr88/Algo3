@@ -144,16 +144,4 @@ class FanDeUnArtista extends ObserverCrearEvento {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 

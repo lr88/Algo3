@@ -13,6 +13,9 @@ interface TipoDeUsuario {
 	public def void puedoOrganizarEventoAbierto(Evento unEvento, Usuario unUsuario)
 
 	public def void puedoOrganizarelEventoCerrado(Evento unEvento, Usuario unUsuario)
+	
+	def boolean sosDeTipoProfecional()
+	
 }
 
 @Accessors
@@ -55,6 +58,11 @@ class Free implements TipoDeUsuario {
 			throw new BusinessException("Superas la cantidad maxima de invitados")
 		}
 	}
+	
+	override sosDeTipoProfecional() {
+		false
+	}
+	
 }
 
 class Amateur implements TipoDeUsuario {
@@ -80,7 +88,9 @@ class Amateur implements TipoDeUsuario {
 			throw new BusinessException("Por Ser de tipo Amateur no podes organizar este Evento")
 		}
 	}
-	
+	override sosDeTipoProfecional() {
+		false
+	}
 }
 
 class Profesional implements TipoDeUsuario {
@@ -104,5 +114,7 @@ class Profesional implements TipoDeUsuario {
 			throw new BusinessException("Por Ser de tipo Profesional no podes organizar este Evento")
 		}
 	}
-	
+	override sosDeTipoProfecional() {
+		true
+	}
 }

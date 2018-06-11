@@ -17,6 +17,7 @@ import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.eventos.Eventos.Orden
 
 @Accessors
 class Usuario implements Entidad {
@@ -41,6 +42,8 @@ class Usuario implements Entidad {
 	protected int cantidadDeAcompañantes
 	protected Tarjeta tarjeta 
 	protected var List<ObserverCrearEvento> listaAccionesAlCrearUnEvento = new ArrayList<ObserverCrearEvento>
+	protected var List <Orden> ordenes
+	
 	
 	public def void comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
 		pagarEntrada(unaEntrada)
@@ -276,6 +279,26 @@ class Usuario implements Entidad {
 	def boolean soyFanDeEsteArtista(String artista) {
 		artistas.contains(artista)
 	}
+	def void agregarOrden(Orden unaOrden){
+		validarTipoDeUsuario(this)
+		ordenes.add(unaOrden)
+      }
+	
+	def validarTipoDeUsuario(Usuario usuario) {
+		if(!usuario.tipoDeUsuario.sosDeTipoProfecional()){
+			throw new BusinessException("No sos de tipo Profecional no podes crear una orden")
+		}
+	}
+      
+      def ejecutarOrden(Orden unaOrden){
+      	validarExistenciaDeLaOrden(unaOrden)
+      	unaOrden.ejecutar()
+	}
+	
+	def validarExistenciaDeLaOrden(Orden unaOrden) {
+		if(!ordenes.contains(unaOrden)){
+			throw new BusinessException("Esta orden que queres ejecutar no existe entre tus ordenes")
+		}
+	}
 	
 }
-
