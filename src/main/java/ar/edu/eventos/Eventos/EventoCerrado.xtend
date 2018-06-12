@@ -83,5 +83,9 @@ class EventoCerrado extends Evento {
 		listaDeOrdenes.remove(orden)
 	}
 	
+	def agregarOrden(Orden orden) {
+		listaDeOrdenes.add(orden)
+	}
+	
 	
 }

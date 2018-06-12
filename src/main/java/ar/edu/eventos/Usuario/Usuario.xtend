@@ -42,7 +42,7 @@ class Usuario implements Entidad {
 	protected int cantidadDeAcompañantes
 	protected Tarjeta tarjeta 
 	protected var List<ObserverCrearEvento> listaAccionesAlCrearUnEvento = new ArrayList<ObserverCrearEvento>
-	protected var List <Orden> ordenes
+	protected var Set <Orden> ordenes = new HashSet()
 	
 	
 	public def void comprarEntradaDeEventoAbierto(EventoAbierto unEvento,Entrada unaEntrada) {
@@ -118,7 +118,7 @@ class Usuario implements Entidad {
 	}
 	
 	private def void validarCantidadDeAcompañantes(Invitacion unaInvitacion, int unaCantidadDeAcompañantes){
-		if(!(unaCantidadDeAcompañantes < unaInvitacion.cantidadMaximaDeAcompañantes)){
+		if(!(unaCantidadDeAcompañantes <= unaInvitacion.cantidadMaximaDeAcompañantes)){
 		throw new BusinessException("No se puede aceptar la invitacion, supera la cantidad de acompañantes")
 		}
 	}
@@ -283,6 +283,7 @@ class Usuario implements Entidad {
 	def void agregarOrden(Orden unaOrden){
 		validarTipoDeUsuario(this)
 		validarLaNoExistenciaDeLaOrden(unaOrden)
+		unaOrden.agregarOrdenAlEvento()
 		ordenes.add(unaOrden)
 	}
 	
