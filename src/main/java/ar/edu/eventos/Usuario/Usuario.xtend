@@ -279,6 +279,7 @@ class Usuario implements Entidad {
 	def boolean soyFanDeEsteArtista(String artista) {
 		artistas.contains(artista)
 	}
+	
 	def void agregarOrden(Orden unaOrden){
 		validarTipoDeUsuario(this)
 		validarLaNoExistenciaDeLaOrden(unaOrden)

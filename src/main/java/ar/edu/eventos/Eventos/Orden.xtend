@@ -32,13 +32,17 @@ abstract class Orden {
 }
 
 class OrdenDeAceptacion extends Orden {
-
-	new(Invitacion unaInvitacion) {
+	
+	protected val int cantidadDeAcompañantes
+	
+	new(Invitacion unaInvitacion,int unaCantidadDeAcompañantes ) {
 		super(unaInvitacion)
+		cantidadDeAcompañantes = unaCantidadDeAcompañantes
 	}
 	
 	override void ejecutar() {
 		validarEstadoPendienteDeEjecucion()
+		usuario.aceptarInvitacion(invitacion,cantidadDeAcompañantes)
 		cambiarEstadoDeEjecucion(true)
 	}
 
@@ -49,7 +53,7 @@ class OrdenDeAceptacion extends Orden {
 }
 
 class OrdenDeRechazo extends Orden {
-
+	
 	new(Invitacion unaInvitacion) {
 		super(unaInvitacion)
 	}
