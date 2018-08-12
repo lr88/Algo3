@@ -88,18 +88,18 @@ class testEventosAbierto {
 			tarjeta = tarjeta1
 		]
 		eventoAbierto1 = new EventoAbierto() => [
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			fechaDeInicioDelEvento = LocalDateTime.of(2050, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2050, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2050, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
 			edadMinima = 18
 
 		]
 
 		eventoAbierto2 = new EventoAbierto() => [
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 2, 27, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 2, 27, 23, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 2, 27, 0, 0)
+			fechaDeInicioDelEvento = LocalDateTime.of(2050, 2, 27, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2050, 2, 27, 23, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2050, 2, 27, 0, 0)
 			locacion = lugarDelEvento1
 			edadMinima = 18
 		]
@@ -172,7 +172,7 @@ class testEventosAbierto {
 
 	@Test
 	def void fechaDeConfirmacion() {
-		Assert.assertEquals(LocalDateTime.of(2018, 7, 12, 0, 0), eventoAbierto1.fechaMaximaDeConfirmacion)
+		Assert.assertEquals(LocalDateTime.of(2050, 7, 12, 0, 0), eventoAbierto1.fechaMaximaDeConfirmacion)
 	}
 
 	@Test(expected=typeof(BusinessException))
@@ -196,7 +196,7 @@ class testEventosAbierto {
 	@Test
 	def void UnUsuarioCreaUnEventoYLoPosterga() {
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto1, entrada6)
-		usuario1.postergarEvento(eventoAbierto1, LocalDateTime.of(2018, 10, 11, 0, 0))
+		usuario1.postergarEvento(eventoAbierto1, LocalDateTime.of(2050, 10, 11, 0, 0))
 		Assert.assertTrue(usuario2.mensajes.contains("se postergo el evento\n"))
 	}
 
@@ -218,7 +218,7 @@ class testEventosAbierto {
 
 	@Test //
 	def void CuandoSeDevuelveLaEntradaDeUnEvento10diasantesAlEventoSeReciveunPorsentajedeLaEntrada() {
-		var aux = Duration.between(LocalDateTime.of(2018, 5, 1, 0, 0), LocalDateTime.of(2018, 5, 10, 0, 2))
+		var aux = Duration.between(LocalDateTime.of(2050, 5, 1, 0, 0), LocalDateTime.of(2050, 5, 10, 0, 2))
 		eventoAbierto2.cambiarFecha(LocalDateTime.now.plus(aux))
 		eventoAbierto2.fuePostergado = false
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)
@@ -228,7 +228,7 @@ class testEventosAbierto {
 
 	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEventoElDiaAnteriorAlEventoSeReciveunPorsentajedeLaEntrada() {
-		var aux = Duration.between(LocalDateTime.of(2018, 5, 1, 0, 0), LocalDateTime.of(2018, 5, 2, 0, 2))
+		var aux = Duration.between(LocalDateTime.of(2050, 5, 1, 0, 0), LocalDateTime.of(2050, 5, 2, 0, 2))
 		eventoAbierto2.cambiarFecha(LocalDateTime.now.plus(aux))
 		eventoAbierto2.fuePostergado = false
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)
@@ -238,7 +238,7 @@ class testEventosAbierto {
 
 	@Test
 	def void CuandoSeDevuelveLaEntradaDeUnEvento3diasantesAlEventoSeRecibeunPorcentajedeLaEntrada() {
-		var aux = Duration.between(LocalDateTime.of(2018, 5, 1, 0, 0), LocalDateTime.of(2018, 5, 4, 0, 2))
+		var aux = Duration.between(LocalDateTime.of(2050, 5, 1, 0, 0), LocalDateTime.of(2050, 5, 4, 0, 2))
 		eventoAbierto2.cambiarFecha(LocalDateTime.now.plus(aux))
 		eventoAbierto2.fuePostergado = false
 		usuario2.comprarEntradaDeEventoAbierto(eventoAbierto2, entrada8)

@@ -160,44 +160,44 @@ class testEventosCerrado {
 
 		evento0 = new EventoCerrado() =>[
 			nombre = "asdasd"
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			fechaDeInicioDelEvento = LocalDateTime.of(2050, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2050, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2050, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
 			cantidadMaximaDeInvitados = 100
 		]
 		
 		evento1 = new EventoCerrado() =>[
 			nombre = "asdasd"
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			fechaDeInicioDelEvento = LocalDateTime.of(2050, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2050, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2050, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
 			cantidadMaximaDeInvitados = 100
 		]
 	
 		evento2 = new EventoCerrado() =>[
 			nombre = "asdasd"
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			fechaDeInicioDelEvento = LocalDateTime.of(2050, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2050, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2050, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
 			cantidadMaximaDeInvitados = 100
 		]
 		evento3 = new EventoCerrado() =>[
 			nombre = "asdasd"
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			fechaDeInicioDelEvento = LocalDateTime.of(2050, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2050, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2050, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
 			cantidadMaximaDeInvitados = 100
 		]
 		
 		evento4 = new EventoCerrado() =>[
 			nombre = "asdasd"
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			fechaDeInicioDelEvento = LocalDateTime.of(2050, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2050, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2050, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
 			cantidadMaximaDeInvitados = 100
 		]
@@ -261,7 +261,7 @@ class testEventosCerrado {
 	}
 	@Test
 	def void fechaDeConfirmacion() {
-		Assert.assertEquals(LocalDateTime.of(2018, 7, 12, 0, 00), evento1.fechaMaximaDeConfirmacion)
+		Assert.assertEquals(LocalDateTime.of(2050, 7, 12, 0, 00), evento1.fechaMaximaDeConfirmacion)
 	}
 	@Test
 	def void Organizador1crearUnEventoCerrado() {

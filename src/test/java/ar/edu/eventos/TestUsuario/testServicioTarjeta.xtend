@@ -85,9 +85,9 @@ class testServicioTarjeta {
 		]
 
 		eventoAbierto1 = new EventoAbierto() => [
-			fechaDeInicioDelEvento = LocalDateTime.of(2018, 7, 26, 20, 0)
-			fechaDeFinDelEvento = LocalDateTime.of(2018, 7, 30, 0, 0)
-			fechaMaximaDeConfirmacion = LocalDateTime.of(2018, 7, 12, 0, 0)
+			fechaDeInicioDelEvento = LocalDateTime.of(2050, 7, 26, 20, 0)
+			fechaDeFinDelEvento = LocalDateTime.of(2050, 7, 30, 0, 0)
+			fechaMaximaDeConfirmacion = LocalDateTime.of(2050, 7, 12, 0, 0)
 			locacion = lugarDelEvento1
 			edadMinima = 18
 		]
