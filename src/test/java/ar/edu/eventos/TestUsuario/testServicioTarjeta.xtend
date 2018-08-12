@@ -28,7 +28,7 @@ class testServicioTarjeta {
 	CCResponse esperadoCCR2
 	Tarjeta tarjeta1
 	CreditCard creditcard1
-	CCResponse ccResponse
+	CCResponse ccResponse   
 	CreditCard creditCard
 
 	@Before

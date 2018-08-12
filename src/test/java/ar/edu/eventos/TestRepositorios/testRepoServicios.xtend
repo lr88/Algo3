@@ -22,7 +22,7 @@ class testRepoServicios {
 	var Point lugargenerco
 	ServicioMultiple SM1
 
-	@Before
+	@Before   
 	def void init() {
 		
 		lugarServ = new Point(1.0, 2.0)

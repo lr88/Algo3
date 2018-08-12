@@ -25,7 +25,7 @@ class testRepoGenerico {
 	var RepoLocacion RL
 	var RepoServicios RS
 	var RepoUsuario RU
-
+   
 	@Before
 	def void init() {
 

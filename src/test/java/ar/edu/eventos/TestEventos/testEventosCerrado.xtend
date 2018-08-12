@@ -29,7 +29,7 @@ class testEventosCerrado {
 	EventoCerrado evento1
 	EventoCerrado evento2
 	EventoCerrado evento3
-	EventoCerrado evento4
+	EventoCerrado evento4   
 	
 	Usuario persona1
 	Usuario persona2

@@ -20,7 +20,7 @@ class testRepoLocacion {
 	def void init() {
 
 		lugarcasa = new Point(1.0, 2.0)
-
+   
 		casa = new Locacion => [
 			ubicacion = lugarcasa
 			nombreDeLaLocacion = "casa de pepe"

@@ -30,9 +30,9 @@ class testEventos {
 	Usuario usuario1
 	Servicio lunch
 	Servicio luces
-	Servicio robot
-	Locacion miCasa
-	Locacion lugar1
+	Servicio robot   
+	Locacion miCasa   
+	Locacion lugar1   
 	EventoCerrado fiesta
 	Evento casamiento
 	Entrada unEntrada

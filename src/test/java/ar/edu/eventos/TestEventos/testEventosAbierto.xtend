@@ -30,7 +30,7 @@ class testEventosAbierto {
 	Entrada entrada2
 	Entrada entrada3
 	Entrada entrada4
-	Entrada entrada5
+	Entrada entrada5   
 	Entrada entrada6
 	Entrada entrada7
 	Entrada entrada8

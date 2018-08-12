@@ -19,7 +19,7 @@ class testRepoUsuario {
 	Locacion lugargenerico
 
 	@Before
-	def void init() {
+	def void init() {   
 	
 		lugar1 = new Locacion() => [
 			nombreDeLaLocacion ="lugar1"

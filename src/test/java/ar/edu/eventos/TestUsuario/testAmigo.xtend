@@ -33,7 +33,7 @@ class testAmigo {
 	Locacion miCasa
 	Locacion complejo1
 	EventoCerrado casamiento
-	EventoCerrado casamiento1
+	EventoCerrado casamiento1   
 	EventoCerrado casamiento2
 	EventoAbierto casamiento3
 	RepoUsuario repoUsuario1

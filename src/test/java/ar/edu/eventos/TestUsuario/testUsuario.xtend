@@ -24,7 +24,7 @@ class testUsuario {
 	Locacion complejo1
 	EventoCerrado casamiento
 	EventoCerrado casamiento1
-	EventoCerrado casamiento2
+	EventoCerrado casamiento2   
 	EventoAbierto casamiento3
 
 	@Before
