@@ -1,17 +1,30 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 	<!-- https://mvnrepository.com/artifact/com.eclipsesource.minimal-json/minimal-json -->
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>algo2.Grupo9</groupId>
 	<artifactId>tp-eventos-2018-grupo-9</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<parent>
 		<groupId>org.uqbar-project</groupId>
-		<artifactId>uqbar-xtend-parent</artifactId>
-		<version>2.13.2</version>
+		<artifactId>arena-xtend-parent</artifactId>
+		<version>3.6.3</version>
 	</parent>
 	<dependencies>
+		<dependency>
+			<groupId>org.uqbar-project</groupId>
+			<artifactId>conversor-domain-xtend</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -28,13 +41,13 @@
 			<artifactId>geodds-xtend</artifactId>
 			<version>1.0.3</version>
 		</dependency>
-		
+
 		<dependency>
-       <groupId>com.github.algo2-unsam</groupId>
-       <artifactId>mailService</artifactId>
-       <version>0.0.1</version>
-      </dependency>
-		
+			<groupId>com.github.algo2-unsam</groupId>
+			<artifactId>mailService</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>com.eclipsesource.minimal-json</groupId>
