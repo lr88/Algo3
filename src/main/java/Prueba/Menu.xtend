@@ -22,7 +22,7 @@ class Menu extends MainWindow<MenuApp> {
 		this.minHeight = 10000
 		this.minWidth = 10000
 		
-		new Label(mainPanel).text = "TE AMO AMORCHUUUUUUU"+"\n"+"asdasd"
+		new Label(mainPanel).text = "HOLLLLLLLLLLLAAAAAAAAAAAAAAAAA"+"\n"+"asdasd"
 		new TextBox(mainPanel).value
 		new ErrorsPanel(mainPanel, "Listo para convertir")
 	}
