@@ -6,6 +6,7 @@ import ar.edu.eventos.Eventos.EventoAbierto
 import ar.edu.eventos.Eventos.EventoCerrado
 import ar.edu.eventos.Eventos.Invitacion
 import ar.edu.eventos.Eventos.Locacion
+import ar.edu.eventos.Eventos.Orden
 import ar.edu.eventos.Json.Entidad
 import ar.edu.eventos.Observer.ObserverCrearEvento
 import ar.edu.eventos.exceptions.BusinessException
@@ -17,9 +18,10 @@ import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.xtend.lib.annotations.Accessors
-import ar.edu.eventos.Eventos.Orden
+import org.uqbar.commons.model.annotations.Observable
 
 @Accessors
+@Observable
 class Usuario implements Entidad {
 	protected Validar validarcion = new Validar
 	protected var int id
